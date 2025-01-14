@@ -1,8 +1,6 @@
 //---- GLOBAL VARIABLES ----//
+
 let game: Game;
-let music: {
-  mystery: p5.SoundFile;
-};
 
 /**
  * Built in preload function in P5
@@ -10,9 +8,8 @@ let music: {
  * sound files, images etc...
  */
 function preload() {
-  music = {
-    mystery: loadSound("/assets/music/mystery.mp3"),
-  };
+  // Load assets here
+  game = new Game();
 }
 
 /**
@@ -24,7 +21,6 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   frameRate(60);
-  music.mystery.setVolume(0.8);
 
   game = new Game();
 }
@@ -35,7 +31,6 @@ function setup() {
  * you created in the setup function above
  */
 function draw() {
-  game.update();
   game.draw();
 }
 
@@ -45,3 +40,10 @@ function draw() {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
+
+/**
+ * Built in keyPressed listener function in P5
+ */
+// function keyPressed() {
+//   game.keyPressed();
+// }
