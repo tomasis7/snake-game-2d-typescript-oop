@@ -17,11 +17,44 @@ class Player extends Entity {
   }
 
   move(): void {
-    // Keep moving in current direction if no key is pressed
-    if(!keyIsPressed) {
-      this.position.add(this.direction.copy().mult(this.speed));
-      return;
+    // Change direction based on valid key presses
+    if(keyIsPressed) {
+      // Player 1 controls: Arrow keys
+      if (this.playerNumber === 1) {
+        if (keyCode === LEFT_ARROW && this.direction.x !== 1) {
+          this.direction = new p5.Vector(-1, 0);
+        }
+        if (keyCode === RIGHT_ARROW && this.direction.x !== -1) {
+          this.direction = new p5.Vector(1, 0);
+        }
+        if (keyCode === UP_ARROW && this.direction.y !== 1) {
+          this.direction = new p5.Vector(0, -1);
+        }
+        if (keyCode === DOWN_ARROW && this.direction.y !== -1) {
+          this.direction = new p5.Vector(0, 1);
+        }
+      }
+      // Player 2 controls: WASD keys
+      if (this.playerNumber === 2) {
+        if (keyCode === 65 && this.direction.x !== 1) {   // 'A'
+          this.direction = new p5.Vector(-1, 0);
+        }
+        if (keyCode === 68 && this.direction.x !== -1) {  // 'D'
+          this.direction = new p5.Vector(1, 0);
+        }
+        if (keyCode === 87 && this.direction.y !== 1) {   // 'W'
+          this.direction = new p5.Vector(0, -1);
+        }
+        if (keyCode === 83 && this.direction.y !== -1) {  // 'S'
+          this.direction = new p5.Vector(0, 1);
+        }
+      }
     }
+
+    // Keeps moving in current direction without having to keep holding the key down.
+    // copy() creates a new vector so original direction vector is not modified
+    // mult() applies current speed to the movement
+    this.position.add(this.direction.copy().mult(this.speed));
   }
 
   // Update players state and position
