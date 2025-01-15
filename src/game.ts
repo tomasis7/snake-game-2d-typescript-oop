@@ -184,7 +184,7 @@ class LevelFactory {
 // IMovable Interface
 interface IMovable {
   position: p5.Vector;
- // direction: p5.Vector;
+  // direction: p5.Vector;
   move(): void;
 }
 
@@ -212,29 +212,26 @@ abstract class Entity implements IMovable {
   abstract move(): void;
 }
 
-// // Specific Entities
-// class Heart extends Entity {
-//   constructor(
-//     position: p5.Vector,
-//     size: p5.Vector,
-//     image: p5.Image,
-//     speed: number
-//   ) {
-//     super(position, size, image, speed);
-//   }
-
-//   draw(): void {
-//     // Draw heart entity
-//   }
-
-//   update(): void {
-//     // Update heart entity
-//   }
-
-//   move(): void {
-//     // Move heart entity
-//   }
-// }
+// Specific Entities
+class Heart extends Entity {
+  //   constructor(
+  //     position: p5.Vector,
+  //     size: p5.Vector,
+  //     image: p5.Image,
+  //     speed: number
+  //   ) {
+  //     super(position, size, image, speed);
+  //   }
+  //   draw(): void {
+  //     // Draw heart entity
+  //   }
+  //   update(): void {
+  //     // Update heart entity
+  //   }
+  //   move(): void {
+  //     // Move heart entity
+  //   }
+}
 
 // class Star extends Entity {
 //   constructor(
