@@ -184,7 +184,7 @@ class LevelFactory {
 // IMovable Interface
 interface IMovable {
   position: p5.Vector;
-  direction: p5.Vector;
+ // direction: p5.Vector;
   move(): void;
 }
 
