@@ -1,178 +1,152 @@
-interface GridPosition {
-  row: number;
-  col: number;
+// Main Game Class
+class Game {
+  //    private activeScreen: Screen[];
+  //    constructor() {
+  //      this.activeScreen = [];
+  //    }
+  //   changeScreen(): void {
+  //     // Logic to change the screen
+  //   }
+  //   newGame(): void {
+  //     // Logic to start a new game
+  //   }
+  //  draw(): void {
+  //    // Draw the current active screen
+  //    for (const screen of this.activeScreen) {
+  //      screen.draw();
+  //    }
+  //  }
+  //   end(): void {
+  //     // Logic to end the game
+  //   }
+  // }
+  // // Collision Manager
+  // class CollisionManager {
+  //   players: Player[];
+  //   entities: Entity[];
+  //   constructor() {
+  //     this.players = [];
+  //     this.entities = [];
+  //   }
+  //   checkCollision(player: Player, gameBoard: GameBoard): boolean {
+  //     // Check for collisions between players and entities
+  //     return false;
+  //   }
+  //   draw(): void {
+  //     // Visual representation of collisions, if needed
+  //   }
 }
 
-class Game {
-  private player1: GridPosition = { row: 0, col: 0 };
-  private player2: GridPosition = { row: 0, col: 0 };
-  private isGameOver: boolean = false;
+// Game Board
+class GameBoard {
+  size: p5.Vector;
+  entities: Entity[];
+  //collision: CollisionManager;
+  //score: ScoreManager[];
+
+  constructor(size: p5.Vector) {
+    this.size = size;
+    this.entities = [];
+    //this.collision = new CollisionManager();
+    //this.score = [];
+  }
+
+  addEntity(entity: Entity): void {
+    this.entities.push(entity);
+  }
+
+  removeEntity(entity: Entity): void {
+    this.entities = this.entities.filter((e) => e !== entity);
+  }
+
+  draw(): void {
+    for (const entity of this.entities) {
+      entity.draw();
+    }
+  }
+}
+
+// // Score Manager
+// class ScoreManager {
+//   scores: Map<Player, number>;
+
+//   constructor() {
+//     this.scores = new Map();
+//   }
+
+//   addScore(player: Player, score: number): void {
+//     const currentScore = this.scores.get(player) || 0;
+//     this.scores.set(player, currentScore + score);
+//   }
+
+//   draw(): void {
+//     // Draw the score UI
+//   }
+// }
+
+// Screen Base Class
+// abstract class Screen {
+//   abstract update(): void;
+//   abstract draw(): void;
+// }
+
+// // Start Menu
+// class StartMenu extends Screen {
+//   startGameButton: Button;
+
+//   constructor(button: Button) {
+//     super();
+//     this.startGameButton = button;
+//   }
+
+//   update(): void {
+//     // Update start menu logic
+//   }
+
+//   draw(): void {
+//     this.startGameButton.draw();
+//   }
+// }
+
+// // Game Over Screen
+// class GameOver extends Screen {
+//   restartButton: Button;
+
+//   constructor(button: Button) {
+//     super();
+//     this.restartButton = button;
+//   }
+
+//   update(): void {
+//     // Update game over logic
+//   }
+
+//   drawTitle(): void {
+//     // Draw the "Game Over" title
+//   }
+
+//   draw(): void {
+//     this.restartButton.draw();
+//   }
+// }
+
+// // Count Down
+// class CountDown extends Screen {
+//   draw(): void {
+//     // Draw countdown screen
+//   }
+
+//   update(): void {
+//     // Update countdown logic
+//   }
+// }
+
+// Level Factory
+class LevelFactory {
   private gridSize: number = 32;
-  private position: p5.Vector;
-  private position2: p5.Vector;
-  private cameraOffset: number = 0;
-  private scrollSpeed: number = 2;
-  private obstacleImage: p5.Image;
 
-  constructor() {
-    this.position = createVector(width * 0.5, height * 0.3);
-    this.position2 = createVector(width * 0.5, height * 0.7);
-
-    this.player1.row = Math.floor(this.position.y / this.gridSize);
-    this.player1.col = Math.floor(this.position.x / this.gridSize);
-    this.player2.row = Math.floor(this.position2.y / this.gridSize);
-    this.player2.col = Math.floor(this.position2.x / this.gridSize);
-
-    this.obstacleImage = loadImage("assets/images/obstacle.png");
-  }
-
-  public draw() {
-    if (this.isGameOver) {
-      this.showGameOver();
-      return;
-    }
-
-    this.cameraOffset += this.scrollSpeed;
-
-    background("grey");
-
-    push();
-    translate(-this.cameraOffset, 0);
-
-    this.drawGrid();
-    this.handleInput();
-    this.handleInput2();
-    this.drawSquare();
-    this.drawSquare2();
-    this.checkGridCollision();
-    this.drawSquareAt2(25, 50, "red");
-    this.drawSquareAt2(25, 51, "yellow");
-    this.drawSquareAt2(25, 52, "green");
-    this.drawSquareAt(15, 50);
-    this.drawSquareAt(15, 51);
-    this.drawSquareAt(15, 52);
-
-    pop();
-  }
-  private checkGridCollision() {
-    // Define obstacles with positions and colors
-    const obstacles = [
-      { row: 25, col: 50, color: "red" },
-      { row: 25, col: 51, color: "yellow" },
-      { row: 25, col: 52, color: "green" },
-      { row: 15, col: 50, color: "bomb" },
-      { row: 15, col: 51, color: "bomb" },
-      { row: 15, col: 52, color: "bomb" },
-    ];
-
-    // Draw obstacles
-    obstacles.forEach((obstacle) => {
-      this.drawSquareAt(obstacle.row, obstacle.col);
-      this.drawSquareAt2(obstacle.row, obstacle.col, obstacle.color);
-    });
-
-    // Direct position comparison
-    obstacles.forEach((obstacle) => {
-      if (
-        (this.player1.row === obstacle.row &&
-          this.player1.col === obstacle.col) ||
-        (this.player2.row === obstacle.row && this.player2.col === obstacle.col)
-      ) {
-        alert(`Square hit a ${obstacle.color} obstacle!`);
-        this.isGameOver = true;
-      }
-    });
-  }
-
-  private showGameOver() {
-    background("black");
-    push();
-    fill("white");
-    textSize(32);
-    textAlign(CENTER, CENTER);
-    text("GAME OVER", width / 2, height / 2);
-    pop();
-  }
-
-  private handleInput() {
-    if (keyIsDown(87)) {
-      this.player1.row--;
-    }
-    if (keyIsDown(83)) {
-      this.player1.row++;
-    }
-    if (keyIsDown(65)) {
-      this.player1.col--;
-    }
-    if (keyIsDown(68)) {
-      this.player1.col++;
-    }
-  }
-
-  private handleInput2() {
-    if (keyIsDown(UP_ARROW)) {
-      this.player2.row--;
-    }
-    if (keyIsDown(DOWN_ARROW)) {
-      this.player2.row++;
-    }
-    if (keyIsDown(LEFT_ARROW)) {
-      this.player2.col--;
-    }
-    if (keyIsDown(RIGHT_ARROW)) {
-      this.player2.col++;
-    }
-  }
-
-  public drawSquare() {
-    push();
-    fill(255, 0, 0, 200);
-    stroke("white");
-    strokeWeight(width * 0.001);
-    const x = this.player1.col * this.gridSize;
-    const y = this.player1.row * this.gridSize;
-    rectMode(CORNER);
-    rect(x, y, this.gridSize, this.gridSize);
-    pop();
-  }
-  public drawSquare2() {
-    push();
-    fill(0, 0, 255, 200);
-    stroke("white");
-    strokeWeight(width * 0.001);
-    const x = this.player2.col * this.gridSize;
-    const y = this.player2.row * this.gridSize;
-    rectMode(CORNER);
-    rect(x, y, this.gridSize, this.gridSize);
-    pop();
-  }
-
-  private drawSquareAt2(row: number, col: number, color: string) {
-    push();
-    fill(color);
-    stroke("white");
-    strokeWeight(width * 0.001);
-    const x = col * this.gridSize;
-    const y = row * this.gridSize;
-    rectMode(CORNER);
-    rect(x, y, this.gridSize, this.gridSize);
-    pop();
-  }
-
-  private drawSquareAt(row: number, col: number) {
-    push();
-    image(
-      this.obstacleImage,
-      col * this.gridSize,
-      row * this.gridSize,
-      this.gridSize,
-      this.gridSize,
-    );
-    pop();
-  }
-
-  //debug grid
-  private drawGrid() {
+  draw(): void {
+    // Draw level creation elements
     push();
     stroke(150, 150, 150);
     strokeWeight(2);
@@ -185,3 +159,198 @@ class Game {
     pop();
   }
 }
+
+// // Player Class
+// class Player implements IMovable {
+//   position: p5.Vector;
+//   direction: p5.Vector;
+//   trail: p5.Vector[];
+
+//   constructor(position: p5.Vector, direction: p5.Vector) {
+//     this.position = position;
+//     this.direction = direction;
+//     this.trail = [];
+//   }
+
+//   move(): void {
+//     // Move the player
+//   }
+
+//   update(): void {
+//     // Update the player's position and state
+//   }
+// }
+
+// IMovable Interface
+interface IMovable {
+  position: p5.Vector;
+  direction: p5.Vector;
+  move(): void;
+}
+
+// Entity Base Class
+abstract class Entity implements IMovable {
+  position: p5.Vector;
+  size: p5.Vector;
+  image: p5.Image;
+  speed: number;
+
+  constructor(
+    position: p5.Vector,
+    size: p5.Vector,
+    image: p5.Image,
+    speed: number
+  ) {
+    this.position = position;
+    this.size = size;
+    this.image = image;
+    this.speed = speed;
+  }
+
+  abstract draw(): void;
+  abstract update(): void;
+  abstract move(): void;
+}
+
+// // Specific Entities
+// class Heart extends Entity {
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number
+//   ) {
+//     super(position, size, image, speed);
+//   }
+
+//   draw(): void {
+//     // Draw heart entity
+//   }
+
+//   update(): void {
+//     // Update heart entity
+//   }
+
+//   move(): void {
+//     // Move heart entity
+//   }
+// }
+
+// class Star extends Entity {
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number
+//   ) {
+//     super(position, size, image, speed);
+//   }
+
+//   draw(): void {
+//     // Draw star entity
+//   }
+
+//   update(): void {
+//     // Update star entity
+//   }
+
+//   move(): void {
+//     // Move star entity
+//   }
+// }
+
+// class Ghost extends Entity {
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number
+//   ) {
+//     super(position, size, image, speed);
+//   }
+
+//   draw(): void {
+//     // Draw ghost entity
+//   }
+
+//   update(): void {
+//     // Update ghost entity
+//   }
+
+//   move(): void {
+//     // Move ghost entity
+//   }
+// }
+
+// class TetrisHinder extends Entity {
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number
+//   ) {
+//     super(position, size, image, speed);
+//   }
+
+//   draw(): void {
+//     // Draw Tetris hinder entity
+//   }
+
+//   update(): void {
+//     // Update Tetris hinder entity
+//   }
+
+//   move(): void {
+//     // Move Tetris hinder entity
+//   }
+// }
+
+// class MeatEaterPlant extends Entity {
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number
+//   ) {
+//     super(position, size, image, speed);
+//   }
+
+//   draw(): void {
+//     // Draw MeatEaterPlant entity
+//   }
+
+//   update(): void {
+//     // Update MeatEaterPlant entity
+//   }
+
+//   move(): void {
+//     // Move MeatEaterPlant entity
+//   }
+// }
+
+// // Button Class
+// class Button {
+//   text: string;
+//   position: p5.Vector;
+//   backgroundColor: string;
+//   size: p5.Vector;
+//   color: string;
+
+//   constructor(
+//     text: string,
+//     position: p5.Vector,
+//     backgroundColor: string,
+//     size: p5.Vector,
+//     color: string
+//   ) {
+//     this.text = text;
+//     this.position = position;
+//     this.backgroundColor = backgroundColor;
+//     this.size = size;
+//     this.color = color;
+//   }
+
+//   draw(): void {
+//     // Draw button UI
+//   }
+// }
