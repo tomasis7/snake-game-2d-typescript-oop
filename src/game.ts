@@ -185,3 +185,14 @@ class Game {
     pop();
   }
 }
+
+class Player extends Entity {
+  private direction: p5.Vector;
+  private trail: p5.Vector[];
+
+  constructor(position: p5.Vector, direction: p5.Vector, size: p5.Vector, speed: number) {
+    super(position, size, speed);
+    this.direction = direction;
+    this.trail = [];  
+  }
+}
