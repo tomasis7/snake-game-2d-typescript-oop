@@ -1,72 +1,3 @@
-class Player extends Entity {
-  private direction: p5.Vector;
-  private trail: p5.Vector[];
-  private playerNumber: number;
-
-  constructor(
-    position: p5.Vector,
-    size: p5.Vector,
-    speed: number,
-    image: p5.Image,
-    playerNumber: number
-  ) {
-    super(position, size, speed, image);
-    this.direction = new p5.Vector(1, 0); // Start moving right by default
-    this.trail = [];
-    this.playerNumber = playerNumber;
-  }
-
-  move(): void {
-    // Change direction based on valid key presses
-    if(keyIsPressed) {
-      // Player 1 controls: Arrow keys
-      if (this.playerNumber === 1) {
-        if (keyCode === LEFT_ARROW && this.direction.x !== 1) {
-          this.direction = new p5.Vector(-1, 0);
-        }
-        if (keyCode === RIGHT_ARROW && this.direction.x !== -1) {
-          this.direction = new p5.Vector(1, 0);
-        }
-        if (keyCode === UP_ARROW && this.direction.y !== 1) {
-          this.direction = new p5.Vector(0, -1);
-        }
-        if (keyCode === DOWN_ARROW && this.direction.y !== -1) {
-          this.direction = new p5.Vector(0, 1);
-        }
-      }
-      // Player 2 controls: WASD keys
-      if (this.playerNumber === 2) {
-        if (keyCode === 65 && this.direction.x !== 1) {   // 'A'
-          this.direction = new p5.Vector(-1, 0);
-        }
-        if (keyCode === 68 && this.direction.x !== -1) {  // 'D'
-          this.direction = new p5.Vector(1, 0);
-        }
-        if (keyCode === 87 && this.direction.y !== 1) {   // 'W'
-          this.direction = new p5.Vector(0, -1);
-        }
-        if (keyCode === 83 && this.direction.y !== -1) {  // 'S'
-          this.direction = new p5.Vector(0, 1);
-        }
-      }
-    }
-
-    // Keeps moving in current direction without having to keep holding the key down.
-    // copy() creates a new vector so original direction vector is not modified
-    // mult() applies current speed to the movement
-    this.position.add(this.direction.copy().mult(this.speed));
-  }
-
-  // Update players state and position
-  update(): void {
-    // Store current position in trail array
-    this.trail.push(new p5.Vector(this.position.x, this.position.y));
-    
-    // Update position with add
-    this.position.add(this.direction);
-  }
-}
-
 // Main Game Class
 class Game {
   //    private activeScreen: Screen[];
@@ -229,6 +160,54 @@ class LevelFactory {
   }
 }
 
+// IMovable Interface
+interface IMovable {
+  position: p5.Vector;
+  direction: p5.Vector;
+  move(): void;
+}
+
+// Entity Base Class
+abstract class Entity implements IMovable {
+  position: p5.Vector;
+  size: p5.Vector;
+  image: p5.Image;
+  speed: number;
+  direction: p5.Vector;
+
+  constructor(
+    position: p5.Vector,
+    size: p5.Vector,
+    image: p5.Image,
+    speed: number,
+    direction: p5.Vector
+  ) {
+    this.position = position;
+    this.size = size;
+    this.image = image;
+    this.speed = speed;
+    this.direction = direction;
+  }
+
+  draw(): void {
+    image(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.size.x,
+      this.size.y
+    );
+  }
+  move(): void {
+    if (typeof this.speed === "number") {
+      this.position.add(this.direction.mult(this.speed));
+    } else {
+      console.error("speed must be a number");
+    }
+  }
+  abstract update(): void;
+}
+
 // // Player Class
 // class Player implements IMovable {
 //   position: p5.Vector;
@@ -250,57 +229,29 @@ class LevelFactory {
 //   }
 // }
 
-// IMovable Interface
-interface IMovable {
-  position: p5.Vector;
-  // direction: p5.Vector;
-  move(): void;
-}
-
-// Entity Base Class
-abstract class Entity implements IMovable {
-  position: p5.Vector;
-  size: p5.Vector;
-  image: p5.Image;
-  speed: number;
-
-  constructor(
-    position: p5.Vector,
-    size: p5.Vector,
-    image: p5.Image,
-    speed: number
-  ) {
-    this.position = position;
-    this.size = size;
-    this.image = image;
-    this.speed = speed;
-  }
-
-  abstract draw(): void;
-  abstract update(): void;
-  abstract move(): void;
-}
-
 // Specific Entities
-class Heart extends Entity {
-  //   constructor(
-  //     position: p5.Vector,
-  //     size: p5.Vector,
-  //     image: p5.Image,
-  //     speed: number
-  //   ) {
-  //     super(position, size, image, speed);
-  //   }
-  //   draw(): void {
-  //     // Draw heart entity
-  //   }
-  //   update(): void {
-  //     // Update heart entity
-  //   }
-  //   move(): void {
-  //     // Move heart entity
-  //   }
-}
+// class Heart extends Entity {
+//   private  pulseScale: number;
+//   private  pulseSpeed: number;
+
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//   ) {
+//     super(position, size, image, 0, p5.Vector.random2D());
+//     this.pulseScale = 1;
+//     this.pulseSpeed = 0.01;
+//   }
+//   draw(): void {
+//     // TODO Draw heart or import an existing image?
+//   }
+//   update(): void {
+//     // Here we update 'pulse' animation on heart
+//     this.pulseScale = 1 + 0.2 * Math.sin(millis() * this.pulseSpeed);
+//     console.log(this.pulseScale);
+
+//   }
 
 // class Star extends Entity {
 //   constructor(
@@ -325,30 +276,30 @@ class Heart extends Entity {
 //   }
 // }
 
-// class Ghost extends Entity {
-//   constructor(
-//     position: p5.Vector,
-//     size: p5.Vector,
-//     image: p5.Image,
-//     speed: number
-//   ) {
-//     super(position, size, image, speed);
-//   }
+class Ghost extends Entity {
+  constructor(
+    position: p5.Vector,
+    size: p5.Vector,
+    image: p5.Image,
+    speed: number
+  ) {
+    super(position, size, image, speed);
+  }
 
-//   draw(): void {
-//     // Draw ghost entity
-//   }
+  draw(): void {
+    // Draw ghost entity
+  }
 
-//   update(): void {
-//     // Update ghost entity
-//   }
+  update(): void {
+    // Update ghost entity
+  }
 
-//   move(): void {
-//     // Move ghost entity
-//   }
-// }
+  move(): void {
+    // Move ghost entity
+  }
+}
 
-// class TetrisHinder extends Entity {
+// class TetrisObstacle extends Entity {
 //   constructor(
 //     position: p5.Vector,
 //     size: p5.Vector,
@@ -371,7 +322,8 @@ class Heart extends Entity {
 //   }
 // }
 
-// class MeatEaterPlant extends Entity {
+// // meeteaterplant class
+// class CarnivorusPlant extends Entity {
 //   constructor(
 //     position: p5.Vector,
 //     size: p5.Vector,
