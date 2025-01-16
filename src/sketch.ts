@@ -3,6 +3,9 @@
 let game: Game;
 let levelFactory: LevelFactory;
 
+let ghostImage: p5.Image;
+let heartImage: p5.Image;
+
 /**
  * Built in preload function in P5
  * This is a good place to load assets such as
@@ -11,6 +14,8 @@ let levelFactory: LevelFactory;
 function preload() {
   // Load assets here
   game = new Game();
+  ghostImage = loadImage("/");
+  heartImage = loadImage("/");
 }
 
 /**
