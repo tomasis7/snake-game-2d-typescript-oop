@@ -230,28 +230,28 @@ abstract class Entity implements IMovable {
 // }
 
 // Specific Entities
-// class Heart extends Entity {
-//   private  pulseScale: number;
-//   private  pulseSpeed: number;
+class Heart extends Entity {
+  private pulseScale: number;
+  private pulseSpeed: number;
 
-//   constructor(
-//     position: p5.Vector,
-//     size: p5.Vector,
-//     image: p5.Image,
-//   ) {
-//     super(position, size, image, 0, p5.Vector.random2D());
-//     this.pulseScale = 1;
-//     this.pulseSpeed = 0.01;
-//   }
-//   draw(): void {
-//     // TODO Draw heart or import an existing image?
-//   }
-//   update(): void {
-//     // Here we update 'pulse' animation on heart
-//     this.pulseScale = 1 + 0.2 * Math.sin(millis() * this.pulseSpeed);
-//     console.log(this.pulseScale);
-
-//   }
+  constructor(position: p5.Vector, size: p5.Vector) {
+    super(position, size, heartImage, 0, p5.Vector.random2D());
+    this.pulseScale = 1;
+    this.pulseSpeed = 0.01;
+  }
+  draw(): void {
+    push();
+    translate(this.position.x, this.position.y);
+    scale(this.pulseScale);
+    image(heartImage, -this.size.x / 2, -this.size.y / 2, this.size.x, this.size.y);
+    pop();
+  }
+  update(): void {
+    // update 'pulse' animation on heart
+    this.pulseScale = 1 + 0.2 * Math.sin(millis() * this.pulseSpeed);
+    console.log(this.pulseScale);
+  }
+}
 
 // class Star extends Entity {
 //   constructor(
@@ -280,22 +280,37 @@ class Ghost extends Entity {
   constructor(
     position: p5.Vector,
     size: p5.Vector,
-    image: p5.Image,
-    speed: number
+    speed: number,
+    direction: p5.Vector
   ) {
-    super(position, size, image, speed);
+    super(position, size, ghostImage, speed, direction);
   }
 
   draw(): void {
-    // Draw ghost entity
+    if(!ghostImage) {
+      console.error("Ghost image not loaded");
+      return;
+    }
+
+    push();
+    translate(this.position.x, this.position.y);
+    image(ghostImage, -this.size.x / 2, -this.size.y / 2, this.size.x, this.size.y);
+    pop();
   }
 
   update(): void {
-    // Update ghost entity
+    this.move();
+
+    if (this.position.x < 0 || this.position.x > width) {
+      this.direction.x *= -1;
+    }
+    if (this.position.y < 0 || this.position.y > height) {
+      this.direction.y *= -1;
+    }
   }
 
   move(): void {
-    // Move ghost entity
+    this.position.add(this.direction.copy().mult(this.speed));
   }
 }
 
