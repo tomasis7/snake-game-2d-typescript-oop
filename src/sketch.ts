@@ -1,6 +1,7 @@
 //---- GLOBAL VARIABLES ----//
 
 let game: Game;
+let levelFactory: LevelFactory;
 
 /**
  * Built in preload function in P5
@@ -23,6 +24,7 @@ function setup() {
   frameRate(60);
 
   game = new Game();
+  levelFactory = new LevelFactory();
 }
 
 /**
@@ -31,7 +33,9 @@ function setup() {
  * you created in the setup function above
  */
 function draw() {
-  game.draw();
+  //game.draw();
+  background(220);
+  levelFactory.draw();
 }
 
 /**
