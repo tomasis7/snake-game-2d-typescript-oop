@@ -39,6 +39,7 @@ function setup() {
  */
 function draw() {
   //game.draw();
+  // game.update();
   background(220);
   levelFactory.draw();
 }
