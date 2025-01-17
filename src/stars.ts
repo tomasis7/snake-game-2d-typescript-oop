@@ -1,7 +1,7 @@
 class Star extends Entity {
   constructor() {
     super(
-      createVector(random(width), -50),
+      createVector(random(width), 50),
       createVector(50, 50),
       images.star,
       0,

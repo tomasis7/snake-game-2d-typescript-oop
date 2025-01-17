@@ -5,7 +5,7 @@ class GameBoard extends GameScreen {
 
   constructor() {
     super(); // Anropa basklassens konstruktor
-    this.entities = [];
+    this.entities = [new Star()];
   }
 
   addEntity(entity: Entity): void {

@@ -10,6 +10,9 @@ class Game {
   newGame(): void {
     // Logic to start a new game
   }
+
+  public update() {}
+
   draw(): void {
     // Draw the current active screen
     for (const screen of this.activeScreen) {

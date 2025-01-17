@@ -21,16 +21,14 @@ let levelFactory: LevelFactory;
  */
 function preload() {
   // Load assets here
-  game = new Game();
-
   music = {
     mystery: loadSound("/assets/music/mystery.mp3"),
   };
 
   images = {
     // player: loadImage(""),
-    star: loadImage("assets/images/star.webp"),
-    heart: loadImage("assets/images/heart.webp"),
+    star: loadImage("/assets/images/star.webp"),
+    heart: loadImage("/assets/images/heart.webp"),
     // ghost: loadImage("/assets/ghost.png"),
     carnivorusPlant: loadImage("assets/images/plant.gif"),
     // tetrisObstacle: loadImage(""),
