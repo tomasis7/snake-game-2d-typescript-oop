@@ -161,12 +161,6 @@ class LevelFactory {
 }
 
 // IMovable Interface
-interface IMovable {
-  position: p5.Vector;
-  direction: p5.Vector;
-  move(): void;
-}
-
 
 // // Player Class
 // class Player implements IMovable {

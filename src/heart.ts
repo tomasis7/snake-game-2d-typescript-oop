@@ -3,7 +3,7 @@ class Heart extends Entity {
     private pulseSpeed: number;
   
     constructor(position: p5.Vector, size: p5.Vector) {
-      super(position, size, heartImage, 0, 0, p5.Vector.random2D());
+      super(position, size, images.heart, 0, 0, p5.Vector.random2D());
       this.pulseScale = 1;
       this.pulseSpeed = 0.01;
     }
@@ -12,7 +12,7 @@ class Heart extends Entity {
       translate(this.position.x, this.position.y);
       scale(this.pulseScale);
       image(
-        heartImage,
+        this.image,
         -this.size.x / 2,
         -this.size.y / 2,
         this.size.x,

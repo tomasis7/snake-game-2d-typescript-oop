@@ -1,10 +1,19 @@
 //---- GLOBAL VARIABLES ----//
 
 let game: Game;
+
+let images: {
+  player: p5.Image;
+  star: p5.Image;
+  heart: p5.Image;
+  ghost: p5.Image;
+  carnivorusPlant: p5.Image;
+  tetrisObstacle: p5.Image;
+};
+
+let music: {};
 let levelFactory: LevelFactory;
 
-let ghostImage: p5.Image;
-let heartImage: p5.Image;
 
 /**
  * Built in preload function in P5
@@ -14,8 +23,19 @@ let heartImage: p5.Image;
 function preload() {
   // Load assets here
   game = new Game();
-  ghostImage = loadImage("/");
-  heartImage = loadImage("/");
+
+  music = {
+    mystery: loadSound("/assets/music/mystery.mp3"),
+  };
+
+  images = {
+    player: loadImage("assets/player.png"),
+    star: loadImage("assets/star.png"),
+    heart: loadImage("assets/heart.png"),
+    ghost: loadImage("assets/ghost.png"),
+    carnivorusPlant: loadImage("assets/carnivorusPlant.png"),
+    tetrisObstacle: loadImage("assets/tetrisObstacle.png"),
+  };
 }
 
 /**

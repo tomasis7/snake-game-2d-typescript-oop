@@ -2,14 +2,14 @@ class Ghost extends Entity {
     constructor(
       position: p5.Vector,
       size: p5.Vector,
-      speed: number,
+      velocity: p5.Vector,
       direction: p5.Vector
     ) {
-      super(position, size, ghostImage, speed, direction);
+      super(position, size, images.ghost, velocity.x, velocity.y, direction);
     }
   
     draw(): void {
-      if (!ghostImage) {
+      if (!this.image) {
         console.error("Ghost image not loaded");
         return;
       }
@@ -17,7 +17,7 @@ class Ghost extends Entity {
       push();
       translate(this.position.x, this.position.y);
       image(
-        ghostImage,
+        this.image,
         -this.size.x / 2,
         -this.size.y / 2,
         this.size.x,
@@ -38,6 +38,6 @@ class Ghost extends Entity {
     }
   
     move(): void {
-      this.position.add(this.direction.copy().mult(this.speed));
+      this.position.add(this.direction.copy().mult(this.velocity));
     }
   }
