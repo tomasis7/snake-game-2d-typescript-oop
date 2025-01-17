@@ -18,35 +18,6 @@
 //     // Visual representation of collisions, if needed
 //   }
 
-// Game Board
-class GameBoard {
-  size: p5.Vector;
-  entities: Entity[];
-  //collision: CollisionManager;
-  //score: ScoreManager[];
-
-  constructor(size: p5.Vector) {
-    this.size = size;
-    this.entities = [];
-    //this.collision = new CollisionManager();
-    //this.score = [];
-  }
-
-  addEntity(entity: Entity): void {
-    this.entities.push(entity);
-  }
-
-  removeEntity(entity: Entity): void {
-    this.entities = this.entities.filter((e) => e !== entity);
-  }
-
-  draw(): void {
-    for (const entity of this.entities) {
-      entity.draw();
-    }
-  }
-}
-
 // // Score Manager
 // class ScoreManager {
 //   scores: Map<Player, number>;
@@ -64,82 +35,6 @@ class GameBoard {
 //     // Draw the score UI
 //   }
 // }
-
-// Start Menu
-class StartMenu extends GameScreen {
-  startGameButton: Button;
-  selectEasyMode: Button;
-  selectMediumMode: Button;
-  selectHardMode: Button;
-  levelFactory: LevelFactory;
-
-  constructor(button: Button) {
-    super();
-    this.startGameButton = button;
-
-    this.selectEasyMode = new Button(
-      "Easy",
-      createVector(width / 2, height / 2 - 100),
-      "green",
-      createVector(200, 50),
-      "white",
-    );
-
-    this.selectMediumMode = new Button(
-      "Medium",
-      createVector(width / 2, height / 2),
-      "yellow",
-      createVector(200, 50),
-      "black",
-    );
-
-    this.selectHardMode = new Button(
-      "Hard",
-      createVector(width / 2, height / 2 + 100),
-      "red",
-      createVector(200, 50),
-      "white",
-    );
-
-    this.levelFactory = new LevelFactory();
-  }
-
-  update(): void {
-    if (this.startGameButton.isClicked()) {
-      game.changeScreen(new GameBoard(createVector(800, 600)));
-    }
-
-    if (this.selectEasyMode.isClicked()) {
-      console.log("Easy mode selected");
-    }
-
-    if (this.selectMediumMode.isClicked()) {
-      console.log("Medium mode selected");
-    }
-
-    if (this.selectHardMode.isClicked()) {
-      console.log("Hard mode selected");
-    }
-  }
-
-  draw(): void {
-    background("black");
-    fill("green");
-    textAlign(CENTER, CENTER);
-    textSize(32);
-    text("SELECT DIFFICULTY", width / 2, height / 4);
-
-    this.startGameButton.draw();
-    this.selectEasyMode.draw();
-    this.selectMediumMode.draw();
-    this.selectHardMode.draw();
-  }
-
-  newGame(): void {
-    console.log("Starting a new game...");
-    game.changeScreen(new StartMenu(this.startGameButton));
-  }
-}
 
 // // Game Over Screen
 // class GameOver extends Screen {
@@ -173,73 +68,6 @@ class StartMenu extends GameScreen {
 //     // Update countdown logic
 //   }
 // }
-
-// Level Factory
-class LevelFactory {
-  private gridSize: number = 32;
-
-  draw(): void {
-    // Draw level creation elements
-    push();
-    stroke(150, 150, 150);
-    strokeWeight(2);
-    for (let x = 0; x < width * 2; x += this.gridSize) {
-      line(x, 0, x, height);
-    }
-    for (let y = 0; y < height; y += this.gridSize) {
-      line(0, y, width * 2, y);
-    }
-    pop();
-  }
-}
-
-// IMovable Interface
-interface IMovable {
-  position: p5.Vector;
-  direction: p5.Vector;
-  move(): void;
-}
-
-// Entity Base Class
-abstract class Entity implements IMovable {
-  position: p5.Vector;
-  size: p5.Vector;
-  image: p5.Image;
-  speed: number;
-  direction: p5.Vector;
-
-  constructor(
-    position: p5.Vector,
-    size: p5.Vector,
-    image: p5.Image,
-    speed: number,
-    direction: p5.Vector,
-  ) {
-    this.position = position;
-    this.size = size;
-    this.image = image;
-    this.speed = speed;
-    this.direction = direction;
-  }
-
-  draw(): void {
-    image(
-      this.image,
-      this.position.x,
-      this.position.y,
-      this.size.x,
-      this.size.y,
-    );
-  }
-  move(): void {
-    if (typeof this.speed === "number") {
-      this.position.add(this.direction.mult(this.speed));
-    } else {
-      console.error("speed must be a number");
-    }
-  }
-  abstract update(): void;
-}
 
 // // Player Class
 // class Player implements IMovable {
@@ -336,30 +164,30 @@ abstract class Entity implements IMovable {
 //   }
 // }
 
-class Ghost extends Entity {
-  constructor(
-    position: p5.Vector,
-    size: p5.Vector,
-    image: p5.Image,
-    speed: number,
-  ) {
-    super(position, size, image, speed);
-  }
+// class Ghost extends Entity {
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number
+//   ) {
+//     super(position, size, image, speed);
+//   }
 
-  draw(): void {
-    // Draw ghost entity
-  }
+//   draw(): void {
+//     // Draw ghost entity
+//   }
 
-  update(): void {
-    // Update ghost entity
-  }
+//   update(): void {
+//     // Update ghost entity
+//   }
 
-  move(): void {
-    // Move ghost entity
-  }
-}
+//   move(): void {
+//     // Move ghost entity
+//   }
+// }
 
-// class TetrisObstacle extends Entity {
+// class TetrisHinder extends Entity {
 //   constructor(
 //     position: p5.Vector,
 //     size: p5.Vector,
@@ -382,8 +210,7 @@ class Ghost extends Entity {
 //   }
 // }
 
-// // meeteaterplant class
-// class CarnivorusPlant extends Entity {
+// class MeatEaterPlant extends Entity {
 //   constructor(
 //     position: p5.Vector,
 //     size: p5.Vector,
@@ -405,45 +232,3 @@ class Ghost extends Entity {
 //     // Move MeatEaterPlant entity
 //   }
 // }
-
-// Button Class
-class Button {
-  text: string;
-  position: p5.Vector;
-  backgroundColor: string;
-  size: p5.Vector;
-  color: string;
-
-  constructor(
-    text: string,
-    position: p5.Vector,
-    backgroundColor: string,
-    size: p5.Vector,
-    color: string,
-  ) {
-    this.text = text;
-    this.position = position;
-    this.backgroundColor = backgroundColor;
-    this.size = size;
-    this.color = color;
-  }
-
-  draw(): void {
-    fill(this.backgroundColor);
-    rectMode(CENTER);
-    rect(this.position.x, this.position.y, this.size.x, this.size.y);
-    fill(this.color);
-    textAlign(CENTER, CENTER);
-    text(this.text, this.position.x, this.position.y);
-  }
-
-  isClicked(): boolean {
-    return (
-      mouseIsPressed &&
-      mouseX > this.position.x - this.size.x / 2 &&
-      mouseX < this.position.x + this.size.x / 2 &&
-      mouseY > this.position.y - this.size.y / 2 &&
-      mouseY < this.position.y + this.size.y / 2
-    );
-  }
-}
