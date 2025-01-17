@@ -1,3 +1,32 @@
+// Main Game Class
+class Game {
+  private activeScreen: GameScreen[];
+  private startButton: Button;
+
+  constructor() {
+    this.startButton = new Button(
+      "Start Game",
+      createVector(width / 2, height / 2),
+      "blue",
+      createVector(200, 50),
+      "white",
+    );
+
+    this.activeScreen = [new StartMenu(this.startButton)];
+  }
+
+  public changeScreen(screen: GameScreen): void {
+    this.activeScreen = [screen];
+  }
+
+  public draw(): void {
+    for (const screen of this.activeScreen) {
+      screen.update();
+      screen.draw();
+    }
+  }
+}
+
 //   end(): void {
 //     // Logic to end the game
 //   }
@@ -90,36 +119,36 @@
 //   }
 // }
 
-// IMovable Interface
-interface IMovable {
-  position: p5.Vector;
-  // direction: p5.Vector;
-  move(): void;
-}
+// // IMovable Interface
+// interface IMovable {
+//   position: p5.Vector;
+//   // direction: p5.Vector;
+//   move(): void;
+// }
 
-// Entity Base Class
-abstract class Entity implements IMovable {
-  position: p5.Vector;
-  size: p5.Vector;
-  image: p5.Image;
-  speed: number;
+// // Entity Base Class
+// abstract class Entity implements IMovable {
+//   position: p5.Vector;
+//   size: p5.Vector;
+//   image: p5.Image;
+//   speed: number;
 
-  constructor(
-    position: p5.Vector,
-    size: p5.Vector,
-    image: p5.Image,
-    speed: number,
-  ) {
-    this.position = position;
-    this.size = size;
-    this.image = image;
-    this.speed = speed;
-  }
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number,
+//   ) {
+//     this.position = position;
+//     this.size = size;
+//     this.image = image;
+//     this.speed = speed;
+//   }
 
-  abstract draw(): void;
-  abstract update(): void;
-  abstract move(): void;
-}
+//   abstract draw(): void;
+//   abstract update(): void;
+//   abstract move(): void;
+// }
 
 // Specific Entities
 // class Heart extends Entity {

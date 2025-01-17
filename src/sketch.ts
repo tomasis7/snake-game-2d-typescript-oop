@@ -2,8 +2,6 @@
 
 let game: Game;
 let levelFactory: LevelFactory;
-let GameScreen: GameScreen;
-
 /**
  * Built in preload function in P5
  * This is a good place to load assets such as
@@ -26,7 +24,6 @@ function setup() {
 
   game = new Game();
   levelFactory = new LevelFactory();
-  GameScreen = new GameScreen();
 }
 
 /**
@@ -38,7 +35,6 @@ function draw() {
   //game.draw();
   background(220);
   levelFactory.draw();
-  GameScreen.draw();
 }
 
 /**
