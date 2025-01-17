@@ -1,70 +1,51 @@
 // Main Game Class
 class Game {
-  //    private activeScreen: Screen[];
-  //    constructor() {
-  //      this.activeScreen = [];
-  //    }
-  //   changeScreen(): void {
-  //     // Logic to change the screen
-  //   }
-  //   newGame(): void {
-  //     // Logic to start a new game
-  //   }
-  //  draw(): void {
-  //    // Draw the current active screen
-  //    for (const screen of this.activeScreen) {
-  //      screen.draw();
-  //    }
-  //  }
-  //   end(): void {
-  //     // Logic to end the game
-  //   }
-  // }
-  // // Collision Manager
-  // class CollisionManager {
-  //   players: Player[];
-  //   entities: Entity[];
-  //   constructor() {
-  //     this.players = [];
-  //     this.entities = [];
-  //   }
-  //   checkCollision(player: Player, gameBoard: GameBoard): boolean {
-  //     // Check for collisions between players and entities
-  //     return false;
-  //   }
-  //   draw(): void {
-  //     // Visual representation of collisions, if needed
-  //   }
-}
+  private activeScreen: GameScreen[];
+  private startButton: Button;
 
-// Game Board
-class GameBoard {
-  size: p5.Vector;
-  entities: Entity[];
-  //collision: CollisionManager;
-  //score: ScoreManager[];
+  constructor() {
+    this.startButton = new Button(
+      "Start Game",
+      createVector(width / 2, height / 2),
+      "blue",
+      createVector(200, 50),
+      "white",
+    );
 
-  constructor(size: p5.Vector) {
-    this.size = size;
-    this.entities = [];
-    //this.collision = new CollisionManager();
-    //this.score = [];
+    this.activeScreen = [new StartMenu(this.startButton)];
   }
 
-  addEntity(entity: Entity): void {
-    this.entities.push(entity);
+  public changeScreen(screen: GameScreen): void {
+    this.activeScreen = [screen];
   }
 
-  removeEntity(entity: Entity): void {
-    this.entities = this.entities.filter((e) => e !== entity);
-  }
-
-  draw(): void {
-    for (const entity of this.entities) {
-      entity.draw();
+  public draw(): void {
+    for (const screen of this.activeScreen) {
+      screen.update();
+      screen.draw();
     }
   }
 }
+
+//   end(): void {
+//     // Logic to end the game
+//   }
+// }
+// // Collision Manager
+// class CollisionManager {
+//   players: Player[];
+//   entities: Entity[];
+//   constructor() {
+//     this.players = [];
+//     this.entities = [];
+//   }
+//   checkCollision(player: Player, gameBoard: GameBoard): boolean {
+//     // Check for collisions between players and entities
+//     return false;
+//   }
+//   draw(): void {
+//     // Visual representation of collisions, if needed
+//   }
 
 // // Score Manager
 // class ScoreManager {
@@ -81,30 +62,6 @@ class GameBoard {
 
 //   draw(): void {
 //     // Draw the score UI
-//   }
-// }
-
-// Screen Base Class
-// abstract class Screen {
-//   abstract update(): void;
-//   abstract draw(): void;
-// }
-
-// // Start Menu
-// class StartMenu extends Screen {
-//   startGameButton: Button;
-
-//   constructor(button: Button) {
-//     super();
-//     this.startGameButton = button;
-//   }
-
-//   update(): void {
-//     // Update start menu logic
-//   }
-
-//   draw(): void {
-//     this.startGameButton.draw();
 //   }
 // }
 
@@ -183,30 +140,145 @@ class LevelFactory {
 //   }
 // }
 
-
-// // Button Class
-// class Button {
-//   text: string;
+// // IMovable Interface
+// interface IMovable {
 //   position: p5.Vector;
-//   backgroundColor: string;
+//   // direction: p5.Vector;
+//   move(): void;
+// }
+
+// // Entity Base Class
+// abstract class Entity implements IMovable {
+//   position: p5.Vector;
 //   size: p5.Vector;
-//   color: string;
+//   image: p5.Image;
+//   speed: number;
 
 //   constructor(
-//     text: string,
 //     position: p5.Vector,
-//     backgroundColor: string,
 //     size: p5.Vector,
-//     color: string
+//     image: p5.Image,
+//     speed: number,
 //   ) {
-//     this.text = text;
 //     this.position = position;
-//     this.backgroundColor = backgroundColor;
 //     this.size = size;
-//     this.color = color;
+//     this.image = image;
+//     this.speed = speed;
+//   }
+
+//   abstract draw(): void;
+//   abstract update(): void;
+//   abstract move(): void;
+// }
+
+// Specific Entities
+// class Heart extends Entity {
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number
+//   ) {
+//     super(position, size, image, speed);
+//   }
+//   draw(): void {
+//     // Draw heart entity
+//   }
+//   update(): void {
+//     // Update heart entity
+//   }
+//   move(): void {
+//     // Move heart entity
+//   }
+
+// class Star extends Entity {
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number
+//   ) {
+//     super(position, size, image, speed);
 //   }
 
 //   draw(): void {
-//     // Draw button UI
+//     // Draw star entity
+//   }
+
+//   update(): void {
+//     // Update star entity
+//   }
+
+//   move(): void {
+//     // Move star entity
+//   }
+// }
+
+// class Ghost extends Entity {
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number
+//   ) {
+//     super(position, size, image, speed);
+//   }
+
+//   draw(): void {
+//     // Draw ghost entity
+//   }
+
+//   update(): void {
+//     // Update ghost entity
+//   }
+
+//   move(): void {
+//     // Move ghost entity
+//   }
+// }
+
+// class TetrisHinder extends Entity {
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number
+//   ) {
+//     super(position, size, image, speed);
+//   }
+
+//   draw(): void {
+//     // Draw Tetris hinder entity
+//   }
+
+//   update(): void {
+//     // Update Tetris hinder entity
+//   }
+
+//   move(): void {
+//     // Move Tetris hinder entity
+//   }
+
+
+// class MeatEaterPlant extends Entity {
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number
+//   ) {
+//     super(position, size, image, speed);
+//   }
+
+//   draw(): void {
+//     // Draw MeatEaterPlant entity
+//   }
+
+//   update(): void {
+//     // Update MeatEaterPlant entity
+//   }
+
+//   move(): void {
+//     // Move MeatEaterPlant entity
 //   }
 // }
