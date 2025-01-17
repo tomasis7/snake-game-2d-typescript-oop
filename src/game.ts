@@ -1,41 +1,22 @@
-// Main Game Class
-class Game {
-  //    private activeScreen: Screen[];
-  //    constructor() {
-  //      this.activeScreen = [];
-  //    }
-  //   changeScreen(): void {
-  //     // Logic to change the screen
-  //   }
-  //   newGame(): void {
-  //     // Logic to start a new game
-  //   }
-  //  draw(): void {
-  //    // Draw the current active screen
-  //    for (const screen of this.activeScreen) {
-  //      screen.draw();
-  //    }
-  //  }
-  //   end(): void {
-  //     // Logic to end the game
-  //   }
-  // }
-  // // Collision Manager
-  // class CollisionManager {
-  //   players: Player[];
-  //   entities: Entity[];
-  //   constructor() {
-  //     this.players = [];
-  //     this.entities = [];
-  //   }
-  //   checkCollision(player: Player, gameBoard: GameBoard): boolean {
-  //     // Check for collisions between players and entities
-  //     return false;
-  //   }
-  //   draw(): void {
-  //     // Visual representation of collisions, if needed
-  //   }
-}
+//   end(): void {
+//     // Logic to end the game
+//   }
+// }
+// // Collision Manager
+// class CollisionManager {
+//   players: Player[];
+//   entities: Entity[];
+//   constructor() {
+//     this.players = [];
+//     this.entities = [];
+//   }
+//   checkCollision(player: Player, gameBoard: GameBoard): boolean {
+//     // Check for collisions between players and entities
+//     return false;
+//   }
+//   draw(): void {
+//     // Visual representation of collisions, if needed
+//   }
 
 // Game Board
 class GameBoard {
@@ -84,29 +65,81 @@ class GameBoard {
 //   }
 // }
 
-// Screen Base Class
-// abstract class Screen {
-//   abstract update(): void;
-//   abstract draw(): void;
-// }
+// Start Menu
+class StartMenu extends GameScreen {
+  startGameButton: Button;
+  selectEasyMode: Button;
+  selectMediumMode: Button;
+  selectHardMode: Button;
+  levelFactory: LevelFactory;
 
-// // Start Menu
-// class StartMenu extends Screen {
-//   startGameButton: Button;
+  constructor(button: Button) {
+    super();
+    this.startGameButton = button;
 
-//   constructor(button: Button) {
-//     super();
-//     this.startGameButton = button;
-//   }
+    this.selectEasyMode = new Button(
+      "Easy",
+      createVector(width / 2, height / 2 - 100),
+      "green",
+      createVector(200, 50),
+      "white",
+    );
 
-//   update(): void {
-//     // Update start menu logic
-//   }
+    this.selectMediumMode = new Button(
+      "Medium",
+      createVector(width / 2, height / 2),
+      "yellow",
+      createVector(200, 50),
+      "black",
+    );
 
-//   draw(): void {
-//     this.startGameButton.draw();
-//   }
-// }
+    this.selectHardMode = new Button(
+      "Hard",
+      createVector(width / 2, height / 2 + 100),
+      "red",
+      createVector(200, 50),
+      "white",
+    );
+
+    this.levelFactory = new LevelFactory();
+  }
+
+  update(): void {
+    if (this.startGameButton.isClicked()) {
+      game.changeScreen(new GameBoard(createVector(800, 600)));
+    }
+
+    if (this.selectEasyMode.isClicked()) {
+      console.log("Easy mode selected");
+    }
+
+    if (this.selectMediumMode.isClicked()) {
+      console.log("Medium mode selected");
+    }
+
+    if (this.selectHardMode.isClicked()) {
+      console.log("Hard mode selected");
+    }
+  }
+
+  draw(): void {
+    background("black");
+    fill("green");
+    textAlign(CENTER, CENTER);
+    textSize(32);
+    text("SELECT DIFFICULTY", width / 2, height / 4);
+
+    this.startGameButton.draw();
+    this.selectEasyMode.draw();
+    this.selectMediumMode.draw();
+    this.selectHardMode.draw();
+  }
+
+  newGame(): void {
+    console.log("Starting a new game...");
+    game.changeScreen(new StartMenu(this.startGameButton));
+  }
+}
 
 // // Game Over Screen
 // class GameOver extends Screen {
@@ -180,7 +213,7 @@ abstract class Entity implements IMovable {
     size: p5.Vector,
     image: p5.Image,
     speed: number,
-    direction: p5.Vector
+    direction: p5.Vector,
   ) {
     this.position = position;
     this.size = size;
@@ -195,7 +228,7 @@ abstract class Entity implements IMovable {
       this.position.x,
       this.position.y,
       this.size.x,
-      this.size.y
+      this.size.y,
     );
   }
   move(): void {
@@ -229,28 +262,55 @@ abstract class Entity implements IMovable {
 //   }
 // }
 
+// IMovable Interface
+interface IMovable {
+  position: p5.Vector;
+  // direction: p5.Vector;
+  move(): void;
+}
+
+// Entity Base Class
+abstract class Entity implements IMovable {
+  position: p5.Vector;
+  size: p5.Vector;
+  image: p5.Image;
+  speed: number;
+
+  constructor(
+    position: p5.Vector,
+    size: p5.Vector,
+    image: p5.Image,
+    speed: number,
+  ) {
+    this.position = position;
+    this.size = size;
+    this.image = image;
+    this.speed = speed;
+  }
+
+  abstract draw(): void;
+  abstract update(): void;
+  abstract move(): void;
+}
+
 // Specific Entities
 // class Heart extends Entity {
-//   private  pulseScale: number;
-//   private  pulseSpeed: number;
-
 //   constructor(
 //     position: p5.Vector,
 //     size: p5.Vector,
 //     image: p5.Image,
+//     speed: number
 //   ) {
-//     super(position, size, image, 0, p5.Vector.random2D());
-//     this.pulseScale = 1;
-//     this.pulseSpeed = 0.01;
+//     super(position, size, image, speed);
 //   }
 //   draw(): void {
-//     // TODO Draw heart or import an existing image?
+//     // Draw heart entity
 //   }
 //   update(): void {
-//     // Here we update 'pulse' animation on heart
-//     this.pulseScale = 1 + 0.2 * Math.sin(millis() * this.pulseSpeed);
-//     console.log(this.pulseScale);
-
+//     // Update heart entity
+//   }
+//   move(): void {
+//     // Move heart entity
 //   }
 
 // class Star extends Entity {
@@ -281,7 +341,7 @@ class Ghost extends Entity {
     position: p5.Vector,
     size: p5.Vector,
     image: p5.Image,
-    speed: number
+    speed: number,
   ) {
     super(position, size, image, speed);
   }
@@ -346,29 +406,44 @@ class Ghost extends Entity {
 //   }
 // }
 
-// // Button Class
-// class Button {
-//   text: string;
-//   position: p5.Vector;
-//   backgroundColor: string;
-//   size: p5.Vector;
-//   color: string;
+// Button Class
+class Button {
+  text: string;
+  position: p5.Vector;
+  backgroundColor: string;
+  size: p5.Vector;
+  color: string;
 
-//   constructor(
-//     text: string,
-//     position: p5.Vector,
-//     backgroundColor: string,
-//     size: p5.Vector,
-//     color: string
-//   ) {
-//     this.text = text;
-//     this.position = position;
-//     this.backgroundColor = backgroundColor;
-//     this.size = size;
-//     this.color = color;
-//   }
+  constructor(
+    text: string,
+    position: p5.Vector,
+    backgroundColor: string,
+    size: p5.Vector,
+    color: string,
+  ) {
+    this.text = text;
+    this.position = position;
+    this.backgroundColor = backgroundColor;
+    this.size = size;
+    this.color = color;
+  }
 
-//   draw(): void {
-//     // Draw button UI
-//   }
-// }
+  draw(): void {
+    fill(this.backgroundColor);
+    rectMode(CENTER);
+    rect(this.position.x, this.position.y, this.size.x, this.size.y);
+    fill(this.color);
+    textAlign(CENTER, CENTER);
+    text(this.text, this.position.x, this.position.y);
+  }
+
+  isClicked(): boolean {
+    return (
+      mouseIsPressed &&
+      mouseX > this.position.x - this.size.x / 2 &&
+      mouseX < this.position.x + this.size.x / 2 &&
+      mouseY > this.position.y - this.size.y / 2 &&
+      mouseY < this.position.y + this.size.y / 2
+    );
+  }
+}
