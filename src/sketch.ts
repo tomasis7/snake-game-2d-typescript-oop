@@ -29,12 +29,12 @@ function preload() {
   };
 
   images = {
-    player: loadImage("assets/player.png"),
-    star: loadImage("assets/star.png"),
-    heart: loadImage("assets/heart.png"),
-    ghost: loadImage("assets/ghost.png"),
-    carnivorusPlant: loadImage("assets/carnivorusPlant.png"),
-    tetrisObstacle: loadImage("assets/tetrisObstacle.png"),
+    // player: loadImage(""),
+    star: loadImage("assets/images/star.webp"),
+    heart: loadImage("assets/images/heart.webp"),
+    // ghost: loadImage("/assets/ghost.png"),
+    carnivorusPlant: loadImage("assets/images/plant.gif"),
+    // tetrisObstacle: loadImage(""),
   };
 }
 
@@ -58,10 +58,8 @@ function setup() {
  * you created in the setup function above
  */
 function draw() {
-  //game.draw();
-  // game.update();
-  background(220);
-  levelFactory.draw();
+  game.update();
+  game.draw();
 }
 
 /**

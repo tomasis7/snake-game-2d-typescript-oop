@@ -1,52 +1,50 @@
 // Main Game Class
 class Game {
-  //    private activeScreen: Screen[];
-  //    constructor() {
-  //      this.activeScreen = [];
-  //    }
-  //   changeScreen(): void {
-  //     // Logic to change the screen
-  //   }
-  //   newGame(): void {
-  //     // Logic to start a new game
-  //   }
-  //  draw(): void {
-  //    // Draw the current active screen
-  //    for (const screen of this.activeScreen) {
-  //      screen.draw();
-  //    }
-  //  }
-  //   end(): void {
-  //     // Logic to end the game
-  //   }
-  // }
-  // // Collision Manager
-  // class CollisionManager {
-  //   players: Player[];
-  //   entities: Entity[];
-  //   constructor() {
-  //     this.players = [];
-  //     this.entities = [];
-  //   }
-  //   checkCollision(player: Player, gameBoard: GameBoard): boolean {
-  //     // Check for collisions between players and entities
-  //     return false;
-  //   }
-  //   draw(): void {
-  //     // Visual representation of collisions, if needed
-  //   }
+  private activeScreen: GameScreen[];
+  constructor() {
+    this.activeScreen = [new GameBoard()];
+  }
+  changeScreen(): void {
+    // Logic to change the screen
+  }
+  newGame(): void {
+    // Logic to start a new game
+  }
+  draw(): void {
+    // Draw the current active screen
+    for (const screen of this.activeScreen) {
+      screen.draw();
+    }
+  }
+  end(): void {
+    //     // Logic to end the game
+  }
 }
+// // Collision Manager
+// class CollisionManager {
+//   players: Player[];
+//   entities: Entity[];
+//   constructor() {
+//     this.players = [];
+//     this.entities = [];
+//   }
+//   checkCollision(player: Player, gameBoard: GameBoard): boolean {
+//     // Check for collisions between players and entities
+//     return false;
+//   }
+//   draw(): void {
+//     // Visual representation of collisions, if needed
+//   }
+// }
 
 // Game Board
 class GameBoard {
-  size: p5.Vector;
   entities: Entity[];
   //collision: CollisionManager;
   //score: ScoreManager[];
 
-  constructor(size: p5.Vector) {
-    this.size = size;
-    this.entities = [];
+  constructor() {
+    this.entities = [new Star()];
     //this.collision = new CollisionManager();
     //this.score = [];
   }
@@ -182,7 +180,6 @@ class LevelFactory {
 //     // Update the player's position and state
 //   }
 // }
-
 
 // // Button Class
 // class Button {
