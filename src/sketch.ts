@@ -7,8 +7,8 @@ let images: {
   star: p5.Image;
   heart: p5.Image;
   ghost: p5.Image;
-  carnivorusPlant: p5.Image;
-  tetrisObstacle: p5.Image;
+  Plant: p5.Image;
+  tetris: p5.Image;
 };
 
 let music: {};
@@ -29,9 +29,9 @@ function preload() {
     // player: loadImage(""),
     star: loadImage("/assets/images/star.webp"),
     heart: loadImage("/assets/images/heart.webp"),
-    // ghost: loadImage("/assets/ghost.png"),
-    carnivorusPlant: loadImage("assets/images/plant.gif"),
-    // tetrisObstacle: loadImage(""),
+    ghost: loadImage("assets/images/ghost.png"),
+    Plant: loadImage("/assets/images/plant.gif"),
+    tetris: loadImage("/assets/images/tetris.png"),
   };
 }
 

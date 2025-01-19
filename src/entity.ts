@@ -40,7 +40,9 @@ abstract class Entity implements IMovable {
     pop();
   }
 
+  update(): void {} 
 }
+
 
 //   move(): void {
 //     if (typeof this.velocity === "number") {

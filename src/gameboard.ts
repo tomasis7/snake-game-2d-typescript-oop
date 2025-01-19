@@ -5,7 +5,13 @@ class GameBoard extends GameScreen {
 
   constructor() {
     super(); // Anropa basklassens konstruktor
-    this.entities = [new Star()];
+    this.entities = [
+      new Heart(),
+      new Star(),
+      new Ghost(),
+      new Plant(),
+      new TetrisBlock(),
+    ];
   }
 
   addEntity(entity: Entity): void {
@@ -16,13 +22,26 @@ class GameBoard extends GameScreen {
     this.entities = this.entities.filter((e) => e !== entity);
   }
 
-  update(): void {
-    // Lägg till logik för att uppdatera spelet här
-    console.log("Updating GameBoard");
+  public update(): void {
+    for (const entity of this.entities) {
+      entity.update();
+    }
+    this.flyingGhost();
   }
 
+  private flyingGhost(): void {
+    for (const entity of this.entities) {
+      if (entity instanceof Ghost) {
+        entity.update();
+      }
+    }
+  }
+  
+
+
+
   draw(): void {
-    background("white"); // Ange bakgrundsfärg
+    background("#577BC1"); // Ange bakgrundsfärg
     console.log("Drawing GameBoard");
     for (const entity of this.entities) {
       entity.draw();
