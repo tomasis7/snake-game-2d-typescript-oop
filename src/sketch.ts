@@ -1,6 +1,17 @@
 //---- GLOBAL VARIABLES ----//
 
 let game: Game;
+
+let images: {
+  player: p5.Image;
+  star: p5.Image;
+  heart: p5.Image;
+  ghost: p5.Image;
+  Plant: p5.Image;
+  tetris: p5.Image;
+};
+
+let music: {};
 let levelFactory: LevelFactory;
 
 /**
@@ -10,7 +21,18 @@ let levelFactory: LevelFactory;
  */
 function preload() {
   // Load assets here
-  game = new Game();
+  music = {
+    mystery: loadSound("/assets/music/mystery.mp3"),
+  };
+
+  images = {
+    // player: loadImage(""),
+    star: loadImage("/assets/images/star.webp"),
+    heart: loadImage("/assets/images/heart.webp"),
+    ghost: loadImage("assets/images/ghost.png"),
+    Plant: loadImage("/assets/images/plant.gif"),
+    tetris: loadImage("/assets/images/tetris.png"),
+  };
 }
 
 /**
@@ -33,9 +55,8 @@ function setup() {
  * you created in the setup function above
  */
 function draw() {
-  //game.draw();
-  background(220);
-  levelFactory.draw();
+  game.update();
+  game.draw();
 }
 
 /**
