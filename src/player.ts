@@ -5,6 +5,7 @@ class Player extends Entity {
   private playerNumber: number;
   private trailFillColor: string;
   private trailStrokeColor: string;
+  private moveTimer: number;
 
   constructor(
     position: p5.Vector,
@@ -13,8 +14,8 @@ class Player extends Entity {
     trailFillColor: string,
     trailStrokeColor: string
   ) {
-    const size = createVector(20, 20);
-    super(position, size, image, 0, 0, createVector(1, 0));
+    const size = createVector(50, 50);
+    super(position, size, image, 0, 0, createVector(0, 500));
     this.trail = [
       createVector(this.position.x - size.x, this.position.y),
       createVector(this.position.x - size.x * 2, this.position.y),
@@ -24,6 +25,7 @@ class Player extends Entity {
     this.playerNumber = playerNumber;
     this.trailFillColor = trailFillColor;
     this.trailStrokeColor = trailStrokeColor;
+    this.moveTimer = 0;
   }
 
   move(): void {
@@ -73,7 +75,15 @@ class Player extends Entity {
 
   // Update players state and position
   update(): void {
+    this.moveTimer += deltaTime;
+    if (this.moveTimer >= this.direction.y) {
+      this.moveTimer = 0;
+      this.trail.pop();
+      const head = this.trail[0];
+      this.trail.unshift(createVector(head.x, head.y + 50));
+    }
     return;
+
     this.move();
     // Store current position in trail array
     this.trail.unshift(createVector(this.position.x, this.position.y));
