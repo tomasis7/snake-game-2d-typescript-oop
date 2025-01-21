@@ -14,6 +14,9 @@ let images: {
 let music: {};
 let levelFactory: LevelFactory;
 
+let customFont: p5.Font;
+
+
 /**
  * Built in preload function in P5
  * This is a good place to load assets such as
@@ -33,6 +36,8 @@ function preload() {
     Plant: loadImage("/assets/images/plant.gif"),
     tetris: loadImage("/assets/images/tetris.png"),
   };
+
+  customFont = loadFont("/assets/fonts/PressStart2P-Regular.ttf")
 }
 
 /**
@@ -44,6 +49,7 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   frameRate(60);
+  textFont(customFont);
 
   game = new Game();
   levelFactory = new LevelFactory();

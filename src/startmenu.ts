@@ -13,25 +13,25 @@ class StartMenu extends GameScreen {
     this.selectEasyMode = new Button(
       "Easy",
       createVector(width / 2, height / 2 - 100),
-      "green",
+      "#515151",
       createVector(200, 50),
-      "white",
+      "#45FF8C",
     );
 
     this.selectMediumMode = new Button(
       "Medium",
       createVector(width / 2, height / 2),
-      "yellow",
+      "#515151",
       createVector(200, 50),
-      "black",
+      "#FDD03C",
     );
 
     this.selectHardMode = new Button(
       "Hard",
       createVector(width / 2, height / 2 + 100),
-      "red",
+      "#515151",
       createVector(200, 50),
-      "white",
+      "#FF5F62",
     );
 
     this.levelFactory = new LevelFactory();
@@ -57,9 +57,10 @@ class StartMenu extends GameScreen {
 
   draw(): void {
     background("black");
-    fill("green");
+    fill("#45FF8C");
     textAlign(CENTER, CENTER);
     textSize(32);
+    textFont(customFont);
     text("SELECT DIFFICULTY", width / 2, height / 4);
 
     this.startGameButton.draw();
