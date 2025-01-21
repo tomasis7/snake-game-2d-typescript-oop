@@ -24,7 +24,6 @@ let music: {
   star: p5.SoundFile;
   winner: p5.SoundFile;
 };
-let levelFactory: LevelFactory;
 
 let customFont: p5.Font;
 
@@ -73,7 +72,6 @@ function setup() {
   textFont(customFont);
 
   game = new Game();
-  levelFactory = new LevelFactory();
 }
 
 /**
@@ -96,6 +94,3 @@ function windowResized() {
 /**
  * Built in keyPressed listener function in P5
  */
-// function keyPressed() {
-//   game.keyPressed();
-// }
