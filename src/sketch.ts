@@ -3,7 +3,10 @@
 let game: Game;
 
 let images: {
-  player: p5.Image;
+  head1: p5.Image;
+  trail1: p5.Image;
+  head2: p5.Image;
+  trail2: p5.Image;
   star: p5.Image;
   heart: p5.Image;
   ghost: p5.Image;
@@ -26,7 +29,10 @@ function preload() {
   };
 
   images = {
-    // player: loadImage(""),
+    head1: loadImage("/assets/images/snake-head-blue.png"),
+    trail1: loadImage("/assets/images/snake-trail-blue.png"),
+    head2: loadImage("/assets/images/snake-head-pink.png"),
+    trail2: loadImage("/assets/images/snake-trail-pink.png"),
     star: loadImage("/assets/images/star.webp"),
     heart: loadImage("/assets/images/heart.webp"),
     ghost: loadImage("assets/images/ghost.png"),
