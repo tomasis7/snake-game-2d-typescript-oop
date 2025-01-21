@@ -14,7 +14,16 @@ let images: {
   tetris: p5.Image;
 };
 
-let music: {};
+let music: {
+  mystery: p5.SoundFile;
+  music: p5.SoundFile;
+  gainheart: p5.SoundFile;
+  lostheart: p5.SoundFile;
+  gameover: p5.SoundFile;
+  ghost: p5.SoundFile;
+  star: p5.SoundFile;
+  winner: p5.SoundFile;
+};
 
 let customFont: p5.Font;
 
@@ -27,6 +36,13 @@ function preload() {
   // Load assets here
   music = {
     mystery: loadSound("/assets/music/mystery.mp3"),
+    music: loadSound("/assets/music/mario-walking-through-dream-sequence.mp3"),
+    gainheart: loadSound("/assets/music/gain-heart.mp3"),
+    lostheart: loadSound("/assets/music/lost-heart.mp3"),
+    gameover: loadSound("/assets/music/game-over.mp3"),
+    ghost: loadSound("/assets/music/ghost.mp3"),
+    star: loadSound("/assets/music/star.mp3"),
+    winner: loadSound("/assets/music/winner.mp3"),
   };
 
   images = {
