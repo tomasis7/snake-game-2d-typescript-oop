@@ -11,6 +11,13 @@ class GameBoard extends GameScreen {
       new Ghost(),
       new Plant(),
       new TetrisBlock(),
+      new Player(
+        createVector(100, height * 0.5),
+        images.head1,
+        1,
+        "red",
+        "green"
+      ),
     ];
   }
 
@@ -36,9 +43,6 @@ class GameBoard extends GameScreen {
       }
     }
   }
-  
-
-
 
   draw(): void {
     background("#577BC1"); // Ange bakgrundsfärg
