@@ -7,9 +7,9 @@ class Game {
         new Button(
           "Start Game",
           createVector(width / 2, height / 2 + 200), // button position
-          "blue", // button background color
-          createVector(200, 50), // button size
-          "white" // button font color
+          "#515151", // button background color
+          createVector(350, 50), // button size
+          "#45FF8C" // button text color
         )
       )
     ];
