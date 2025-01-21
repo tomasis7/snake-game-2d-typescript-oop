@@ -15,10 +15,8 @@ let images: {
 };
 
 let music: {};
-let levelFactory: LevelFactory;
 
 let customFont: p5.Font;
-
 
 /**
  * Built in preload function in P5
@@ -43,7 +41,7 @@ function preload() {
     tetris: loadImage("/assets/images/tetris.png"),
   };
 
-  customFont = loadFont("/assets/fonts/PressStart2P-Regular.ttf")
+  customFont = loadFont("/assets/fonts/PressStart2P-Regular.ttf");
 }
 
 /**
@@ -58,7 +56,6 @@ function setup() {
   textFont(customFont);
 
   game = new Game();
-  levelFactory = new LevelFactory();
 }
 
 /**
@@ -81,6 +78,3 @@ function windowResized() {
 /**
  * Built in keyPressed listener function in P5
  */
-// function keyPressed() {
-//   game.keyPressed();
-// }

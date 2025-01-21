@@ -2,6 +2,7 @@
 
 class GameBoard extends GameScreen {
   entities: Entity[];
+  players: Player[];
 
   constructor() {
     super(); // Anropa basklassens konstruktor
@@ -11,13 +12,20 @@ class GameBoard extends GameScreen {
       new Ghost(),
       new Plant(),
       new TetrisBlock(),
-      new Player(
-        createVector(100, height * 0.5),
-        images.head1,
-        1,
-        "red",
-        "green"
-      ),
+    ];
+    this.players = [
+      new Player(createVector(100, height * 0.5), 1, "red", "green", {
+        UP: UP_ARROW,
+        DOWN: DOWN_ARROW,
+        RIGHT: RIGHT_ARROW,
+        LEFT: LEFT_ARROW,
+      }),
+      new Player(createVector(100, height * 0), 2, "blue", "orange", {
+        UP: 87,
+        DOWN: 83,
+        RIGHT: 68,
+        LEFT: 65,
+      }),
     ];
   }
 
@@ -33,6 +41,10 @@ class GameBoard extends GameScreen {
     for (const entity of this.entities) {
       entity.update();
     }
+    for (const player of this.players) {
+      player.update();
+    }
+
     this.flyingGhost();
   }
 
@@ -49,6 +61,9 @@ class GameBoard extends GameScreen {
     console.log("Drawing GameBoard");
     for (const entity of this.entities) {
       entity.draw();
+    }
+    for (const player of this.players) {
+      player.draw();
     }
   }
 }
