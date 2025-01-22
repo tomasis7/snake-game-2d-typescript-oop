@@ -1,8 +1,7 @@
 interface IMovable {
-    position: p5.Vector;
-    direction: p5.Vector;
-  }
-  
+  position: p5.Vector;
+  direction: p5.Vector;
+}
 
 abstract class Entity implements IMovable {
   position: p5.Vector;
@@ -26,7 +25,7 @@ abstract class Entity implements IMovable {
     this.image = image;
   }
 
-  draw(): void {
+  draw(cameraOffset: number): void {
     push();
 
     image(
@@ -40,9 +39,8 @@ abstract class Entity implements IMovable {
     pop();
   }
 
-  update(): void {} 
+  update(): void {}
 }
-
 
 //   move(): void {
 //     if (typeof this.velocity === "number") {

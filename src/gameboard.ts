@@ -1,6 +1,7 @@
 /// <reference path="gamescreen.ts" />
 /// <reference path="levelfactory.ts" />
 /// <reference path="tetrisBlocks.ts" />
+/// <reference path="player.ts" />
 
 class GameBoard extends GameScreen {
   entities: Entity[];
@@ -80,7 +81,7 @@ class GameBoard extends GameScreen {
       if (entity instanceof TetrisBlock) {
         entity.draw(this.cameraOffset);
       } else {
-        entity.draw();
+        entity.draw(this.cameraOffset);
       }
       for (const player of this.players) {
         player.draw();
