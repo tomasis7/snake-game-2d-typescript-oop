@@ -1,6 +1,8 @@
 class TetrisBlock extends Entity {
   private fallDelay: number;
   private fallCounter: number;
+  private gridSize: number = 32;
+  private cameraOffset: number = 0;
   /**
    * Creates a new instance of the TetrisBlock class.
    *
@@ -22,6 +24,17 @@ class TetrisBlock extends Entity {
     this.fallCounter = 0;
   }
 
+  private drawSquareAt(row: number, col: number, color: string): void {
+    push();
+    fill(color);
+    stroke("white");
+    strokeWeight(width * 0.001);
+    const x = col * this.gridSize - this.cameraOffset;
+    const y = row * this.gridSize;
+    rectMode(CORNER);
+    rect(x, y, this.gridSize, this.gridSize);
+    pop();
+  }
   /**
    * Draws the Tetris block entity.
    *
@@ -37,6 +50,17 @@ class TetrisBlock extends Entity {
       console.error("Ghost image not loaded");
       return;
     }
+
+    this.cameraOffset += 2; // same as scroll speed
+
+    //You can draw here
+    this.drawSquareAt(15, 20, "red");
+    this.drawSquareAt(15, 21, "red");
+    this.drawSquareAt(15, 22, "red");
+
+    //example of how to draw a square at a specific position
+    const currentRow = Math.floor(this.position.y / this.gridSize);
+    const currentCol = Math.floor(this.position.x / this.gridSize);
 
     push();
     translate(this.position.x, this.position.y);

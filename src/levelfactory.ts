@@ -11,6 +11,7 @@ class LevelFactory {
     strokeWeight(2);
 
     this.cameraOffset += this.scrollSpeed;
+    //translate(-this.cameraOffset, 0);
 
     for (let x = -this.cameraOffset; x < width * 2; x += this.gridSize) {
       line(x, 0, x, height);
