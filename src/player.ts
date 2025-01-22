@@ -8,13 +8,20 @@ interface KeyBindings {
 }
 
 class Player extends Entity {
-  private trail: p5.Vector[];
-  private playerNumber: number;
+  public trail: p5.Vector[];
+  public playerNumber: number;
   private trailFillColor: string;
   private trailStrokeColor: string;
   private moveTimer: number;
   private nextDirection: p5.Vector;
   private keyBindings: KeyBindings;
+
+  public isMoving: boolean;
+  private speed: number;
+  private originalSpeed: number;
+  isColliding: boolean = false;
+
+
   getPlayerNumber(): number {
     return this.playerNumber;
   }
@@ -45,9 +52,19 @@ class Player extends Entity {
     this.direction = createVector(20, 0);
     this.nextDirection = this.direction.copy();
     this.keyBindings = keyBindings;
+
+    this.isMoving = true;
+    this.speed = 20;
+    this.originalSpeed = 20;
+   
   }
 
   private handleInput(): void {
+
+    if (!this.isMoving && !this.isColliding) {
+      this.isMoving = true; // Allow movement again when input is received
+    }
+  
     // Lyssnar på tangenttryckningar och sätter nästa riktning
 
     if (keyIsDown(this.keyBindings.UP) && this.direction.y === 0) {
@@ -62,7 +79,12 @@ class Player extends Entity {
   }
 
   // Update players state and position
-  update(): void {
+  update(): void {    
+
+    if (!this.isMoving) {
+      return; // Skip updating the position if the player is not moving
+    }
+    
     this.moveTimer += deltaTime;
     if (this.moveTimer >= 200) {
       this.moveTimer = 0;
