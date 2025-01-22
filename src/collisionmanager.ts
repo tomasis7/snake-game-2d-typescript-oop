@@ -33,16 +33,14 @@ class CollisionManager {
   }
 
   private checkGridCollision(player: Player, cameraOffset: number): void {
-    const playerPos: GridPosition = {
+    const playerPos = {
       row: Math.floor(player.position.y / this.gridSize),
       col: Math.floor((player.position.x + cameraOffset) / this.gridSize),
     };
 
     this.obstacles.forEach((obstacle) => {
       if (playerPos.row === obstacle.row && playerPos.col === obstacle.col) {
-        console.log(
-          `Collision detected at row ${obstacle.row}, col ${obstacle.col}`
-        );
+        console.log(`Collision at row:${obstacle.row}, col:${obstacle.col}`);
         this.isGameOver = true;
       }
     });
@@ -56,6 +54,7 @@ class CollisionManager {
     textAlign(CENTER, CENTER);
     text("GAME OVER", width / 2, height / 2);
     pop();
+    noLoop();
   }
 
   draw(cameraOffset: number): void {
