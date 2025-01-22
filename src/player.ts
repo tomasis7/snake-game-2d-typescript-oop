@@ -17,10 +17,7 @@ class Player extends Entity {
   private keyBindings: KeyBindings;
 
   public isMoving: boolean;
-  private speed: number;
-  private originalSpeed: number;
   isColliding: boolean = false;
-
 
   getPlayerNumber(): number {
     return this.playerNumber;
@@ -54,18 +51,19 @@ class Player extends Entity {
     this.keyBindings = keyBindings;
 
     this.isMoving = true;
-    this.speed = 20;
-    this.originalSpeed = 20;
-   
   }
 
   private handleInput(): void {
-
-    if (!this.isMoving && !this.isColliding) {
-      this.isMoving = true; // Allow movement again when input is received
+    if (
+      !this.isMoving &&
+      (keyIsDown(this.keyBindings.UP) ||
+        keyIsDown(this.keyBindings.DOWN) ||
+        keyIsDown(this.keyBindings.LEFT) ||
+        keyIsDown(this.keyBindings.RIGHT))
+    ) {
+      this.isMoving = true;
+      this.isColliding = false;
     }
-  
-    // Lyssnar på tangenttryckningar och sätter nästa riktning
 
     if (keyIsDown(this.keyBindings.UP) && this.direction.y === 0) {
       this.nextDirection = createVector(0, -20); // Upp
@@ -78,13 +76,12 @@ class Player extends Entity {
     }
   }
 
-  // Update players state and position
-  update(): void {    
-
+  update(): void {
     if (!this.isMoving) {
+      this.handleInput();
       return; // Skip updating the position if the player is not moving
     }
-    
+
     this.moveTimer += deltaTime;
     if (this.moveTimer >= 200) {
       this.moveTimer = 0;
@@ -120,13 +117,6 @@ class Player extends Entity {
       let diameter = Math.max(this.size.x, this.size.y);
       ellipse(position.x, position.y, diameter, diameter);
     }
-
-    // for (let position of this.trail) {
-    //   ellipse(position.x + this.size.x / 2, position.y + this.size.y / 2, this.size.x, this.size.y)
-    //   // let radius = Math.min(this.size.x, this.size.y) / 2;  // Calculate radius
-    //   // rect(position.x, position.y, this.size.x, radius);    // Rounded corners making it a circle
-    // }
-
     pop();
 
     imageMode("center");

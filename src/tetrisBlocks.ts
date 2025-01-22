@@ -12,7 +12,7 @@ class TetrisBlock extends Entity {
     super(
       createVector(600, 450),
       createVector(100, 120),
-      images.tetris,
+      images.tetrisCube,
       0,
       1,
       createVector(0, 0)
@@ -34,7 +34,7 @@ class TetrisBlock extends Entity {
    */
   draw(): void {
     if (!this.image) {
-      console.error("Ghost image not loaded");
+      console.error("Tetris image not loaded");
       return;
     }
 
@@ -47,7 +47,9 @@ class TetrisBlock extends Entity {
       this.size.x,
       this.size.y
     );
+  
     pop();
+    
   }
 
   update(): void {

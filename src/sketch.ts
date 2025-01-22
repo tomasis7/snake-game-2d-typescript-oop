@@ -11,7 +11,11 @@ let images: {
   heart: p5.Image;
   ghost: p5.Image;
   Plant: p5.Image;
-  tetris: p5.Image;
+  tetrisZ: p5.Image;
+  tetrisCube: p5.Image;
+  // tetrisJ: p5.Image;
+  // tetrisT: p5.Image;
+  // tetrisHero: p5.Image;
 };
 
 let music: {
@@ -56,7 +60,12 @@ function preload() {
     heart: loadImage("/assets/images/heart.webp"),
     ghost: loadImage("assets/images/ghost.png"),
     Plant: loadImage("/assets/images/plant.gif"),
-    tetris: loadImage("/assets/images/tetris.png"),
+    tetrisZ: loadImage("/assets/images/tetrisZ.png"),
+    tetrisCube: loadImage("/assets/images/tetrisCube.webp"),
+    // tetrisJ: loadImage("/assets/images/tetris.png"),
+    // tetrisT: loadImage("/assets/images/tetris.png"),
+    // tetrisHero: loadImage("/assets/images/tetris.png"),
+    
   };
 
   customFont = loadFont("/assets/fonts/PressStart2P-Regular.ttf");

@@ -8,57 +8,45 @@ class CollisionManager {
   }
 
   checkCollision(player: Player, gameBoard: GameBoard): void {
-    const head = player.trail[0]; // Ormens huvud
-    const headCenter = createVector(
-      head.x + player.size.x / 2,
-      head.y + player.size.y / 2
-    );
+    const head = player.trail[0];
+    const headLeft = head.x;
+    const headRight = head.x + player.size.x;
+    const headTop = head.y;
+    const headBottom = head.y + player.size.y;
 
     for (const entity of gameBoard.entities) {
-      if (
-        headCenter.x >= entity.position.x &&
-        headCenter.x <= entity.position.x + entity.size.x &&
-        headCenter.y >= entity.position.y &&
-        headCenter.y <= entity.position.y + entity.size.y
-      ) {
-        if (entity instanceof TetrisBlock) {
+      if (entity instanceof TetrisBlock) {
+
+        const blockLeft = entity.position.x - entity.size.x / 2;
+        const blockRight = entity.position.x + entity.size.x / 2;
+        const blockTop = entity.position.y - entity.size.y / 2;
+        const blockBottom = entity.position.y + entity.size.y / 2;
+
+        // Kontrollera om ormens huvud överlappar blockets kant
+        const isColliding =
+          headRight > blockLeft &&
+          headLeft < blockRight &&
+          headBottom > blockTop &&
+          headTop < blockBottom;
+
+        if (isColliding) {
           if (!player.isColliding) {
             music.error.play();
             player.isColliding = true;
-            player.isMoving = false; // Stop the snake completely
+            player.isMoving = false;
             console.log(
               `Player ${player.playerNumber} collided with TetrisBlock`
             );
           }
-          return;
+          return; // Avsluta loopen om kollision har skett
         }
       }
     }
+
+    // Om ingen kollision upptäcks, återställ flaggor
     player.isColliding = false;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // class CollisionManager {
 //     constructor() {}
