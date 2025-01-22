@@ -1,33 +1,41 @@
 /// <reference path="gamescreen.ts" />
+/// <reference path="levelfactory.ts" />
 
 class GameBoard extends GameScreen {
   entities: Entity[];
   players: Player[];
   levelFactory: LevelFactory;
+  private collisionManager: CollisionManager;
+  private cameraOffset: number = 0;
+  private scrollSpeed: number = 2;
 
   constructor() {
     super(); // Anropa basklassens konstruktor
+    this.players = [
+      new Player(createVector(100, height * 0.3), 1, "red", "green", {
+        UP: UP_ARROW,
+        DOWN: DOWN_ARROW,
+        RIGHT: RIGHT_ARROW,
+        LEFT: LEFT_ARROW,
+      }),
+      new Player(createVector(100, height * 0.7), 2, "blue", "orange", {
+        UP: 87,
+        DOWN: 83,
+        RIGHT: 68,
+        LEFT: 65,
+      }),
+    ];
+
     this.levelFactory = new LevelFactory();
+    //initialize
+    this.collisionManager = new CollisionManager(this.players);
+
     this.entities = [
       new Heart(),
       new Star(),
       new Ghost(),
       new Plant(),
       new TetrisBlock(),
-    ];
-    this.players = [
-      new Player(createVector(100, height * 0.5), 1, "red", "green", {
-        UP: UP_ARROW,
-        DOWN: DOWN_ARROW,
-        RIGHT: RIGHT_ARROW,
-        LEFT: LEFT_ARROW,
-      }),
-      new Player(createVector(100, height * 0), 2, "blue", "orange", {
-        UP: 87,
-        DOWN: 83,
-        RIGHT: 68,
-        LEFT: 65,
-      }),
     ];
   }
 
@@ -40,11 +48,18 @@ class GameBoard extends GameScreen {
   }
 
   public update(): void {
-    for (const entity of this.entities) {
-      entity.update();
-    }
+    //update camera offset
+    const offset = this.levelFactory.getCameraOffset();
+    this.collisionManager.updateOffset(offset);
+
+    //check collision for each player
     for (const player of this.players) {
       player.update();
+      this.collisionManager.checkCollision(player, this);
+    }
+
+    for (const entity of this.entities) {
+      entity.update();
     }
 
     this.flyingGhost();
@@ -60,13 +75,18 @@ class GameBoard extends GameScreen {
 
   draw(): void {
     background("#577BC1"); // Ange bakgrundsfärg
-    this.levelFactory.draw();
-    console.log("Drawing GameBoard");
+    this.levelFactory.draw(this.cameraOffset);
+    this.collisionManager.draw(this.cameraOffset);
+    //console.log("Drawing GameBoard");
     for (const entity of this.entities) {
-      entity.draw();
-    }
-    for (const player of this.players) {
-      player.draw();
+      if (entity instanceof TetrisBlock) {
+        entity.draw(this.cameraOffset);
+      } else {
+        entity.draw();
+      }
+      for (const player of this.players) {
+        player.draw();
+      }
     }
   }
 }
