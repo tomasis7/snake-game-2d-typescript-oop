@@ -15,7 +15,7 @@ interface GridPosition {
 class Player extends Entity {
   private gridSize: number = 32;
   private gridPosition: GridPosition;
-  private trail: p5.Vector[];
+  protected trail: p5.Vector[];
   private playerNumber: number;
   private trailFillColor: string;
   private trailStrokeColor: string;
