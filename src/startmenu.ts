@@ -15,7 +15,7 @@ class StartMenu extends GameScreen {
       createVector(width / 2, height / 2 - 100),
       "#515151",
       createVector(200, 50),
-      "#45FF8C",
+      "#45FF8C"
     );
 
     this.selectMediumMode = new Button(
@@ -23,7 +23,7 @@ class StartMenu extends GameScreen {
       createVector(width / 2, height / 2),
       "#515151",
       createVector(200, 50),
-      "#FDD03C",
+      "#FDD03C"
     );
 
     this.selectHardMode = new Button(
@@ -31,7 +31,7 @@ class StartMenu extends GameScreen {
       createVector(width / 2, height / 2 + 100),
       "#515151",
       createVector(200, 50),
-      "#FF5F62",
+      "#FF5F62"
     );
 
     this.levelFactory = new LevelFactory();
@@ -39,7 +39,7 @@ class StartMenu extends GameScreen {
 
   update(): void {
     if (this.startGameButton.isClicked()) {
-      game.changeScreen(new GameBoard(createVector(800, 600)));
+      game.changeScreen(new CountDown());
     }
 
     if (this.selectEasyMode.isClicked()) {
