@@ -3,6 +3,7 @@
 class GameBoard extends GameScreen {
   entities: Entity[];
   players: Player[];
+  collisionManager: CollisionManager;
 
   constructor() {
     super(); // Anropa basklassens konstruktor
@@ -20,13 +21,15 @@ class GameBoard extends GameScreen {
         RIGHT: RIGHT_ARROW,
         LEFT: LEFT_ARROW,
       }),
-      new Player(createVector(100, height * 0), 2, "blue", "orange", {
+      new Player(createVector(100, height * 0.4), 2, "blue", "orange", {
         UP: 87,
         DOWN: 83,
         RIGHT: 68,
         LEFT: 65,
       }),
     ];
+
+    this.collisionManager = new CollisionManager(this.players, this.entities);
   }
 
   addEntity(entity: Entity): void {
@@ -43,6 +46,8 @@ class GameBoard extends GameScreen {
     }
     for (const player of this.players) {
       player.update();
+
+      this.collisionManager.checkCollision(player, this);
     }
 
     this.flyingGhost();

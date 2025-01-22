@@ -1,40 +1,72 @@
 class CollisionManager {
-    players: Player[];
-    entities: Entity[];
-  
-    constructor(players: Player[], entities: Entity[]) {
-      this.players = players;
-      this.entities = entities;
-    }
-  
-    checkCollision(player: Player, gameBoard: GameBoard): void {
-        const head = player.trail[0]; // Ormens huvud
-      
-        for (const entity of gameBoard.entities) {
-          if (
-            head.x < entity.position.x + entity.size.x &&
-            head.x + player.size.x > entity.position.x &&
-            head.y < entity.position.y + entity.size.y &&
-            head.y + player.size.y > entity.position.y
-          ) {
-            if (entity instanceof Heart) {
-              console.log("Heart collided with snake head!"); 
-              gameBoard.removeEntity(entity); 
-            }
+  players: Player[];
+  entities: Entity[];
+
+  constructor(players: Player[], entities: Entity[]) {
+    this.players = players;
+    this.entities = entities;
+  }
+
+  checkCollision(player: Player, gameBoard: GameBoard): void {
+    const head = player.trail[0]; // Ormens huvud
+    const headCenter = createVector(
+      head.x + player.size.x / 2,
+      head.y + player.size.y / 2
+    );
+
+    for (const entity of gameBoard.entities) {
+      if (
+        headCenter.x >= entity.position.x &&
+        headCenter.x <= entity.position.x + entity.size.x &&
+        headCenter.y >= entity.position.y &&
+        headCenter.y <= entity.position.y + entity.size.y
+      ) {
+        if (entity instanceof TetrisBlock) {
+          if (!player.isColliding) {
+            music.error.play();
+            player.isColliding = true;
+            player.isMoving = false; // Stop the snake completely
+            console.log(
+              `Player ${player.playerNumber} collided with TetrisBlock`
+            );
           }
+          return;
         }
       }
-}      
-  
+    }
+    player.isColliding = false;
+  }
+}
 
 
-// class CollisionManager { 
-//     constructor() {} 
-//     checkCollision(player: Player, gameBoard: GameBoard): boolean  
-//     // Insert collision logic here 
-//     return false; 
-//   } 
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// class CollisionManager {
+//     constructor() {}
+//     checkCollision(player: Player, gameBoard: GameBoard): boolean
+//     // Insert collision logic here
+//     return false;
+//   }
+
 //   private checkGridCollision() {
 //     // Define obstacles with positions and colors
 //     const obstacles = [
@@ -45,13 +77,13 @@ class CollisionManager {
 //       { row: 15, col: 51, color: "bomb" },
 //       { row: 15, col: 52, color: "bomb" },
 //     ];
-  
+
 //     // Draw obstacles
 //     obstacles.forEach((obstacle) => {
 //       this.drawSquareAt(obstacle.row, obstacle.col);
 //       this.drawSquareAt2(obstacle.row, obstacle.col, obstacle.color);
 //     });
-  
+
 //     // Direct position comparison
 //     obstacles.forEach((obstacle) => {
 //       if (
@@ -64,7 +96,7 @@ class CollisionManager {
 //       }
 //     });
 //   }
-  
+
 //   private showGameOver() {
 //     background("black");
 //     push();
