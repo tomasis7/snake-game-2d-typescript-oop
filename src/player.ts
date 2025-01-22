@@ -15,6 +15,9 @@ class Player extends Entity {
   private moveTimer: number;
   private nextDirection: p5.Vector;
   private keyBindings: KeyBindings;
+  getPlayerNumber(): number {
+    return this.playerNumber;
+  }
 
   constructor(
     position: p5.Vector,
