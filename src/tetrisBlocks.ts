@@ -10,8 +10,8 @@ class TetrisBlock extends Entity {
    */
   constructor() {
     super(
-      createVector(random(width), random(height)),
-      createVector(50, 70),
+      createVector(600, 450),
+      createVector(100, 120),
       images.tetris,
       0,
       1,
@@ -51,7 +51,7 @@ class TetrisBlock extends Entity {
   }
 
   update(): void {
-    this.fallCounter++;
+    // this.fallCounter++;
 
     if (this.fallCounter >= this.fallDelay) {
       this.fallCounter = 0;

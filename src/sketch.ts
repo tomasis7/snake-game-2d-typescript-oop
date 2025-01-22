@@ -23,6 +23,7 @@ let music: {
   ghost: p5.SoundFile;
   star: p5.SoundFile;
   winner: p5.SoundFile;
+  error: p5.SoundFile;
 };
 
 let customFont: p5.Font;
@@ -43,6 +44,7 @@ function preload() {
     ghost: loadSound("/assets/music/ghost.mp3"),
     star: loadSound("/assets/music/star.mp3"),
     winner: loadSound("/assets/music/winner.mp3"),
+    error: loadSound("/assets/sounds/error.mp3"),
   };
 
   images = {
@@ -70,8 +72,8 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   frameRate(60);
   textFont(customFont);
-
   game = new Game();
+  
 }
 
 /**
