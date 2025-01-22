@@ -3,9 +3,11 @@
 class GameBoard extends GameScreen {
   entities: Entity[];
   players: Player[];
+  levelFactory: LevelFactory;
 
   constructor() {
     super(); // Anropa basklassens konstruktor
+    this.levelFactory = new LevelFactory();
     this.entities = [
       new Heart(),
       new Star(),
@@ -58,6 +60,7 @@ class GameBoard extends GameScreen {
 
   draw(): void {
     background("#577BC1"); // Ange bakgrundsfärg
+    this.levelFactory.draw();
     console.log("Drawing GameBoard");
     for (const entity of this.entities) {
       entity.draw();
