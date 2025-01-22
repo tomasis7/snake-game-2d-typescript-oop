@@ -1,5 +1,6 @@
 /// <reference path="gamescreen.ts" />
 /// <reference path="levelfactory.ts" />
+/// <reference path="tetrisBlocks.ts" />
 
 class GameBoard extends GameScreen {
   entities: Entity[];

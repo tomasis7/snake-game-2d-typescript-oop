@@ -54,6 +54,6 @@ class Heart extends Entity {
     // update 'pulse' animation on heart
     const newPulseScale = 1 + 0.1 * Math.sin(millis() * this.pulseSpeed);
     this.pulseScale = newPulseScale;
-    console.log(this.pulseScale);
+    //console.log(this.pulseScale);
   }
 }

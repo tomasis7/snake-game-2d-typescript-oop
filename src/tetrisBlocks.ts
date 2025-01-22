@@ -24,7 +24,12 @@ class TetrisBlock extends Entity {
     this.fallCounter = 0;
   }
 
-  private drawSquareAt(row: number, col: number, color: string): void {
+  private drawSquareAt(
+    row: number,
+    col: number,
+    color: string,
+    cameraOffset: number
+  ): void {
     push();
     fill(color);
     stroke("white");
@@ -45,18 +50,16 @@ class TetrisBlock extends Entity {
    * If the Tetris block's image is not loaded, it will log an error and do
    * nothing.
    */
-  draw(): void {
-    if (!this.image) {
-      console.error("Ghost image not loaded");
-      return;
-    }
-
-    this.cameraOffset += 2; // same as scroll speed
+  draw(cameraOffset: number): void {
+    // if (!this.image) {
+    //   console.error("Ghost image not loaded");
+    //   return;
+    // }
 
     //You can draw here
-    this.drawSquareAt(15, 20, "red");
-    this.drawSquareAt(15, 21, "red");
-    this.drawSquareAt(15, 22, "red");
+    this.drawSquareAt(15, 20, "red", cameraOffset);
+    this.drawSquareAt(15, 21, "red", cameraOffset);
+    this.drawSquareAt(15, 22, "red", cameraOffset);
 
     //example of how to draw a square at a specific position
     const currentRow = Math.floor(this.position.y / this.gridSize);

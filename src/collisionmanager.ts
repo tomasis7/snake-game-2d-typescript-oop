@@ -13,7 +13,6 @@ class CollisionManager {
   private players: Player[];
   private isGameOver: boolean = false;
   private gridSize: number = 32;
-  private cameraOffset: number = 0;
   private obstacles: Obstacle[] = [
     { row: 15, col: 20, color: "red" },
     { row: 15, col: 21, color: "red" },
@@ -22,10 +21,6 @@ class CollisionManager {
 
   constructor(players: Player[]) {
     this.players = players;
-  }
-
-  updateOffset(offset: number): void {
-    // this.cameraOffset = offset;
   }
 
   checkCollision(player: Player, cameraOffset: number): boolean {
