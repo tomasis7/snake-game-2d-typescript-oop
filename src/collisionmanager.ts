@@ -25,16 +25,32 @@ class CollisionManager {
   }
 
   updateOffset(offset: number): void {
-    this.cameraOffset = offset;
+    // this.cameraOffset = offset;
   }
 
-  checkCollision(player: Player, gameBoard: GameBoard): boolean {
+  checkCollision(player: Player, cameraOffset: number): boolean {
     if (this.isGameOver) {
       this.showGameOver();
       return true;
     }
-    this.checkGridCollision(player);
+    this.checkGridCollision(player, cameraOffset);
     return false;
+  }
+
+  private checkGridCollision(player: Player, cameraOffset: number): void {
+    const playerPos: GridPosition = {
+      row: Math.floor(player.position.y / this.gridSize),
+      col: Math.floor((player.position.x + cameraOffset) / this.gridSize),
+    };
+
+    this.obstacles.forEach((obstacle) => {
+      if (playerPos.row === obstacle.row && playerPos.col === obstacle.col) {
+        console.log(
+          `Collision detected at row ${obstacle.row}, col ${obstacle.col}`
+        );
+        this.isGameOver = true;
+      }
+    });
   }
 
   private showGameOver(): void {
@@ -47,35 +63,22 @@ class CollisionManager {
     pop();
   }
 
-  draw(): void {
+  draw(cameraOffset: number): void {
+    if (this.isGameOver) {
+      this.showGameOver();
+      return;
+    }
+
     this.obstacles.forEach((obstacle) => {
       push();
       fill(obstacle.color);
-      stroke("green");
+      stroke("white");
       strokeWeight(2);
-      const x = obstacle.col * this.gridSize - this.cameraOffset;
+      const x = obstacle.col * this.gridSize - cameraOffset;
       const y = obstacle.row * this.gridSize;
-      //rectMode(CORNER);
+      rectMode(CORNER);
       rect(x, y, this.gridSize, this.gridSize);
       pop();
-    });
-
-    if (this.isGameOver) {
-      this.showGameOver();
-    }
-  }
-
-  private checkGridCollision(player: Player): void {
-    const playerPos = {
-      row: Math.floor(player.position.y / this.gridSize),
-      col: Math.floor((player.position.x + this.cameraOffset) / this.gridSize),
-    };
-
-    this.obstacles.forEach((obstacle) => {
-      if (playerPos.row === obstacle.row && playerPos.col === obstacle.col) {
-        console.log("Collision detected!");
-        this.isGameOver = true;
-      }
     });
   }
 }

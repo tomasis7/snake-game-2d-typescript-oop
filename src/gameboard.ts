@@ -48,14 +48,11 @@ class GameBoard extends GameScreen {
   }
 
   public update(): void {
-    //update camera offset
-    const offset = this.levelFactory.getCameraOffset();
-    this.collisionManager.updateOffset(offset);
+    this.cameraOffset += this.scrollSpeed;
 
-    //check collision for each player
     for (const player of this.players) {
       player.update();
-      this.collisionManager.checkCollision(player, this);
+      this.collisionManager.checkCollision(player, this.cameraOffset);
     }
 
     for (const entity of this.entities) {
