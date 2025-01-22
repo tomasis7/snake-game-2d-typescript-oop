@@ -16,7 +16,7 @@ let images: {
 
 let music: {
   mystery: p5.SoundFile;
-  music: p5.SoundFile;
+  background: p5.SoundFile;
   gainheart: p5.SoundFile;
   lostheart: p5.SoundFile;
   gameover: p5.SoundFile;
@@ -36,7 +36,9 @@ function preload() {
   // Load assets here
   music = {
     mystery: loadSound("/assets/music/mystery.mp3"),
-    music: loadSound("/assets/music/mario-walking-through-dream-sequence.mp3"),
+    background: loadSound(
+      "/assets/music/mario-walking-through-dream-sequence.mp3"
+    ),
     gainheart: loadSound("/assets/music/gain-heart.mp3"),
     lostheart: loadSound("/assets/music/lost-heart.mp3"),
     gameover: loadSound("/assets/music/game-over.mp3"),
