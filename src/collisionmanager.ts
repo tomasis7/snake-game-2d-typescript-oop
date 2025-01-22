@@ -33,14 +33,25 @@ class CollisionManager {
   }
 
   private checkGridCollision(player: Player, cameraOffset: number): void {
+    // Get the head position from the trail array
+    const head = player.trail[0];
     const playerPos = {
-      row: Math.floor(player.position.y / this.gridSize),
-      col: Math.floor((player.position.x + cameraOffset) / this.gridSize),
+      row: Math.floor(head.y / this.gridSize),
+      col: Math.floor((head.x + cameraOffset) / this.gridSize),
     };
 
+    console.log(
+      `Player Position - Row: ${playerPos.row}, Col: ${playerPos.col}`
+    ); // Debug log
+
     this.obstacles.forEach((obstacle) => {
+      console.log(
+        `Checking obstacle at Row: ${obstacle.row}, Col: ${obstacle.col}`
+      ); // Debug log
       if (playerPos.row === obstacle.row && playerPos.col === obstacle.col) {
-        console.log(`Collision at row:${obstacle.row}, col:${obstacle.col}`);
+        console.log(
+          `Collision detected at row:${obstacle.row}, col:${obstacle.col}`
+        );
         this.isGameOver = true;
       }
     });
