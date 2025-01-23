@@ -7,12 +7,14 @@ class LevelFactory {
   constructor() {
     // 0 = inget
     // 1 = block
-    // 2 = stjärna
+    // 2 = star
+    // 3 = heart
+    // 4 = plant
     this.level1 = [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // 16 * 32
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
       [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -23,35 +25,28 @@ class LevelFactory {
     ];
   }
 
-  public createEntitiesForLevel(level: number): Entity[] {
+  public createEntitiesForLevel(level: number[][]): Entity[] {
     const entities: Entity[] = [];
 
+    // Mappning av siffror till entiteter
+    const ENTITY_MAP: { [key: number]: (x: number, y: number) => Entity } = {
+      2: (x, y) => new Star(),
+    };
+
     // loopa över level och skapa alla entiteter
+    for (let row = 0; row < level.length; row++) {
+      for (let col = 0; col < level[row].length; col++) {
+        const entityType = level[row][col];
+        const x = col * this.gridSize; // Beräkna x-position
+        const y = row * this.gridSize; // Beräkna y-position
+
+        // Skapa entitet om den finns i mappningen
+        if (ENTITY_MAP[entityType]) {
+          entities.push(ENTITY_MAP[entityType](x, y));
+        }
+      }
+    }
 
     return entities;
-  //private scrollSpeed: number = 2;
-  //public cameraOffset: number = 0;
-
-  draw(cameraOffset: number): void {
-    // Draw level creation elements
-    push();
-    stroke(150, 150, 150);
-    strokeWeight(2);
-    translate(-cameraOffset, 0);
-
-    //draw grid
-    for (let x = 0; x < width * 2; x += this.gridSize) {
-      line(x, 0, x, height);
-    }
-    for (let y = 0; y < height; y += this.gridSize) {
-      line(0, y, width * 2, y);
-    }
-    pop();
-
-    //this.cameraOffset += this.scrollSpeed;
   }
 }
-//   getCameraOffset(): number {
-//     return this.cameraOffset;
-//   }
-// }
