@@ -39,6 +39,7 @@ class GameBoard extends GameScreen {
     ];
 
     this.collisionManager = new CollisionManager(this.players, this.entities);
+
   }
 
   addEntity(entity: Entity): void {
@@ -54,6 +55,11 @@ class GameBoard extends GameScreen {
 
     for (const player of this.players) {
       player.update();
+      this.collisionManager.checkCollision(player, this.cameraOffset);
+    }
+
+    for (const entity of this.entities) {
+      entity.update();
     }
 
     for (const entity of this.entities) {
@@ -83,6 +89,19 @@ class GameBoard extends GameScreen {
 
     for (const player of this.players) {
       player.draw();
+
+    this.levelFactory.draw(this.cameraOffset);
+    this.collisionManager.draw(this.cameraOffset);
+    //console.log("Drawing GameBoard");
+    for (const entity of this.entities) {
+      if (entity instanceof TetrisBlock) {
+        entity.draw(this.cameraOffset);
+      } else {
+        entity.draw(this.cameraOffset);
+      }
+      for (const player of this.players) {
+        player.draw();
+      }
     }
   }
 }

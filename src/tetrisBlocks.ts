@@ -17,6 +17,22 @@ class TetrisBlock extends Entity {
     );
   }
 
+  private drawSquareAt(
+    row: number,
+    col: number,
+    color: string,
+    cameraOffset: number
+  ): void {
+    push();
+    fill(color);
+    stroke("white");
+    strokeWeight(width * 0.001);
+    const x = col * this.gridSize - cameraOffset;
+    const y = row * this.gridSize;
+    rectMode(CORNER);
+    rect(x, y, this.gridSize, this.gridSize);
+    pop();
+  }
   /**
    * Draws the Tetris block entity.
    *
@@ -27,4 +43,4 @@ class TetrisBlock extends Entity {
    * If the Tetris block's image is not loaded, it will log an error and do
    * nothing.
    */
-}
+
