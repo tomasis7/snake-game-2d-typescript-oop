@@ -11,18 +11,23 @@ let images: {
   heart: p5.Image;
   ghost: p5.Image;
   Plant: p5.Image;
-  tetris: p5.Image;
+  tetrisZ: p5.Image;
+  tetrisCube: p5.Image;
+  // tetrisJ: p5.Image;
+  // tetrisT: p5.Image;
+  // tetrisHero: p5.Image;
 };
 
 let music: {
   mystery: p5.SoundFile;
-  music: p5.SoundFile;
+  background: p5.SoundFile;
   gainheart: p5.SoundFile;
   lostheart: p5.SoundFile;
   gameover: p5.SoundFile;
   ghost: p5.SoundFile;
   star: p5.SoundFile;
   winner: p5.SoundFile;
+  error: p5.SoundFile;
 };
 
 let customFont: p5.Font;
@@ -36,13 +41,16 @@ function preload() {
   // Load assets here
   music = {
     mystery: loadSound("/assets/music/mystery.mp3"),
-    music: loadSound("/assets/music/mario-walking-through-dream-sequence.mp3"),
+    background: loadSound(
+      "/assets/music/mario-walking-through-dream-sequence.mp3"
+    ),
     gainheart: loadSound("/assets/music/gain-heart.mp3"),
     lostheart: loadSound("/assets/music/lost-heart.mp3"),
     gameover: loadSound("/assets/music/game-over.mp3"),
     ghost: loadSound("/assets/music/ghost.mp3"),
     star: loadSound("/assets/music/star.mp3"),
     winner: loadSound("/assets/music/winner.mp3"),
+    error: loadSound("/assets/sounds/error.mp3"),
   };
 
   images = {
@@ -54,7 +62,12 @@ function preload() {
     heart: loadImage("/assets/images/heart.webp"),
     ghost: loadImage("assets/images/ghost.png"),
     Plant: loadImage("/assets/images/plant.gif"),
-    tetris: loadImage("/assets/images/tetris.png"),
+    tetrisZ: loadImage("/assets/images/tetrisZ.png"),
+    tetrisCube: loadImage("/assets/images/tetrisCube.webp"),
+    // tetrisJ: loadImage("/assets/images/tetris.png"),
+    // tetrisT: loadImage("/assets/images/tetris.png"),
+    // tetrisHero: loadImage("/assets/images/tetris.png"),
+    
   };
 
   customFont = loadFont("/assets/fonts/PressStart2P-Regular.ttf");
@@ -70,8 +83,8 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   frameRate(60);
   textFont(customFont);
-
   game = new Game();
+  
 }
 
 /**

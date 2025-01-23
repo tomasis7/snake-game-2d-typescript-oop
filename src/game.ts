@@ -1,6 +1,7 @@
 // Main Game Class
 class Game {
   private activeScreen: GameScreen[];
+
   constructor() {
     this.activeScreen = [
       new StartMenu(
@@ -20,6 +21,7 @@ class Game {
   
   newGame(): void {
     // Logic to start a new game
+    this.changeScreen(new GameBoard()); 
   }
  
  
