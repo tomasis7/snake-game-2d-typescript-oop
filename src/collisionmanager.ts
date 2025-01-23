@@ -10,81 +10,55 @@ interface GridPosition {
 }
 
 class CollisionManager {
-  private players: Player[];
-  private isGameOver: boolean = false;
-  private gridSize: number = 32;
-  private obstacles: Obstacle[] = [
-    { row: 15, col: 20, color: "red" },
-    { row: 15, col: 21, color: "red" },
-    { row: 15, col: 22, color: "red" },
-  ];
+  players: Player[];
+  entities: Entity[];
 
-  constructor(players: Player[]) {
+  constructor(players: Player[], entities: Entity[]) {
     this.players = players;
+    this.entities = entities;
   }
 
-  checkCollision(player: Player, cameraOffset: number): boolean {
-    if (this.isGameOver) {
-      this.showGameOver();
-      return true;
-    }
-    this.checkGridCollision(player, cameraOffset);
-    return false;
-  }
+  checkCollision(): void {
+    for (const player of this.players) {
+      const head = player.trail[0];
+      const headLeft = head.x;
+      const headRight = head.x + player.size.x;
+      const headTop = head.y;
+      const headBottom = head.y + player.size.y;
 
-  private checkGridCollision(player: Player, cameraOffset: number): void {
-    // Get the head position from the trail array
-    const head = player.trail[0];
-    const playerPos = {
-      row: Math.floor(head.y / this.gridSize),
-      col: Math.floor((head.x + cameraOffset) / this.gridSize),
-    };
+      for (const entity of this.entities) {
+        const entityLeft = entity.position.x - entity.size.x / 2;
+        const entityRight = entity.position.x + entity.size.x / 2;
+        const entityTop = entity.position.y - entity.size.y / 2;
+        const entityBottom = entity.position.y + entity.size.y / 2;
 
-    console.log(
-      `Player Position - Row: ${playerPos.row}, Col: ${playerPos.col}`
-    ); // Debug log
+        // Kontrollera om ormens huvud överlappar blockets kant
+        const isColliding =
+          headRight > entityLeft &&
+          headLeft < entityRight &&
+          headBottom > entityTop &&
+          headTop < entityBottom;
 
-    this.obstacles.forEach((obstacle) => {
-      console.log(
-        `Checking obstacle at Row: ${obstacle.row}, Col: ${obstacle.col}`
-      ); // Debug log
-      if (playerPos.row === obstacle.row && playerPos.col === obstacle.col) {
-        console.log(
-          `Collision detected at row:${obstacle.row}, col:${obstacle.col}`
-        );
-        this.isGameOver = true;
+        if (isColliding) {
+          if (entity instanceof TetrisBlock) {
+            if (!player.isColliding) {
+              music.error.play();
+              player.isColliding = true;
+              player.isMoving = false;
+              console.log(
+                `Player ${player.playerNumber} collided with TetrisBlock`
+              );
+            }
+          }
+          if (entity instanceof Star) {
+          }
+          return; // Avsluta loopen om kollision har skett
+        }
       }
-    });
-  }
-
-  private showGameOver(): void {
-    background("black");
-    push();
-    fill("white");
-    textSize(32);
-    textAlign(CENTER, CENTER);
-    text("GAME OVER", width / 2, height / 2);
-    pop();
-    noLoop();
-  }
-
-  draw(cameraOffset: number): void {
-    if (this.isGameOver) {
-      this.showGameOver();
-      return;
+      player.isColliding = false;
     }
 
-    this.obstacles.forEach((obstacle) => {
-      push();
-      fill(obstacle.color);
-      stroke("white");
-      strokeWeight(2);
-      const x = obstacle.col * this.gridSize - cameraOffset;
-      const y = obstacle.row * this.gridSize;
-      rectMode(CORNER);
-      rect(x, y, this.gridSize, this.gridSize);
-      pop();
-    });
+    // Om ingen kollision upptäcks, återställ flaggor
   }
 }
 

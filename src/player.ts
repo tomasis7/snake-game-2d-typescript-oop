@@ -13,8 +13,9 @@ interface GridPosition {
 }
 
 class Player extends Entity {
-  private gridSize: number = 32;
-  private gridPosition: GridPosition;
+  
+  // private gridSize: number = 32;
+  // private gridPosition: GridPosition;
   protected trail: p5.Vector[];
   private playerNumber: number;
   private trailFillColor: string;
@@ -22,6 +23,10 @@ class Player extends Entity {
   private moveTimer: number;
   private nextDirection: p5.Vector;
   private keyBindings: KeyBindings;
+
+  public isMoving: boolean;
+  isColliding: boolean = false;
+
   getPlayerNumber(): number {
     return this.playerNumber;
   }
@@ -78,9 +83,22 @@ class Player extends Entity {
     this.direction = createVector(20, 0);
     this.nextDirection = this.direction.copy();
     this.keyBindings = keyBindings;
+
+    this.isMoving = true;
   }
 
   private handleInput(): void {
+    if (
+      !this.isMoving &&
+      (keyIsDown(this.keyBindings.UP) ||
+        keyIsDown(this.keyBindings.DOWN) ||
+        keyIsDown(this.keyBindings.LEFT) ||
+        keyIsDown(this.keyBindings.RIGHT))
+    ) {
+      this.isMoving = true;
+      this.isColliding = false;
+    }
+
     // Listen for key presses and set next direction
     if (keyIsDown(this.keyBindings.UP) && this.direction.y === 0) {
       this.nextDirection = createVector(0, -this.gridSize); // Up
@@ -93,8 +111,12 @@ class Player extends Entity {
     }
   }
 
-  // Update players state and position
   update(): void {
+    if (!this.isMoving) {
+      this.handleInput();
+      return; // Skip updating the position if the player is not moving
+    }
+
     this.moveTimer += deltaTime;
     if (this.moveTimer >= 200) {
       this.moveTimer = 0;
@@ -135,13 +157,6 @@ class Player extends Entity {
       //ellipse(position.x, position.y, diameter, diameter);
       //ellipse(position.x, position.y, this.gridSize, this.gridSize);
     }
-
-    // for (let position of this.trail) {
-    //   ellipse(position.x + this.size.x / 2, position.y + this.size.y / 2, this.size.x, this.size.y)
-    //   // let radius = Math.min(this.size.x, this.size.y) / 2;  // Calculate radius
-    //   // rect(position.x, position.y, this.size.x, radius);    // Rounded corners making it a circle
-    // }
-
     pop();
 
     imageMode("center");

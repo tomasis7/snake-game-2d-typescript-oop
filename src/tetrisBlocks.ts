@@ -1,7 +1,4 @@
 class TetrisBlock extends Entity {
-  private fallDelay: number;
-  private fallCounter: number;
-  private gridSize: number = 32;
   /**
    * Creates a new instance of the TetrisBlock class.
    *
@@ -11,16 +8,13 @@ class TetrisBlock extends Entity {
    */
   constructor() {
     super(
-      createVector(random(width), random(height)),
-      createVector(50, 70),
-      images.tetris,
+      createVector(600, 450),
+      createVector(100, 120),
+      images.tetrisCube,
       0,
       1,
       createVector(0, 0)
     );
-
-    this.fallDelay = 30;
-    this.fallCounter = 0;
   }
 
   private drawSquareAt(
@@ -49,44 +43,4 @@ class TetrisBlock extends Entity {
    * If the Tetris block's image is not loaded, it will log an error and do
    * nothing.
    */
-  draw(cameraOffset: number): void {
-    // if (!this.image) {
-    //   console.error("Ghost image not loaded");
-    //   return;
-    // }
-    const currentRow = Math.floor(this.position.y / this.gridSize);
-    const currentCol = Math.floor(this.position.x / this.gridSize);
 
-    //You can draw here
-    this.drawSquareAt(15, 20, "red", cameraOffset);
-    this.drawSquareAt(15, 21, "red", cameraOffset);
-    this.drawSquareAt(15, 22, "red", cameraOffset);
-
-    //example of how to draw a square at a specific position
-
-    push();
-    translate(this.position.x - cameraOffset, this.position.y);
-    // image(
-    //   this.image,
-    //   -this.size.x / 2,
-    //   -this.size.y / 2,
-    //   this.size.x,
-    //   this.size.y
-    // );
-    pop();
-  }
-
-  update(): void {
-    this.fallCounter++;
-
-    if (this.fallCounter >= this.fallDelay) {
-      this.fallCounter = 0;
-
-      this.position.y += this.size.y;
-
-      if (this.position.y + this.size.y >= height) {
-        this.position.y = this.size.y;
-      }
-    }
-  }
-}

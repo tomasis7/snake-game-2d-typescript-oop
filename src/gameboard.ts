@@ -30,8 +30,6 @@ class GameBoard extends GameScreen {
 
     this.levelFactory = new LevelFactory();
     //initialize
-    this.collisionManager = new CollisionManager(this.players);
-
     this.entities = [
       new Heart(),
       new Star(),
@@ -39,6 +37,9 @@ class GameBoard extends GameScreen {
       new Plant(),
       new TetrisBlock(),
     ];
+
+    this.collisionManager = new CollisionManager(this.players, this.entities);
+
   }
 
   addEntity(entity: Entity): void {
@@ -61,7 +62,12 @@ class GameBoard extends GameScreen {
       entity.update();
     }
 
+    for (const entity of this.entities) {
+      entity.update();
+    }
+
     this.flyingGhost();
+    this.collisionManager.checkCollision();
   }
 
   private flyingGhost(): void {
@@ -74,6 +80,16 @@ class GameBoard extends GameScreen {
 
   draw(): void {
     background("#577BC1"); // Ange bakgrundsfärg
+
+    // translate(this.cameraOffset)
+    //console.log("Drawing GameBoard");
+    for (const entity of this.entities) {
+      entity.draw();
+    }
+
+    for (const player of this.players) {
+      player.draw();
+
     this.levelFactory.draw(this.cameraOffset);
     this.collisionManager.draw(this.cameraOffset);
     //console.log("Drawing GameBoard");
