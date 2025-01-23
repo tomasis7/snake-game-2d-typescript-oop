@@ -9,7 +9,7 @@ interface KeyBindings {
 
 class Player extends Entity {
   public trail: p5.Vector[];
-  private playerNumber: number;
+  public playerNumber: number;
   private trailFillColor: string;
   private trailStrokeColor: string;
   private moveTimer: number;
