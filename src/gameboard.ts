@@ -32,11 +32,15 @@ class GameBoard extends GameScreen {
     //initialize
     this.entities = [
       new Heart(),
-      new Star(),
+      // new Star(), // For test to get levelfactory in place.
       new Ghost(),
       new Plant(),
       new TetrisBlock(),
     ];
+
+    this.entities = this.levelFactory.createEntitiesForLevel(
+      this.levelFactory.level1
+    );
 
     this.collisionManager = new CollisionManager(this.players, this.entities);
   }
