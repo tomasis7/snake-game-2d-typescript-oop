@@ -57,13 +57,10 @@ class GameBoard extends GameScreen {
       // this.collisionManager.checkCollision(player, this.cameraOffset);
     }
 
-    for (const entity of this.entities) {
-      entity.update();
-    }
-
-    for (const entity of this.entities) {
-      entity.update();
-    }
+    //låt det stå kvar
+    // for (const entity of this.entities) {
+    //   entity.update();
+    // }
 
     this.flyingGhost();
     this.collisionManager.checkCollision();
