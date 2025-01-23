@@ -7,44 +7,47 @@ class CollisionManager {
     this.entities = entities;
   }
 
-  checkCollision(player: Player, gameBoard: GameBoard): void {
-    const head = player.trail[0];
-    const headLeft = head.x;
-    const headRight = head.x + player.size.x;
-    const headTop = head.y;
-    const headBottom = head.y + player.size.y;
+  checkCollision(): void {
+    for (const player of this.players) {
+      const head = player.trail[0];
+      const headLeft = head.x;
+      const headRight = head.x + player.size.x;
+      const headTop = head.y;
+      const headBottom = head.y + player.size.y;
 
-    for (const entity of gameBoard.entities) {
-      if (entity instanceof TetrisBlock) {
-
-        const blockLeft = entity.position.x - entity.size.x / 2;
-        const blockRight = entity.position.x + entity.size.x / 2;
-        const blockTop = entity.position.y - entity.size.y / 2;
-        const blockBottom = entity.position.y + entity.size.y / 2;
+      for (const entity of this.entities) {
+        const entityLeft = entity.position.x - entity.size.x / 2;
+        const entityRight = entity.position.x + entity.size.x / 2;
+        const entityTop = entity.position.y - entity.size.y / 2;
+        const entityBottom = entity.position.y + entity.size.y / 2;
 
         // Kontrollera om ormens huvud överlappar blockets kant
         const isColliding =
-          headRight > blockLeft &&
-          headLeft < blockRight &&
-          headBottom > blockTop &&
-          headTop < blockBottom;
+          headRight > entityLeft &&
+          headLeft < entityRight &&
+          headBottom > entityTop &&
+          headTop < entityBottom;
 
         if (isColliding) {
-          if (!player.isColliding) {
-            music.error.play();
-            player.isColliding = true;
-            player.isMoving = false;
-            console.log(
-              `Player ${player.playerNumber} collided with TetrisBlock`
-            );
+          if (entity instanceof TetrisBlock) {
+            if (!player.isColliding) {
+              music.error.play();
+              player.isColliding = true;
+              player.isMoving = false;
+              console.log(
+                `Player ${player.playerNumber} collided with TetrisBlock`
+              );
+            }
+          }
+          if (entity instanceof Star) {
           }
           return; // Avsluta loopen om kollision har skett
         }
       }
+      player.isColliding = false;
     }
 
     // Om ingen kollision upptäcks, återställ flaggor
-    player.isColliding = false;
   }
 }
 

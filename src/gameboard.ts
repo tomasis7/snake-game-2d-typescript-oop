@@ -1,32 +1,41 @@
 /// <reference path="gamescreen.ts" />
+/// <reference path="levelfactory.ts" />
+/// <reference path="tetrisBlocks.ts" />
+/// <reference path="player.ts" />
 
 class GameBoard extends GameScreen {
   entities: Entity[];
   players: Player[];
-  collisionManager: CollisionManager;
+  levelFactory: LevelFactory;
+  private collisionManager: CollisionManager;
+  private cameraOffset: number = 0;
+  private scrollSpeed: number = 2;
 
   constructor() {
     super(); // Anropa basklassens konstruktor
+    this.players = [
+      new Player(createVector(100, height * 0.3), 1, "red", "green", {
+        UP: UP_ARROW,
+        DOWN: DOWN_ARROW,
+        RIGHT: RIGHT_ARROW,
+        LEFT: LEFT_ARROW,
+      }),
+      new Player(createVector(100, height * 0.7), 2, "blue", "orange", {
+        UP: 87,
+        DOWN: 83,
+        RIGHT: 68,
+        LEFT: 65,
+      }),
+    ];
+
+    this.levelFactory = new LevelFactory();
+    //initialize
     this.entities = [
       new Heart(),
       new Star(),
       new Ghost(),
       new Plant(),
       new TetrisBlock(),
-    ];
-    this.players = [
-      new Player(createVector(100, height * 0.5), 1, "red", "green", {
-        UP: UP_ARROW,
-        DOWN: DOWN_ARROW,
-        RIGHT: RIGHT_ARROW,
-        LEFT: LEFT_ARROW,
-      }),
-      new Player(createVector(100, height * 0.4), 2, "blue", "orange", {
-        UP: 87,
-        DOWN: 83,
-        RIGHT: 68,
-        LEFT: 65,
-      }),
     ];
 
     this.collisionManager = new CollisionManager(this.players, this.entities);
@@ -41,16 +50,18 @@ class GameBoard extends GameScreen {
   }
 
   public update(): void {
+    this.cameraOffset += this.scrollSpeed;
+
+    for (const player of this.players) {
+      player.update();
+    }
+
     for (const entity of this.entities) {
       entity.update();
     }
-    for (const player of this.players) {
-      player.update();
-
-      this.collisionManager.checkCollision(player, this);
-    }
 
     this.flyingGhost();
+    this.collisionManager.checkCollision();
   }
 
   private flyingGhost(): void {
@@ -63,10 +74,13 @@ class GameBoard extends GameScreen {
 
   draw(): void {
     background("#577BC1"); // Ange bakgrundsfärg
-    console.log("Drawing GameBoard");
+
+    // translate(this.cameraOffset)
+    //console.log("Drawing GameBoard");
     for (const entity of this.entities) {
       entity.draw();
     }
+
     for (const player of this.players) {
       player.draw();
     }

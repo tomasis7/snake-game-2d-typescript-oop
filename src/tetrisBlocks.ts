@@ -1,6 +1,4 @@
 class TetrisBlock extends Entity {
-  private fallDelay: number;
-  private fallCounter: number;
   /**
    * Creates a new instance of the TetrisBlock class.
    *
@@ -17,9 +15,6 @@ class TetrisBlock extends Entity {
       1,
       createVector(0, 0)
     );
-
-    this.fallDelay = 30;
-    this.fallCounter = 0;
   }
 
   /**
@@ -32,37 +27,4 @@ class TetrisBlock extends Entity {
    * If the Tetris block's image is not loaded, it will log an error and do
    * nothing.
    */
-  draw(): void {
-    if (!this.image) {
-      console.error("Tetris image not loaded");
-      return;
-    }
-
-    push();
-    translate(this.position.x, this.position.y);
-    image(
-      this.image,
-      -this.size.x / 2,
-      -this.size.y / 2,
-      this.size.x,
-      this.size.y
-    );
-  
-    pop();
-    
-  }
-
-  update(): void {
-    // this.fallCounter++;
-
-    if (this.fallCounter >= this.fallDelay) {
-      this.fallCounter = 0;
-
-      this.position.y += this.size.y;
-
-      if (this.position.y + this.size.y >= height) {
-        this.position.y = this.size.y;
-      }
-    }
-  }
 }
