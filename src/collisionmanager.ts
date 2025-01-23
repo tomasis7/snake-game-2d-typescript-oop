@@ -39,19 +39,17 @@ class CollisionManager {
           headBottom > entityTop &&
           headTop < entityBottom;
 
-        if (isColliding && !player.isColliding) {
-          if (entity instanceof TetrisBlock || entity instanceof Star) {
-            music.error.play();
-            player.isColliding = true;
-            player.isMoving = false;
-            console.log(
-              `Player ${player.playerNumber} collided with ${entity.constructor.name}`
-            );
+          if (isColliding) {
+            if (!player.isColliding) {
+              music.error.play();
+              player.isColliding = true;
+              player.isMoving = false; // Stop the snake completely
+              console.log(
+                `Player ${player.playerNumber} collided with TetrisBlock`
+              );
+            }
           }
-        } else {
-          player.isColliding = false;
         }
-
         //     if (isColliding) {
         //       if (entity instanceof TetrisBlock) {
         //         if (!player.isColliding) {
@@ -80,8 +78,7 @@ class CollisionManager {
         // }
 
         // Om ingen kollision upptäcks, återställ flaggor
-      }
-    }
+    
 
     // class CollisionManager {
     //     constructor() {}
@@ -128,5 +125,6 @@ class CollisionManager {
     //     textAlign(CENTER, CENTER);
     //     text("GAME OVER", width / 2, height / 2);
     //     pop();
+  }
   }
 }
