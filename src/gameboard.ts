@@ -7,20 +7,20 @@ class GameBoard extends GameScreen {
   entities: Entity[];
   players: Player[];
   levelFactory: LevelFactory;
-  private collisionManager: CollisionManager;
-  private cameraOffset: number = 0;
-  private scrollSpeed: number = 2;
+  public collisionManager: CollisionManager;
+  // private cameraOffset: number = 0;
+  // private scrollSpeed: number = 2;
 
   constructor() {
     super(); // Anropa basklassens konstruktor
     this.players = [
-      new Player(createVector(100, height * 0.3), 1, "red", "green", {
+      new Player(createVector(100, height * 0.4), 1, "red", "green", {
         UP: UP_ARROW,
         DOWN: DOWN_ARROW,
         RIGHT: RIGHT_ARROW,
         LEFT: LEFT_ARROW,
       }),
-      new Player(createVector(100, height * 0.7), 2, "blue", "orange", {
+      new Player(createVector(100, height * 0.5), 2, "blue", "orange", {
         UP: 87,
         DOWN: 83,
         RIGHT: 68,
@@ -39,7 +39,6 @@ class GameBoard extends GameScreen {
     ];
 
     this.collisionManager = new CollisionManager(this.players, this.entities);
-
   }
 
   addEntity(entity: Entity): void {
@@ -51,17 +50,14 @@ class GameBoard extends GameScreen {
   }
 
   public update(): void {
-    this.cameraOffset += this.scrollSpeed;
+    // this.cameraOffset += this.scrollSpeed;
 
     for (const player of this.players) {
       player.update();
-      this.collisionManager.checkCollision(player, this.cameraOffset);
+      // this.collisionManager.checkCollision(player, this.cameraOffset);
     }
 
-    for (const entity of this.entities) {
-      entity.update();
-    }
-
+    //låt det stå kvar
     for (const entity of this.entities) {
       entity.update();
     }
@@ -90,18 +86,19 @@ class GameBoard extends GameScreen {
     for (const player of this.players) {
       player.draw();
 
-    this.levelFactory.draw(this.cameraOffset);
-    this.collisionManager.draw(this.cameraOffset);
-    //console.log("Drawing GameBoard");
-    for (const entity of this.entities) {
-      if (entity instanceof TetrisBlock) {
-        entity.draw(this.cameraOffset);
-      } else {
-        entity.draw(this.cameraOffset);
-      }
-      for (const player of this.players) {
-        player.draw();
-      }
+      // this.levelFactory.draw(this.cameraOffset);
+      // this.collisionManager.draw(this.cameraOffset);
+      //console.log("Drawing GameBoard");
+      // for (const entity of this.entities) {
+      //   if (entity instanceof TetrisBlock) {
+      //     entity.draw(this.cameraOffset);
+      //   } else {
+      //     entity.draw(this.cameraOffset);
+      //   }
+      //   for (const player of this.players) {
+      //     player.draw();
+      //   }
+      // }
     }
   }
 }

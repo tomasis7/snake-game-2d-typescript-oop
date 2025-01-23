@@ -45,9 +45,9 @@ class CollisionManager {
               music.error.play();
               player.isColliding = true;
               player.isMoving = false;
-              console.log(
-                `Player ${player.playerNumber} collided with TetrisBlock`
-              );
+              // console.log(
+              //   `Player ${player.playerNumber} collided with TetrisBlock`
+              // );
             }
           }
           if (entity instanceof Star) {
