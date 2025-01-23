@@ -25,7 +25,7 @@ abstract class Entity implements IMovable {
     this.image = image;
   }
 
-  draw(cameraOffset: number): void {
+  draw(): void {
     push();
 
     image(

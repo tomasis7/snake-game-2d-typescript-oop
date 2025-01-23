@@ -1,4 +1,6 @@
 class TetrisBlock extends Entity {
+  // private fallDelay: number;
+  // private fallCounter: number;
   /**
    * Creates a new instance of the TetrisBlock class.
    *
@@ -17,30 +19,16 @@ class TetrisBlock extends Entity {
     );
   }
 
-  private drawSquareAt(
-    row: number,
-    col: number,
-    color: string,
-    cameraOffset: number
-  ): void {
-    push();
-    fill(color);
-    stroke("white");
-    strokeWeight(width * 0.001);
-    const x = col * this.gridSize - cameraOffset;
-    const y = row * this.gridSize;
-    rectMode(CORNER);
-    rect(x, y, this.gridSize, this.gridSize);
-    pop();
-  }
-  /**
-   * Draws the Tetris block entity.
-   *
-   * This method is called by the game's draw loop. It will translate the
-   * canvas to the Tetris block's position, and then draw the Tetris block's
-   * image at the Tetris block's size.
-   *
-   * If the Tetris block's image is not loaded, it will log an error and do
-   * nothing.
-   */
+  update(): void {
+    // this.fallCounter++;
 
+    // if (this.fallCounter >= this.fallDelay) {
+    //   this.fallCounter = 0;
+
+    this.position.y += this.size.y;
+
+    if (this.position.y + this.size.y >= height) {
+      this.position.y = this.size.y;
+    }
+  }
+}
