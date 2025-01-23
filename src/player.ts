@@ -9,7 +9,7 @@ interface KeyBindings {
 
 class Player extends Entity {
   public trail: p5.Vector[];
-  private playerNumber: number;
+  public playerNumber: number;
   private trailFillColor: string;
   private trailStrokeColor: string;
   private moveTimer: number;
@@ -69,6 +69,9 @@ class Player extends Entity {
 
   // Update players state and position
   update(): void {
+    if (!this.isMoving) {
+      return;
+    }
     this.moveTimer += deltaTime;
     if (this.moveTimer >= 200) {
       this.moveTimer = 0;
