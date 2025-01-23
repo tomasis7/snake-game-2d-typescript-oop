@@ -69,6 +69,9 @@ class Player extends Entity {
 
   // Update players state and position
   update(): void {
+    if (!this.isMoving) {
+      return;
+    }
     this.moveTimer += deltaTime;
     if (this.moveTimer >= 200) {
       this.moveTimer = 0;

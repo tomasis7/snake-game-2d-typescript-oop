@@ -39,73 +39,94 @@ class CollisionManager {
           headBottom > entityTop &&
           headTop < entityBottom;
 
-        if (isColliding) {
-          if (entity instanceof TetrisBlock) {
-            if (!player.isColliding) {
-              music.error.play();
-              player.isColliding = true;
-              player.isMoving = false;
-              console.log(
-                `Player ${player.playerNumber} collided with TetrisBlock`
-              );
-            }
+        if (isColliding && !player.isColliding) {
+          if (entity instanceof TetrisBlock || entity instanceof Star) {
+            music.error.play();
+            player.isColliding = true;
+            player.isMoving = false;
+            console.log(
+              `Player ${player.playerNumber} collided with ${entity.constructor.name}`
+            );
           }
-          if (entity instanceof Star) {
-          }
-          return; // Avsluta loopen om kollision har skett
+        } else {
+          player.isColliding = false;
         }
+
+        //     if (isColliding) {
+        //       if (entity instanceof TetrisBlock) {
+        //         if (!player.isColliding) {
+        //           console.log("About to play sound - TetrisBlock collision");
+        //           music.error.play();
+        //           console.log("Sound played");
+        //           player.isColliding = true;
+        //           player.isMoving = false;
+        //           console.log(
+        //             `Player ${player.playerNumber} collided with TetrisBlock`
+        //           );
+        //         }
+        //       }
+        //       if (entity instanceof Star) {
+        //         if (!player.isColliding) {
+        //           music.error.play();
+        //           player.isColliding = true;
+        //           player.isMoving = false;
+        //           console.log(`Player ${player.playerNumber} collided with Star`);
+        //         }
+        //       }
+        //     }
+        //     return; // Avsluta loopen om kollision har skett
+        //   }
+        //   player.isColliding = false;
+        // }
+
+        // Om ingen kollision upptäcks, återställ flaggor
       }
-      player.isColliding = false;
     }
 
-    // Om ingen kollision upptäcks, återställ flaggor
+    // class CollisionManager {
+    //     constructor() {}
+    //     checkCollision(player: Player, gameBoard: GameBoard): boolean
+    //     // Insert collision logic here
+    //     return false;
+    //   }
+
+    //   private checkGridCollision() {
+    //     // Define obstacles with positions and colors
+    //     const obstacles = [
+    //       { row: 25, col: 50, color: "red" },
+    //       { row: 25, col: 51, color: "yellow" },
+    //       { row: 25, col: 52, color: "green" },
+    //       { row: 15, col: 50, color: "bomb" },
+    //       { row: 15, col: 51, color: "bomb" },
+    //       { row: 15, col: 52, color: "bomb" },
+    //     ];
+
+    //     // Draw obstacles
+    //     obstacles.forEach((obstacle) => {
+    //       this.drawSquareAt(obstacle.row, obstacle.col);
+    //       this.drawSquareAt2(obstacle.row, obstacle.col, obstacle.color);
+    //     });
+
+    //     // Direct position comparison
+    //     obstacles.forEach((obstacle) => {
+    //       if (
+    //         (this.player1.row === obstacle.row &&
+    //           this.player1.col === obstacle.col) ||
+    //         (this.player2.row === obstacle.row && this.player2.col === obstacle.col)
+    //       ) {
+    //         alert(`Square hit a ${obstacle.color} obstacle!`);
+    //         this.isGameOver = true;
+    //       }
+    //     });
+    //   }
+
+    //   private showGameOver() {
+    //     background("black");
+    //     push();
+    //     fill("white");
+    //     textSize(32);
+    //     textAlign(CENTER, CENTER);
+    //     text("GAME OVER", width / 2, height / 2);
+    //     pop();
   }
-}
-
-
-  // class CollisionManager {
-  //     constructor() {}
-  //     checkCollision(player: Player, gameBoard: GameBoard): boolean
-  //     // Insert collision logic here
-  //     return false;
-  //   }
-
-  //   private checkGridCollision() {
-  //     // Define obstacles with positions and colors
-  //     const obstacles = [
-  //       { row: 25, col: 50, color: "red" },
-  //       { row: 25, col: 51, color: "yellow" },
-  //       { row: 25, col: 52, color: "green" },
-  //       { row: 15, col: 50, color: "bomb" },
-  //       { row: 15, col: 51, color: "bomb" },
-  //       { row: 15, col: 52, color: "bomb" },
-  //     ];
-
-  //     // Draw obstacles
-  //     obstacles.forEach((obstacle) => {
-  //       this.drawSquareAt(obstacle.row, obstacle.col);
-  //       this.drawSquareAt2(obstacle.row, obstacle.col, obstacle.color);
-  //     });
-
-  //     // Direct position comparison
-  //     obstacles.forEach((obstacle) => {
-  //       if (
-  //         (this.player1.row === obstacle.row &&
-  //           this.player1.col === obstacle.col) ||
-  //         (this.player2.row === obstacle.row && this.player2.col === obstacle.col)
-  //       ) {
-  //         alert(`Square hit a ${obstacle.color} obstacle!`);
-  //         this.isGameOver = true;
-  //       }
-  //     });
-  //   }
-
-  //   private showGameOver() {
-  //     background("black");
-  //     push();
-  //     fill("white");
-  //     textSize(32);
-  //     textAlign(CENTER, CENTER);
-  //     text("GAME OVER", width / 2, height / 2);
-  //     pop();
 }
