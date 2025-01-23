@@ -19,16 +19,30 @@ class TetrisBlock extends Entity {
     );
   }
 
+  // draw(): void {
+  //   push(); // Save the current drawing state
+  //   if (!this.image) {
+  //     console.error("TetrisBlock image not loaded");
+  //     return;
+  //   }
+
+  //   translate(this.position.x, this.position.y);
+  //   image(
+  //     this.image,
+  //     -this.size.x / 2,
+  //     -this.size.y / 2,
+  //     this.size.x,
+  //     this.size.y
+  //   );
+  //   pop(); // Restore the previous drawing state
+  // }
+
   update(): void {
     // this.fallCounter++;
 
     // if (this.fallCounter >= this.fallDelay) {
     //   this.fallCounter = 0;
 
-    this.position.y += this.size.y;
-
-    if (this.position.y + this.size.y >= height) {
-      this.position.y = this.size.y;
-    }
+    return;
   }
 }
