@@ -8,7 +8,7 @@ class Ghost extends Entity {
   constructor(x: number, y: number) {
     super(
       createVector(x, y),
-      createVector(80, 80),
+      createVector(50, 50),
       images.ghost,
       0.5,
       0.5,

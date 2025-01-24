@@ -11,7 +11,7 @@ class Heart extends Entity {
   constructor(x: number, y: number) {
     super(
       createVector(x, y),
-      createVector(50, 50),
+      createVector(32, 32),
       images.heart,
       0,
       0,

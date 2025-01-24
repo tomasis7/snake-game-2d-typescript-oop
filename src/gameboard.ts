@@ -35,7 +35,7 @@ class GameBoard extends GameScreen {
       // new Star(), // For test to get levelfactory in place.
       // new Ghost(),
       // new Plant(), // For test to get levelfactory in place.
-      new TetrisBlock(),
+      // new TetrisBlock(),
     ];
 
     this.entities = this.levelFactory.createEntitiesForLevel(
@@ -79,7 +79,7 @@ class GameBoard extends GameScreen {
   }
 
   draw(): void {
-    background("#577BC1"); // Ange bakgrundsfärg
+    background("#000000"); // Ange bakgrundsfärg
 
     // translate(this.cameraOffset)
     //console.log("Drawing GameBoard");
