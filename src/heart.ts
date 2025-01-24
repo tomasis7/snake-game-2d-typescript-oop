@@ -8,9 +8,9 @@ class Heart extends Entity {
    * The heart is given a specific initial position, size, image, and initial
    * velocity. The 'pulse' animation is initialized as well.
    */
-  constructor() {
+  constructor(x: number, y: number) {
     super(
-      createVector(750, 350),
+      createVector(x, y),
       createVector(50, 50),
       images.heart,
       0,
