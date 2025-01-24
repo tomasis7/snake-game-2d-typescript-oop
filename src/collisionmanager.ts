@@ -27,6 +27,7 @@ class CollisionManager {
 
       private handleStarCollision(player: Player): void {
         music.starCollision.play();
+        player.isColliding = true;
         // player.score += 100; // Lägg till poäng
         console.log(`Player ${player.playerNumber} collected a Star!`);
       }
