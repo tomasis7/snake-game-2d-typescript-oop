@@ -31,10 +31,10 @@ class GameBoard extends GameScreen {
     this.levelFactory = new LevelFactory();
     //initialize
     this.entities = [
-      new Heart(),
+      // new Heart(),
       // new Star(), // For test to get levelfactory in place.
-      new Ghost(),
-      new Plant(),
+      // new Ghost(),
+      // new Plant(), // For test to get levelfactory in place.
       new TetrisBlock(),
     ];
 

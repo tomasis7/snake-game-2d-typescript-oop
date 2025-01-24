@@ -5,9 +5,9 @@ class Ghost extends Entity {
    * The Ghost is given a random initial position, a size of 100x100, and the
    * image of a ghost. The initial velocity is set to 0.
    */
-  constructor() {
+  constructor(x: number, y: number) {
     super(
-      createVector(random(width), random(height)),
+      createVector(x, y),
       createVector(80, 80),
       images.ghost,
       0.5,
