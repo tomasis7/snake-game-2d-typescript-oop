@@ -16,6 +16,12 @@ class Player extends Entity {
   private nextDirection: p5.Vector;
   private keyBindings: KeyBindings;
 
+  public lives: number;
+  public maxLives: number;
+  public scoreMultiplier: number;
+  public canPassThroughObstacles: boolean;
+
+
   public isMoving: boolean;
   public isColliding: boolean = false;
 
@@ -51,6 +57,11 @@ class Player extends Entity {
     this.keyBindings = keyBindings;
 
     this.isMoving = true;
+
+    this.lives = 3; // Starta med 3 liv
+    this.maxLives = 10; // Max antal liv
+    this.scoreMultiplier = 1; // Standard multiplikator
+    this.canPassThroughObstacles = false; // Inaktiverad hinderpassering som standard
   }
 
   private handleInput(): void {
@@ -108,15 +119,35 @@ class Player extends Entity {
       ellipse(position.x, position.y, diameter, diameter);
     }
 
-    // for (let position of this.trail) {
-    //   ellipse(position.x + this.size.x / 2, position.y + this.size.y / 2, this.size.x, this.size.y)
-    //   // let radius = Math.min(this.size.x, this.size.y) / 2;  // Calculate radius
-    //   // rect(position.x, position.y, this.size.x, radius);    // Rounded corners making it a circle
-    // }
-
     pop();
 
     imageMode("center");
     // super.draw(); // For the head image
   }
+
+  // NYA METODER
+
+  public addScore(points: number): void {
+    const totalPoints = points * this.scoreMultiplier;
+    console.log(`Player ${this.playerNumber} gained ${totalPoints} points!`);
+  }
+
+  public enableObstaclePassing(duration: number): void {
+    this.canPassThroughObstacles = true;
+    console.log(`Player ${this.playerNumber} can now pass through obstacles`);
+
+    setTimeout(() => {
+      this.canPassThroughObstacles = false;
+      console.log(`Player ${this.playerNumber} can no longer pass through obstacles`);
+    }, duration);
+  }
+
+  doubleLives(): void {
+    this.lives = Math.min(this.lives * 2, this.maxLives);
+    console.log(`Player ${this.playerNumber} now has ${this.lives} lives.`);
+  }
+
+ 
+
 }
+

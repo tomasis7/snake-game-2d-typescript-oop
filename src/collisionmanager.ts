@@ -23,14 +23,44 @@ class CollisionManager {
         player.isColliding = true;
         player.isMoving = false;
         console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
-      }
+    }
 
-      private handleStarCollision(player: Player): void {
+    private handleStarCollision(player: Player): void {
+        music.starCollision.play();
+        player.isColliding = true;
+
+        // Uppdatera spelarens tillstånd via Player-metoder
+        player.doubleLives(); // Dubblar liv
+        player.scoreMultiplier = 2; // 2x poängmultiplikator
+
+        // Återställ multiplikatorn efter 10 sekunder
+        setTimeout(() => {
+            player.scoreMultiplier = 1;
+            console.log(`Player ${player.playerNumber}'s score multiplier reset.`);
+        }, 10000);
+
+        // Aktivera hinderpassering i 10 sekunder
+        player.enableObstaclePassing(10000);
+
+        this.showPopupMessage(`Player ${player.playerNumber} can pass through obstacles for 10 seconds!`);
+
+        console.log(`Player ${player.playerNumber} collected a Star!`);
+
+    }
+
+    private handleHeartCollision(player: Player): void {
         music.starCollision.play();
         player.isColliding = true;
         // player.score += 100; // Lägg till poäng
         console.log(`Player ${player.playerNumber} collected a Star!`);
-      }
+    }
+
+    private handlePlantCollision(player: Player): void {
+        music.starCollision.play();
+        player.isColliding = true;
+        // player.score += 100; // Lägg till poäng
+        console.log(`Player ${player.playerNumber} collected a Star!`);
+    }
 
     checkCollision(): void {
         for (const player of this.players) {
@@ -82,6 +112,25 @@ class CollisionManager {
                 player.isColliding = false;
             }
         }
+    }
+
+    showPopupMessage(message: string, duration: number = 3000): void {
+        const popup = document.createElement("div");
+        popup.innerText = message;
+        popup.style.position = "absolute";
+        popup.style.top = "10px"; // Placera det var du vill
+        popup.style.left = "50%";
+        popup.style.transform = "translateX(-50%)";
+        popup.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+        popup.style.color = "white";
+        popup.style.padding = "10px 20px";
+        popup.style.borderRadius = "8px";
+        popup.style.zIndex = "1000";
+        document.body.appendChild(popup);
+
+        setTimeout(() => {
+            document.body.removeChild(popup);
+        }, duration);
     }
 }
 
