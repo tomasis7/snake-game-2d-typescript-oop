@@ -29,6 +29,10 @@ class Player extends Entity {
     return this.playerNumber;
   }
 
+  updateDirection(newDirection: p5.Vector): void {
+    this.nextDirection = newDirection;
+}
+
   constructor(
     position: p5.Vector,
     playerNumber: number,

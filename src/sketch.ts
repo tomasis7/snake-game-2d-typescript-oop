@@ -21,36 +21,38 @@ let images: {
 let music: {
   mystery: p5.SoundFile;
   background: p5.SoundFile;
+};
+
+let sounds: {
   gainheart: p5.SoundFile;
   lostheart: p5.SoundFile;
   gameover: p5.SoundFile;
   ghost: p5.SoundFile;
-  starCollision: p5.SoundFile;
+  starPickUp: p5.SoundFile;
   winner: p5.SoundFile;
-  tetrisCollision: p5.SoundFile;
-};
+  blockCollision: p5.SoundFile;
+}
 
 let customFont: p5.Font;
 
-/**
- * Built in preload function in P5
- * This is a good place to load assets such as
- * sound files, images etc...
- */
+
 function preload() {
   // Load assets here
   music = {
     mystery: loadSound("/assets/music/mystery.mp3"),
     background: loadSound(
-      "/assets/music/mario-walking-through-dream-sequence.mp3"
-    ),
+      "/assets/music/mario-background.mp3"
+    )
+  }
+
+  sounds = {
     gainheart: loadSound("/assets/music/gain-heart.mp3"),
     lostheart: loadSound("/assets/music/lost-heart.mp3"),
     gameover: loadSound("/assets/music/game-over.mp3"),
     ghost: loadSound("/assets/music/ghost.mp3"),
-    starCollision: loadSound("/assets/music/star.mp3"),
+    starPickUp: loadSound("/assets/music/star.mp3"),
     winner: loadSound("/assets/music/winner.mp3"),
-    tetrisCollision: loadSound("/assets/sounds/error.mp3"),
+    blockCollision: loadSound("/assets/sounds/error.mp3"),
   };
 
   images = {
@@ -67,7 +69,7 @@ function preload() {
     // tetrisJ: loadImage("/assets/images/tetris.png"),
     // tetrisT: loadImage("/assets/images/tetris.png"),
     // tetrisHero: loadImage("/assets/images/tetris.png"),
-    
+
   };
 
   customFont = loadFont("/assets/fonts/PressStart2P-Regular.ttf");
@@ -84,7 +86,7 @@ function setup() {
   frameRate(60);
   textFont(customFont);
   game = new Game();
-  
+
 }
 
 /**
