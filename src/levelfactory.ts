@@ -1,16 +1,9 @@
-// Level Factory
 class LevelFactory {
-  private gridSize: number = 32;
-  private xOffset: number;
-  private yOffset: number;
-
+  public gridSize: number = 32; // Changed from private to public
   public level1: number[][];
   // private level2: number[][];
 
   constructor() {
-    this.gridSize = Math.floor(Math.min(windowWidth, windowHeight) / 20);
-    this.xOffset = 15;
-    this.yOffset = 20;
     // 0 = inget
     // 1 = block
     // 2 = star
@@ -51,15 +44,15 @@ class LevelFactory {
       3: (x, y) => new Heart(x, y),
       4: (x, y) => new Plant(x, y),
       5: (x, y) => new Ghost(x, y),
-      6: (x, y) => new TetrisBlock(x, y)
+      6: (x, y) => new TetrisBlock(x, y),
     };
 
     // loopa över level och skapa alla entiteter
     for (let row = 0; row < level.length; row++) {
       for (let col = 0; col < level[row].length; col++) {
         const entityType = level[row][col];
-        const x = col * this.gridSize + this.xOffset; // Beräkna x-position
-        const y = row * this.gridSize + this.yOffset; // Beräkna y-position
+        const x = col * this.gridSize;
+        const y = row * this.gridSize;
 
         // Skapa entitet om den finns i mappningen
         if (ENTITY_MAP[entityType]) {

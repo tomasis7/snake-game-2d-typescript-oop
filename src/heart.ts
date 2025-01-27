@@ -45,7 +45,7 @@ class Heart extends Entity {
     } else {
       console.warn("Heart entity has no image to draw.");
     }
-  
+ 
     pop();
   }
   
