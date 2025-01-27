@@ -19,18 +19,120 @@ class CollisionManager {
     }
 
     private handleTetrisCollision(player: Player): void {
-        music.tetrisCollision.play();
+        sounds.blockCollision.play();
         player.isColliding = true;
         player.isMoving = false;
         console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
-      }
 
-      private handleStarCollision(player: Player): void {
-        music.starCollision.play();
+        player.lives -= 1;
+        if (player.lives < 0) {
+            player.lives = 0; // Spelaren kan inte ha negativa liv
+        }
+
+        // Starta bedövning (ingen poäng under denna tid)
+        this.startStunEffect(player);
+
+        // Visa Game Over om inga liv kvar
+        if (player.lives === 0) {
+            this.showGameOver();
+        }
+
+    }
+
+    private startStunEffect(player: Player): void {
+        player.isMoving = false;
         player.isColliding = true;
-        // player.score += 100; // Lägg till poäng
-        console.log(`Player ${player.playerNumber} collected a Star!`);
-      }
+
+        setTimeout(() => {
+            player.isMoving = true;
+            player.isColliding = false;
+            console.log(`Player ${player.playerNumber} can now move again.`);
+        }, 3000);  // Bedövning i 3 sekunder
+    }
+
+    private handleStarCollision(player: Player): void {
+        sounds.starPickUp.play();
+        player.isColliding = true;
+
+        player.doubleLives();
+        player.scoreMultiplier = 2;
+
+        setTimeout(() => {
+            player.scoreMultiplier = 1;
+            console.log(`Player ${player.playerNumber}'s score multiplier reset.`);
+        }, 10000);
+
+        player.enableObstaclePassing(10000);
+
+        this.showPopupMessage(`Player ${player.playerNumber} can pass through obstacles for 10 seconds!`);
+    }
+
+    private handleHeartCollision(player: Player): void {
+        sounds.gainheart.play();
+        player.isColliding = true;
+        console.log(`Player ${player.playerNumber} collected a Heart!`);
+
+        if (player.lives < player.maxLives) {
+            player.lives += 1;
+        }
+        // this.removeEntity(heart);
+    }
+
+    private handlePlantCollision(player: Player): void {
+        sounds.blockCollision.play();
+        player.isColliding = true;
+
+        player.lives -= 2;
+
+        // Se till att liv inte går under 0
+        if (player.lives < 0) {
+            player.lives = 0;
+        }
+
+        if (player.lives === 0) {
+            this.showGameOver();
+        }
+    }
+
+    private isGhostSoundPlaying: boolean = false;
+
+    private handleGhostCollision(player: Player, ghost: Entity): void {
+        const distance = dist(player.position.x, player.position.y, ghost.position.x, ghost.position.y);
+
+        console.log("Distance to ghost:", distance);
+
+        if (distance < 900) {
+            console.log("Ghost is near, playing sound...");
+
+            if (!this.isGhostSoundPlaying) {
+                sounds.ghost.play();
+                this.isGhostSoundPlaying = true; 
+                console.log("Ghost sound started");
+            }
+            player.isColliding = true;
+            player.lives -= 1;
+
+            if (player.lives < 0) {
+                player.lives = 0;
+            }
+
+            if (player.lives === 0) {
+                this.showGameOver();
+            }
+        } else {
+            if (this.isGhostSoundPlaying) {
+                sounds.ghost.stop(); 
+                this.isGhostSoundPlaying = false; 
+                console.log("Ghost sound stopped");
+            }
+        }
+    }
+
+
+    private showGameOver(): void {
+        game.changeScreen(new GameOverScreen());
+        console.log("Game Over!");
+    }
 
     checkCollision(): void {
         for (const player of this.players) {
@@ -65,10 +167,12 @@ class CollisionManager {
                             this.handleTetrisCollision(player);
                         } else if (entity instanceof Star) {
                             this.handleStarCollision(player);
-                        } else if (entity instanceof AnotherEntityType) {
-                            handleAnotherEntityCollision(player);
-                        } else {
-                            handleDefaultCollision(player);
+                        } else if (entity instanceof Heart) {
+                            this.handleHeartCollision(player);
+                        } else if (entity instanceof Plant) {
+                            this.handlePlantCollision(player);
+                        } else if (entity instanceof Ghost) {
+                            this.handleGhostCollision(player, entity);
                         }
                     }
 
@@ -83,8 +187,26 @@ class CollisionManager {
             }
         }
     }
-}
 
+    showPopupMessage(message: string, duration: number = 3000): void {
+        const popup = document.createElement("div");
+        popup.innerText = message;
+        popup.style.position = "absolute";
+        popup.style.top = "10px"; // Placera det var du vill
+        popup.style.left = "50%";
+        popup.style.transform = "translateX(-50%)";
+        popup.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+        popup.style.color = "white";
+        popup.style.padding = "10px 20px";
+        popup.style.borderRadius = "8px";
+        popup.style.zIndex = "1000";
+        document.body.appendChild(popup);
+
+        setTimeout(() => {
+            document.body.removeChild(popup);
+        }, duration);
+    }
+}
 
 // Om ingen kollision upptäcks, återställ flaggor
 
@@ -118,11 +240,3 @@ class CollisionManager {
 //     });
 //   }
 
-//   private showGameOver() {
-//     background("black");
-//     push();
-//     fill("white");
-//     textSize(32);
-//     textAlign(CENTER, CENTER);
-//     text("GAME OVER", width / 2, height / 2);
-//     pop();
