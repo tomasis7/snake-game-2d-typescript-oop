@@ -1,22 +1,23 @@
-class Block {
-    position: p5.Vector;
-    size: p5.Vector;
-    fillColor: string;
-    strokeColor: string;
+/// <reference path="entity.ts" />
+class Block extends Entity {
   
-    constructor(x: number, y: number, fillColor: string, strokeColor: string) {
-      this.position = createVector(x, y);
-      this.size = createVector(32, 32);
-      this.fillColor = fillColor;
-      this.strokeColor = strokeColor;
+    constructor(x: number, y: number) {
+      super(
+        createVector(x, y), // x, y from levelFactory
+        createVector(32, 32), // Fixed size
+        0, // Horizontal speed (0)
+        0, // Vertical speed
+        createVector(0, 0), // Initial direction
+        undefined // Image
+      );
     }
   
     draw(): void {
       push();
-      fill(this.fillColor);
-      stroke(this.strokeColor);
+      fill("#8E8E8E");
+      stroke("#515151");
       strokeWeight(2);
-      rect(this.position.x, this.position.y, this.size.x, this.size.y);
+      rect(this.position.x, this.position.y, 32, 32);
       pop();
     }
   

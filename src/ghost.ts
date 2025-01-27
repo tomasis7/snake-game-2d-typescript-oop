@@ -9,10 +9,10 @@ class Ghost extends Entity {
     super(
       createVector(x, y),
       createVector(50, 50),
-      images.ghost,
       0.3,
       0.3,
-      createVector(0, 0)
+      createVector(0, 0),
+      images.ghost
     );
   }
 
