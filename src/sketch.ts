@@ -1,6 +1,7 @@
 //---- GLOBAL VARIABLES ----//
 
 let game: Game;
+const gridSize: number = 32; // Size of each grid cell in pixels
 
 let images: {
   head1: p5.Image;
@@ -31,19 +32,18 @@ let sounds: {
   starPickUp: p5.SoundFile;
   winner: p5.SoundFile;
   blockCollision: p5.SoundFile;
-}
+};
 
 let customFont: p5.Font;
 
+let showGrid: boolean = false; // Toggle for grid visibility
 
 function preload() {
   // Load assets here
   music = {
     mystery: loadSound("/assets/music/mystery.mp3"),
-    background: loadSound(
-      "/assets/music/mario-background.mp3"
-    )
-  }
+    background: loadSound("/assets/music/mario-background.mp3"),
+  };
 
   sounds = {
     gainheart: loadSound("/assets/sounds/gain-heart.mp3"),
@@ -69,7 +69,6 @@ function preload() {
     // tetrisJ: loadImage("/assets/images/tetris.png"),
     // tetrisT: loadImage("/assets/images/tetris.png"),
     // tetrisHero: loadImage("/assets/images/tetris.png"),
-
   };
 
   customFont = loadFont("/assets/fonts/PressStart2P-Regular.ttf");
@@ -86,7 +85,6 @@ function setup() {
   frameRate(60);
   textFont(customFont);
   game = new Game();
-
 }
 
 /**
@@ -97,6 +95,37 @@ function setup() {
 function draw() {
   game.update();
   game.draw();
+
+  if (showGrid) {
+    drawDebugGrid();
+  }
+}
+
+/**
+ * Built in keyPressed listener function in P5
+ */
+
+// Function to draw the debug grid
+function drawDebugGrid(): void {
+  stroke(200, 0, 0, 100); // Red color with transparency
+  strokeWeight(1);
+
+  // Draw vertical lines
+  for (let x = 0; x <= width; x += gridSize) {
+    line(x, 0, x, height);
+  }
+
+  // Draw horizontal lines
+  for (let y = 0; y <= height; y += gridSize) {
+    line(0, y, width, y);
+  }
+}
+
+// Optional: Toggle grid visibility with the 'G' key
+function keyPressed() {
+  if (key === "G" || key === "g") {
+    showGrid = !showGrid;
+  }
 }
 
 /**
@@ -105,7 +134,3 @@ function draw() {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
-
-/**
- * Built in keyPressed listener function in P5
- */
