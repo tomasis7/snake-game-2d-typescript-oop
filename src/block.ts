@@ -1,20 +1,26 @@
-// class Block extends Entity {
-//     constructor(x: number, y: number) {
-//       super(
-//         createVector(x, y),
-//         createVector(50, 50),
-//         null, // Ingen bild behövs
-//         0,
-//         0,
-//         createVector(0, 0)
-//       );
-//     }
+class Block {
+    position: p5.Vector;
+    size: p5.Vector;
+    fillColor: string;
+    strokeColor: string;
   
-//     // anpassning av block
-//     draw(): void {
-//       fill(255, 223, 0); // Gul färg
-//       noStroke();
-//       rect(this.position.x, this.position.y, this.size.x, this.size.y);
-//     }
-//   }
+    constructor(x: number, y: number, fillColor: string, strokeColor: string) {
+      this.position = createVector(x, y);
+      this.size = createVector(32, 32);
+      this.fillColor = fillColor;
+      this.strokeColor = strokeColor;
+    }
+  
+    draw(): void {
+      push();
+      fill(this.fillColor);
+      stroke(this.strokeColor);
+      strokeWeight(2);
+      rect(this.position.x, this.position.y, this.size.x, this.size.y);
+      pop();
+    }
+  
+    update(): void {
+    }
+  }
   

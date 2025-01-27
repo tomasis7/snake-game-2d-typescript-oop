@@ -1,35 +1,27 @@
-class TetrisBlock extends Entity {
-  
-  constructor() {
-    super(
-      createVector(600, 450),
-      createVector(100, 120),
-      images.tetrisCube,
-      0,
-      1,
-      createVector(0, 0)
-    );
+class TetrisBlock {
+  position: p5.Vector;
+  size: p5.Vector;
+  fillColor: string;
+  strokeColor: string;
+
+  constructor(x: number, y: number, fillColor: string, strokeColor: string) {
+    this.position = createVector(x, y);
+    this.size = createVector(32, 32);
+    this.fillColor = fillColor;
+    this.strokeColor = strokeColor;
   }
 
-  // draw(): void {
-  //   push(); // Save the current drawing state
-  //   if (!this.image) {
-  //     console.error("TetrisBlock image not loaded");
-  //     return;
-  //   }
-
-  //   translate(this.position.x, this.position.y);
-  //   image(
-  //     this.image,
-  //     -this.size.x / 2,
-  //     -this.size.y / 2,
-  //     this.size.x,
-  //     this.size.y
-  //   );
-  //   pop(); // Restore the previous drawing state
-  // }
+  draw(): void {
+    push();
+    fill(this.fillColor);
+    stroke(this.strokeColor);
+    strokeWeight(2);
+    rect(this.position.x, this.position.y, this.size.x, this.size.y);
+    pop();
+  }
 
   update(): void {
+    // Eventuell logik för uppdatering
     return;
   }
 }
