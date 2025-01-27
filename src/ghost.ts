@@ -35,8 +35,8 @@ class Ghost extends Entity {
     translate(this.position.x, this.position.y);
     image(
       this.image,
-      -this.size.x / 2,
-      -this.size.y / 2,
+      +this.size.x / 2,
+      +this.size.y / 2,
       this.size.x,
       this.size.y
     );
