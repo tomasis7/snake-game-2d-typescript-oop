@@ -12,10 +12,10 @@ class Heart extends Entity {
     super(
       createVector(x, y),
       createVector(32, 32),
-      images.heart,
       0,
       0,
-      createVector(0, 0)
+      createVector(0, 0),
+      images.heart
     );
     // 'pulse' animation
     this.pulseScale = 1;
@@ -30,19 +30,25 @@ class Heart extends Entity {
   draw(): void {
     this.update();
     push();
-
+  
     translate(this.position.x, this.position.y);
     scale(this.pulseScale);
-    image(
-      this.image,
-      -this.size.x / 2,
-      -this.size.y / 2,
-      this.size.x,
-      this.size.y
-    );
-
+  
+    if (this.image) {
+      image(
+        this.image,
+        -this.size.x / 2,
+        -this.size.y / 2,
+        this.size.x,
+        this.size.y
+      );
+    } else {
+      console.warn("Heart entity has no image to draw.");
+    }
+  
     pop();
   }
+  
   /**
    * Update the heart's 'pulse' animation.
    *

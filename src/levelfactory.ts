@@ -48,7 +48,7 @@ class LevelFactory {
     const ENTITY_MAP: { [key: number]: (x: number, y: number) => Entity } = {
       1: (x, y) => new Block(x, y),
       2: (x, y) => new Star(x, y),
-      // 3: (x, y) => new Heart(x, y),
+      3: (x, y) => new Heart(x, y),
       4: (x, y) => new Plant(x, y),
       5: (x, y) => new Ghost(x, y),
       6: (x, y) => new TetrisBlock(x, y)
