@@ -21,13 +21,16 @@ let images: {
 let music: {
   mystery: p5.SoundFile;
   background: p5.SoundFile;
+};
+
+let sounds: {
   gainheart: p5.SoundFile;
   lostheart: p5.SoundFile;
   gameover: p5.SoundFile;
   ghost: p5.SoundFile;
-  starCollision: p5.SoundFile;
+  starPickUp: p5.SoundFile;
   winner: p5.SoundFile;
-  tetrisCollision: p5.SoundFile;
+  blockCollision: p5.SoundFile;
 };
 
 let customFont: p5.Font;
@@ -37,25 +40,21 @@ const gridSize = levelFactory.gridSize; // Access gridSize directly since it's n
 
 let showGrid: boolean = false; // Toggle for grid visibility
 
-/**
- * Built in preload function in P5
- * This is a good place to load assets such as
- * sound files, images etc...
- */
 function preload() {
   // Load assets here
   music = {
     mystery: loadSound("/assets/music/mystery.mp3"),
-    background: loadSound(
-      "/assets/music/mario-walking-through-dream-sequence.mp3"
-    ),
-    gainheart: loadSound("/assets/music/gain-heart.mp3"),
-    lostheart: loadSound("/assets/music/lost-heart.mp3"),
-    gameover: loadSound("/assets/music/game-over.mp3"),
-    ghost: loadSound("/assets/music/ghost.mp3"),
-    starCollision: loadSound("/assets/music/star.mp3"),
-    winner: loadSound("/assets/music/winner.mp3"),
-    tetrisCollision: loadSound("/assets/sounds/error.mp3"),
+    background: loadSound("/assets/music/mario-background.mp3"),
+  };
+
+  sounds = {
+    gainheart: loadSound("/assets/sounds/gain-heart.mp3"),
+    lostheart: loadSound("/assets/sounds/lost-heart.mp3"),
+    gameover: loadSound("/assets/sounds/game-over.mp3"),
+    ghost: loadSound("/assets/sounds/ghost.mp3"),
+    starPickUp: loadSound("/assets/sounds/star.mp3"),
+    winner: loadSound("/assets/sounds/winner.mp3"),
+    blockCollision: loadSound("/assets/sounds/error.mp3"),
   };
 
   images = {
@@ -106,6 +105,10 @@ function draw() {
   }
 }
 
+/**
+ * Built in keyPressed listener function in P5
+ */
+
 // Function to draw the debug grid
 function drawDebugGrid(): void {
   stroke(200, 0, 0, 100); // Red color with transparency
@@ -136,7 +139,3 @@ function windowResized() {
   const newSize = min(windowWidth, windowHeight); // Choose the smaller dimension to maintain a square
   resizeCanvas(newSize, newSize);
 }
-
-/**
- * Built in keyPressed listener function in P5
- */
