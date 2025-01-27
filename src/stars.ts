@@ -12,4 +12,22 @@ class Star extends Entity {
       images.star // Image
     );
   }
+
+  draw(): void {
+    if (!this.image) {
+      console.error("Ghost image not loaded");
+      return;
+    }
+
+    push();
+    translate(this.position.x, this.position.y);
+    image(
+      this.image,
+      +this.size.x / 2,
+      +this.size.y / 2,
+      this.size.x,
+      this.size.y
+    );
+    pop();
+  }
 }

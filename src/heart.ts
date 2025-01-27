@@ -35,8 +35,8 @@ class Heart extends Entity {
     scale(this.pulseScale);
     image(
       this.image,
-      -this.size.x / 2,
-      -this.size.y / 2,
+      +this.size.x / 2,
+      +this.size.y / 2,
       this.size.x,
       this.size.y
     );
