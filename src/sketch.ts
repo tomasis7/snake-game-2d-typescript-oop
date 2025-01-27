@@ -46,12 +46,12 @@ function preload() {
   }
 
   sounds = {
-    gainheart: loadSound("/assets/music/gain-heart.mp3"),
-    lostheart: loadSound("/assets/music/lost-heart.mp3"),
-    gameover: loadSound("/assets/music/game-over.mp3"),
-    ghost: loadSound("/assets/music/ghost.mp3"),
-    starPickUp: loadSound("/assets/music/star.mp3"),
-    winner: loadSound("/assets/music/winner.mp3"),
+    gainheart: loadSound("/assets/sounds/gain-heart.mp3"),
+    lostheart: loadSound("/assets/sounds/lost-heart.mp3"),
+    gameover: loadSound("/assets/sounds/game-over.mp3"),
+    ghost: loadSound("/assets/sounds/ghost.mp3"),
+    starPickUp: loadSound("/assets/sounds/star.mp3"),
+    winner: loadSound("/assets/sounds/winner.mp3"),
     blockCollision: loadSound("/assets/sounds/error.mp3"),
   };
 

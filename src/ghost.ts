@@ -10,8 +10,8 @@ class Ghost extends Entity {
       createVector(x, y),
       createVector(80, 80),
       images.ghost,
-      0.5,
-      0.5,
+      0.3,
+      0.3,
       createVector(0, 0)
     );
   }

@@ -75,6 +75,7 @@ class CollisionManager {
         if (player.lives < player.maxLives) {
             player.lives += 1;
         }
+        // this.removeEntity(heart);
     }
 
     private handlePlantCollision(player: Player): void {
@@ -93,22 +94,40 @@ class CollisionManager {
         }
     }
 
-    private handleGhostCollision(player: Player): void {
-        sounds.ghost.play();
-        player.isColliding = true;
+    private isGhostSoundPlaying: boolean = false;
 
-        player.lives -= 1;
+    private handleGhostCollision(player: Player, ghost: Entity): void {
+        const distance = dist(player.position.x, player.position.y, ghost.position.x, ghost.position.y);
 
-        // Se till att liv inte går under 0
-        if (player.lives < 0) {
-            player.lives = 0;
+        console.log("Distance to ghost:", distance);
+
+        if (distance < 900) {
+            console.log("Ghost is near, playing sound...");
+
+            if (!this.isGhostSoundPlaying) {
+                sounds.ghost.play();
+                this.isGhostSoundPlaying = true; 
+                console.log("Ghost sound started");
+            }
+            player.isColliding = true;
+            player.lives -= 1;
+
+            if (player.lives < 0) {
+                player.lives = 0;
+            }
+
+            if (player.lives === 0) {
+                this.showGameOver();
+            }
+        } else {
+            if (this.isGhostSoundPlaying) {
+                sounds.ghost.stop(); 
+                this.isGhostSoundPlaying = false; 
+                console.log("Ghost sound stopped");
+            }
         }
-
-        if (player.lives === 0) {
-            this.showGameOver();
-        }
-
     }
+
 
     private showGameOver(): void {
         game.changeScreen(new GameOverScreen());
@@ -153,7 +172,7 @@ class CollisionManager {
                         } else if (entity instanceof Plant) {
                             this.handlePlantCollision(player);
                         } else if (entity instanceof Ghost) {
-                            this.handleGhostCollision(player);
+                            this.handleGhostCollision(player, entity);
                         }
                     }
 
