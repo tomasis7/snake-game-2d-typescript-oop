@@ -37,7 +37,7 @@ class Player extends Entity {
     keyBindings: KeyBindings
   ) {
     const size = createVector(20, 20);
-    super(position, size, images.head1, 0, 0, createVector(0, 500));
+    super(position, size, 0, 0, createVector(0, 500), undefined);
     this.trail = [
       createVector(this.position.x - size.x, this.position.y),
       createVector(this.position.x - size.x * 2, this.position.y),
@@ -122,7 +122,6 @@ class Player extends Entity {
     pop();
 
     imageMode("center");
-    // super.draw(); // For the head image
   }
 
   // NYA METODER
