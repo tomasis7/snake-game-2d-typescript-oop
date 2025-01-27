@@ -39,7 +39,6 @@ class Game {
     }
   }
   end(): void {
-    //     // Logic to end the game
   }
  }
  // // Collision Manager
