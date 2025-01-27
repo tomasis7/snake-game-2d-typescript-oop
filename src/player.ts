@@ -103,7 +103,7 @@ class Player extends Entity {
 
   draw(): void {
     push();
-    strokeWeight(2);
+    strokeWeight(0);
 
     for (let i = 0; i < this.trail.length; i++) {
       const position = this.trail[i];
