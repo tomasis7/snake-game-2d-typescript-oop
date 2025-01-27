@@ -1,23 +1,17 @@
-// Level Factory
 class LevelFactory {
-  private gridSize: number = 32;
-  private xOffset: number;
-  private yOffset: number;
-
+  public gridSize: number = 32; // Changed from private to public
   public level1: number[][];
   // private level2: number[][];
 
   constructor() {
-    this.gridSize = Math.floor(Math.min(windowWidth, windowHeight) / 20);
-    this.xOffset = 15;
-    this.yOffset = 20;
     // 0 = inget
     // 1 = block
     // 2 = star
     // 3 = heart
     // 4 = plant
     // 5 = ghost
-    this.level1 = [
+    this.level1 = 
+
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], // 16 * 32
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -59,8 +53,8 @@ class LevelFactory {
     for (let row = 0; row < level.length; row++) {
       for (let col = 0; col < level[row].length; col++) {
         const entityType = level[row][col];
-        const x = col * this.gridSize + this.xOffset; // Beräkna x-position
-        const y = row * this.gridSize + this.yOffset; // Beräkna y-position
+        const x = col * this.gridSize;
+        const y = row * this.gridSize;
 
         // Skapa entitet om den finns i mappningen
         if (ENTITY_MAP[entityType]) {

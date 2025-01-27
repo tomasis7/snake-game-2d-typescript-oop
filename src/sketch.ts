@@ -1,7 +1,6 @@
 //---- GLOBAL VARIABLES ----//
 
 let game: Game;
-const gridSize: number = 32; // Size of each grid cell in pixels
 
 let images: {
   head1: p5.Image;
@@ -35,6 +34,9 @@ let sounds: {
 };
 
 let customFont: p5.Font;
+
+const levelFactory = new LevelFactory();
+const gridSize = levelFactory.gridSize; // Access gridSize directly since it's now public
 
 let showGrid: boolean = false; // Toggle for grid visibility
 
@@ -81,7 +83,9 @@ function preload() {
  * in the draw function belows
  */
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  const canvasWidth = 1600; // Set canvas width
+  const canvasHeight = 800; // Set canvas height
+  createCanvas(canvasWidth, canvasHeight);
   frameRate(60);
   textFont(customFont);
   game = new Game();
@@ -132,5 +136,6 @@ function keyPressed() {
  *  Built in windowResize listener function in P5
  */
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  const newSize = min(windowWidth, windowHeight); // Choose the smaller dimension to maintain a square
+  resizeCanvas(newSize, newSize);
 }
