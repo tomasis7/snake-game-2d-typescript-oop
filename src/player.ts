@@ -35,9 +35,9 @@ class Player extends Entity {
     trailStrokeColor: string,
     keyBindings: KeyBindings
   ) {
-    const size = createVector(16, 16);
-    position.x = position.x + 0;
-    position.y = position.y + 0;
+    const size = createVector(32, 32);
+    position.x = position.x + 16;
+    position.y = position.y + 16;
     super(position, size, 0, 0, createVector(0, 500), undefined);
     this.trail = [
       createVector(this.position.x - size.x, this.position.y),
@@ -53,7 +53,7 @@ class Player extends Entity {
     this.trailFillColor = trailFillColor;
     this.trailStrokeColor = trailStrokeColor;
     this.moveTimer = 0;
-    this.direction = createVector(16, 0);
+    this.direction = createVector(32, 0);
     this.nextDirection = this.direction.copy();
     this.keyBindings = keyBindings;
 
@@ -69,13 +69,13 @@ class Player extends Entity {
     // Lyssnar på tangenttryckningar och sätter nästa riktning
 
     if (keyIsDown(this.keyBindings.UP) && this.direction.y === 0) {
-      this.nextDirection = createVector(0, -16); // Upp
+      this.nextDirection = createVector(0, -32); // Upp
     } else if (keyIsDown(this.keyBindings.DOWN) && this.direction.y === 0) {
-      this.nextDirection = createVector(0, 16); // Ner
+      this.nextDirection = createVector(0, 32); // Ner
     } else if (keyIsDown(this.keyBindings.LEFT) && this.direction.x === 0) {
-      this.nextDirection = createVector(-16, 0); // Vänster
+      this.nextDirection = createVector(-32, 0); // Vänster
     } else if (keyIsDown(this.keyBindings.RIGHT) && this.direction.x === 0) {
-      this.nextDirection = createVector(16, 0); // Höger
+      this.nextDirection = createVector(32, 0); // Höger
     }
   }
 
