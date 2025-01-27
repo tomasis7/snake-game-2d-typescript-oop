@@ -6,17 +6,17 @@ interface IMovable {
 abstract class Entity implements IMovable {
   position: p5.Vector;
   size: p5.Vector;
-  image: p5.Image;
+  image?: p5.Image;
   velocity: p5.Vector;
   direction: p5.Vector;
 
   constructor(
     position: p5.Vector,
     size: p5.Vector,
-    image: p5.Image,
     velocityX: number,
     velocityY: number,
-    direction: p5.Vector
+    direction: p5.Vector,
+    image?: p5.Image
   ) {
     this.position = createVector(position.x, position.y);
     this.size = createVector(size.x, size.y);
@@ -27,7 +27,7 @@ abstract class Entity implements IMovable {
 
   draw(): void {
     push();
-
+    if (this.image) {
     image(
       this.image,
       this.position.x,
@@ -35,7 +35,7 @@ abstract class Entity implements IMovable {
       this.size.x,
       this.size.y
     );
-
+  }
     pop();
   }
 

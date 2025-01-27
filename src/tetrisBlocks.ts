@@ -1,22 +1,21 @@
-class TetrisBlock {
-  position: p5.Vector;
-  size: p5.Vector;
-  fillColor: string;
-  strokeColor: string;
-
-  constructor(x: number, y: number, fillColor: string, strokeColor: string) {
-    this.position = createVector(x, y);
-    this.size = createVector(32, 32);
-    this.fillColor = fillColor;
-    this.strokeColor = strokeColor;
+class TetrisBlock extends Entity {
+  constructor(x: number, y: number) {
+    super(
+      createVector(x, y),
+      createVector(32,32),
+      0,
+      0,
+      createVector(0,0),
+      undefined
+    );
   }
 
   draw(): void {
     push();
-    fill(this.fillColor);
-    stroke(this.strokeColor);
+    fill("#FDD03C");
+    stroke("#D6B034");
     strokeWeight(2);
-    rect(this.position.x, this.position.y, this.size.x, this.size.y);
+    rect(this.position.x, this.position.y, 32, 32);
     pop();
   }
 

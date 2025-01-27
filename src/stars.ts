@@ -6,10 +6,10 @@ class Star extends Entity {
     super(
       createVector(x, y), // x, y from levelFactory
       createVector(32, 32), // Fixed size
-      images.star, // Image
       0, // Horizontal speed (0)
       0, // Vertical speed
-      createVector(0, 0) // Initial direction
+      createVector(0, 0), // Initial direction
+      images.star // Image
     );
   }
 }
