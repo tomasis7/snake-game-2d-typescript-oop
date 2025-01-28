@@ -17,7 +17,10 @@ class Block extends Entity {
     fill("#8E8E8E");
     stroke("#515151");
     strokeWeight(2);
+<<<<<<< HEAD
 
+=======
+>>>>>>> ac1726b88c2976cfcc98b519836667d55c54de15
     rect(this.position.x, this.position.y, this.size.x, this.size.y); // Center the block
     pop();
   }
