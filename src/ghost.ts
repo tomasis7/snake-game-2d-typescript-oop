@@ -12,7 +12,7 @@ class Ghost extends Entity {
       0.3,
       0.3,
       createVector(0, 0),
-      images.ghost
+      images.ghost,
     );
   }
 
@@ -35,10 +35,10 @@ class Ghost extends Entity {
     translate(this.position.x, this.position.y);
     image(
       this.image,
-      +this.size.x / 2,
-      +this.size.y / 2,
+      -this.size.x / 2,
+      -this.size.y / 2,
       this.size.x,
-      this.size.y
+      this.size.y,
     );
     pop();
   }

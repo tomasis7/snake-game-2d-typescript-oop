@@ -21,12 +21,14 @@ class Button {
   }
 
   draw(): void {
+    push();
     fill(this.backgroundColor);
     rectMode(CENTER);
     rect(this.position.x, this.position.y, this.size.x, this.size.y);
     fill(this.color);
     textAlign(CENTER, CENTER);
     text(this.text, this.position.x, this.position.y);
+    pop();
   }
 
   isClicked(): boolean {

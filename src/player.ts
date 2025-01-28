@@ -33,21 +33,21 @@ class Player extends Entity {
     playerNumber: number,
     trailFillColor: string,
     trailStrokeColor: string,
-    keyBindings: KeyBindings
+    keyBindings: KeyBindings,
   ) {
-    const size = createVector(32, 32);
+    const size = createVector(20, 20);
     position.x = position.x + 16;
     position.y = position.y + 16;
     super(position, size, 0, 0, createVector(0, 500), undefined);
     this.trail = [
       createVector(this.position.x - size.x, this.position.y),
-      createVector(this.position.x - size.x * 2, this.position.y),
-      createVector(this.position.x - size.x * 3, this.position.y),
-      createVector(this.position.x - size.x * 4, this.position.y),
-      createVector(this.position.x - size.x * 5, this.position.y),
-      createVector(this.position.x - size.x * 6, this.position.y),
-      createVector(this.position.x - size.x * 7, this.position.y),
-      createVector(this.position.x - size.x * 8, this.position.y),
+      // createVector(this.position.x - size.x * 2, this.position.y),
+      // createVector(this.position.x - size.x * 3, this.position.y),
+      // createVector(this.position.x - size.x * 4, this.position.y),
+      // createVector(this.position.x - size.x * 5, this.position.y),
+      // createVector(this.position.x - size.x * 6, this.position.y),
+      // createVector(this.position.x - size.x * 7, this.position.y),
+      // createVector(this.position.x - size.x * 8, this.position.y),
     ];
     this.playerNumber = playerNumber;
     this.trailFillColor = trailFillColor;
@@ -92,7 +92,7 @@ class Player extends Entity {
       const head = this.trail[0];
       const newHead = createVector(
         head.x + this.direction.x,
-        head.y + this.direction.y
+        head.y + this.direction.y,
       );
       this.trail.unshift(newHead);
       this.trail.pop();
@@ -139,7 +139,7 @@ class Player extends Entity {
     setTimeout(() => {
       this.canPassThroughObstacles = false;
       console.log(
-        `Player ${this.playerNumber} can no longer pass through obstacles`
+        `Player ${this.playerNumber} can no longer pass through obstacles`,
       );
     }, duration);
   }

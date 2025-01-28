@@ -9,7 +9,7 @@ class Star extends Entity {
       0, // Horizontal speed (0)
       0, // Vertical speed
       createVector(0, 0), // Initial direction
-      images.star // Image
+      images.star, // Image
     );
   }
 
@@ -23,10 +23,10 @@ class Star extends Entity {
     translate(this.position.x, this.position.y);
     image(
       this.image,
-      +this.size.x / 2,
-      +this.size.y / 2,
+      -this.size.x / 2,
+      -this.size.y / 2,
       this.size.x,
-      this.size.y
+      this.size.y,
     );
     pop();
   }

@@ -7,7 +7,7 @@ class Block extends Entity {
       0, // Horizontal speed (0)
       0, // Vertical speed
       createVector(0, 0), // Initial direction
-      undefined // Image
+      undefined, // Image
     );
   }
 
@@ -17,10 +17,10 @@ class Block extends Entity {
     stroke("#515151");
     strokeWeight(2);
     rect(
-      this.position.x + this.size.x / 2,
-      this.position.y + this.size.y / 2,
+      this.position.x - this.size.x / 2,
+      this.position.y - this.size.y / 2,
       this.size.x,
-      this.size.y
+      this.size.y,
     ); // Center the block
     pop();
   }
