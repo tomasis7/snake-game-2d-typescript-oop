@@ -4,11 +4,11 @@
 /// <reference path="player.ts" />
 
 class GameBoard extends GameScreen {
-  entities: Entity[];
-  players: Player[];
-  levelFactory: LevelFactory;
-  collisionManager: CollisionManager;
-  scoreManager: ScoreManager;
+  private entities: Entity[];
+  private players: Player[];
+  private levelFactory: LevelFactory;
+  private collisionManager: CollisionManager;
+  private scoreManager: ScoreManager;
 
   // private cameraOffset: number = 0;
   // private scrollSpeed: number = 2;
