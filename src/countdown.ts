@@ -30,6 +30,7 @@ class CountDown extends GameScreen {
   }
 
   draw(): void {
+    push();
     background("black");
     fill("#45FF8C"); // Green text
     textSize(32); // Size for title
@@ -45,6 +46,7 @@ class CountDown extends GameScreen {
     if (displayNumber > 0) {
       text(displayNumber.toString(), width / 2, height / 3);
     }
+    pop();
   }
 
   isCountdownComplete(): boolean {
