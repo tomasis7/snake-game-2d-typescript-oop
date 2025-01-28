@@ -29,6 +29,7 @@ class Heart extends Entity {
    */
   draw(): void {
     push();
+    imageMode(CENTER);
     translate(this.position.x, this.position.y);
     scale(this.pulseScale);
 
