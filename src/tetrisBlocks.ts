@@ -1,4 +1,12 @@
+/**
+ * Representerar en Tetris-liknande blockentitet.
+ */
 class TetrisBlock extends Entity {
+  /**
+   * Skapar en ny instans av TetrisBlock.
+   * @param {number} x - Startposition på x-axeln
+   * @param {number} y - Startposition på y-axeln
+   */
   constructor(x: number, y: number) {
     super(
       createVector(x, y),
@@ -6,10 +14,13 @@ class TetrisBlock extends Entity {
       0,
       0,
       createVector(0, 0),
-      undefined,
+      undefined
     );
   }
 
+  /**
+   * Ritar blockets form i Tetris-stil.
+   */
   draw(): void {
     push();
     rectMode(CENTER);

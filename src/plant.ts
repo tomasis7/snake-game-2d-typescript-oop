@@ -1,3 +1,6 @@
+/**
+ * TODO: Lägg till JSDoc för klassen Plant och dess metoder.
+ */
 class Plant extends Entity {
   constructor(x: number, y: number) {
     super(

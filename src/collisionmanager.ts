@@ -9,10 +9,18 @@ interface GridPosition {
   col: number;
 }
 
+/**
+ * Hanterar kollisioner och interaktioner mellan spelare och entiteter.
+ */
 class CollisionManager {
   players: Player[];
   entities: Entity[];
 
+  /**
+   * Ställer in kollisionsspårning för spelare och entiteter.
+   * @param {Player[]} players - En array av spelare
+   * @param {Entity[]} entities - En array av entiteter
+   */
   constructor(players: Player[], entities: Entity[]) {
     this.players = players;
     this.entities = entities;
@@ -139,6 +147,9 @@ class CollisionManager {
     console.log("Game Over!");
   }
 
+  /**
+   * Kontrollerar kollisioner mellan varje spelare och alla entiteter.
+   */
   checkCollision(): void {
     for (const player of this.players) {
       const head = player.trail[0];
@@ -193,6 +204,11 @@ class CollisionManager {
     }
   }
 
+  /**
+   * Visar ett kortvarigt meddelande på skärmen.
+   * @param {string} message - Meddelandet som ska visas
+   * @param {number} [duration=3000] - Varaktighet i millisekunder
+   */
   showPopupMessage(message: string, duration: number = 3000): void {
     const popup = document.createElement("div");
     popup.innerText = message;
