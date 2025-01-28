@@ -1,7 +1,7 @@
 /// <reference path="entity.ts" />
 
 /**
- * TODO: Add JSDoc for Player class, constructor, and methods.
+ * TODO: Lägg till JSDoc för klassen Player, dess konstruktor och metoder.
  */
 interface KeyBindings {
   UP: number;
@@ -130,11 +130,19 @@ class Player extends Entity {
 
   // NYA METODER
 
+  /**
+   * Lägger till poäng till spelaren.
+   * @param {number} points - Antal poäng att lägga till
+   */
   public addScore(points: number): void {
     const totalPoints = points * this.scoreMultiplier;
     console.log(`Player ${this.playerNumber} gained ${totalPoints} points!`);
   }
 
+  /**
+   * Tillåter spelaren att passera hinder under en viss tidsperiod.
+   * @param {number} duration - Tiden i millisekunder
+   */
   public enableObstaclePassing(duration: number): void {
     this.canPassThroughObstacles = true;
     console.log(`Player ${this.playerNumber} can now pass through obstacles`);
@@ -147,6 +155,9 @@ class Player extends Entity {
     }, duration);
   }
 
+  /**
+   * Fördubblar antalet liv sedan klipper vid maxgräns.
+   */
   doubleLives(): void {
     this.lives = Math.min(this.lives * 2, this.maxLives);
     console.log(`Player ${this.playerNumber} now has ${this.lives} lives.`);

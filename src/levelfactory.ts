@@ -1,5 +1,5 @@
 /**
- * Represents a factory for creating level entities.
+ * Representerar en fabrik för att skapa entiteter i nivåer.
  */
 class LevelFactory {
   public gridSize: number = 32; // Changed from private to public
@@ -7,7 +7,7 @@ class LevelFactory {
   // private level2: number[][];
 
   /**
-   * Initializes level data and grid size.
+   * Initierar nivådata och rutstorlek.
    */
   constructor() {
     // 0 = inget
@@ -27,7 +27,7 @@ class LevelFactory {
       ],
       [
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6,
         0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -68,4 +68,14 @@ class LevelFactory {
       [
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0,
+      ],
+    ];
+  }
+
+  /**
+   * Skapar entiteter för en given nivå-layout.
+   * @param {number[][]} level - Tvådimensionell array för nivå
+   * @returns {Entity[]} En lista över skapade entiteter
+   */
+}

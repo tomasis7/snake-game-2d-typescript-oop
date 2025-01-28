@@ -1,7 +1,7 @@
 //---- GLOBAL VARIABLES ----//
 
 /**
- * TODO: Add JSDoc for main sketch setup and draw functions.
+ * TODO: Lägg till JSDoc för setup- och draw-funktioner i denna huvudskiss.
  */
 
 let game: Game;
@@ -44,6 +44,9 @@ const gridSize = levelFactory.gridSize; // Access gridSize directly since it's n
 
 let showGrid: boolean = false; // Toggle for grid visibility
 
+/**
+ * Förladdar ljud och bilder.
+ */
 function preload() {
   // Load assets here
   music = {
@@ -81,6 +84,7 @@ function preload() {
 }
 
 /**
+ * Inställningar för canvas, bildfrekvens och spelobjekt.
  * Built in setup function in P5
  * This is a good place to create your first class object
  * and save it as a global variable so it can be used
@@ -96,6 +100,7 @@ function setup() {
 }
 
 /**
+ * Uppdaterar och ritar huvudskärmen i spelet.
  * Built in draw function in P5
  * This is a good place to call public methods of the object
  * you created in the setup function above

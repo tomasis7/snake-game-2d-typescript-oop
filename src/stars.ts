@@ -1,21 +1,26 @@
 /**
- * TODO: Add JSDoc for Star class and its methods.
+ * TODO: Lägg till fullständig JSDoc för klassen Star och dess metoder.
  */
 class Star extends Entity {
   /**
-   * Creates a new instance of the Star class.
+   * Skapar en ny instans av Star-klassen.
+   * @param {number} x - Startposition på x-axeln
+   * @param {number} y - Startposition på y-axeln
    */
   constructor(x: number, y: number) {
     super(
-      createVector(x, y), // x, y from levelFactory
-      createVector(32, 32), // Fixed size
-      0, // Horizontal speed (0)
-      0, // Vertical speed
-      createVector(0, 0), // Initial direction
-      images.star // Image
+      createVector(x, y), // x, y från levelFactory
+      createVector(32, 32), // Fast storlek
+      0, // Horisontell hastighet (0)
+      0, // Vertikal hastighet
+      createVector(0, 0), // Initial riktning
+      images.star // Bild
     );
   }
 
+  /**
+   * Ritar stjärnan på skärmen.
+   */
   draw(): void {
     if (!this.image) {
       console.error("Ghost image not loaded");

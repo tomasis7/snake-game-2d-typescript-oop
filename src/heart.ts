@@ -1,15 +1,14 @@
 /**
- * Represents a Heart entity that pulsates for a visual effect.
+ * Representerar en Hjärt-entitet som pulserar för en visuell effekt.
  */
 class Heart extends Entity {
   private pulseScale: number;
   private pulseSpeed: number;
 
   /**
-   * Create a new Heart entity.
-   *
-   * The heart is given a specific initial position, size, image, and initial
-   * velocity. The 'pulse' animation is initialized as well.
+   * Skapar en ny Heart-entitet på en given position.
+   * @param {number} x - Startposition på x-axeln
+   * @param {number} y - Startposition på y-axeln
    */
   constructor(x: number, y: number) {
     super(
@@ -25,10 +24,7 @@ class Heart extends Entity {
     this.pulseSpeed = 0.01;
   }
   /**
-   * Draw the heart entity.
-   *
-   * This will draw the heart at its current position, with its current scale
-   * (which is updated every frame to give the 'pulse' effect).
+   * Ritar hjärtat och tillämpar puls-animationen.
    */
   draw(): void {
     push();
@@ -46,11 +42,7 @@ class Heart extends Entity {
   }
 
   /**
-   * Update the heart's 'pulse' animation.
-   *
-   * This method updates the heart's scale to create a pulsating effect
-   * by adjusting the pulseScale based on the current time and pulseSpeed.
-   * The pulseScale is logged to the console for debugging purposes.
+   * Uppdaterar hjärtats puls-animation.
    */
   update(): void {
     super.update();

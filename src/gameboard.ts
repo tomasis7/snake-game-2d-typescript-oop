@@ -4,7 +4,7 @@
 /// <reference path="player.ts" />
 
 /**
- * Manages game entities, players, and collision logic on a level.
+ * Hanterar spelets entiteter, spelare och kollisioner på en nivå.
  */
 class GameBoard extends GameScreen {
   entities: Entity[];
@@ -15,7 +15,7 @@ class GameBoard extends GameScreen {
   // private scrollSpeed: number = 2;
 
   /**
-   * Sets up players, loads entities, and initializes collisions.
+   * Initierar spelare, laddar entiteter och ställer in kollisioner.
    */
   constructor() {
     super(); // Anropa basklassens konstruktor
@@ -52,23 +52,23 @@ class GameBoard extends GameScreen {
   }
 
   /**
-   * Adds a new entity to the game.
-   * @param {Entity} entity - The entity to add
+   * Lägger till en ny entitet i spelet.
+   * @param {Entity} entity - Entiteten att lägga till
    */
   addEntity(entity: Entity): void {
     this.entities.push(entity);
   }
 
   /**
-   * Removes an entity from the game.
-   * @param {Entity} entity - The entity to remove
+   * Tar bort en entitet från spelet.
+   * @param {Entity} entity - Entiteten att ta bort
    */
   removeEntity(entity: Entity): void {
     this.entities = this.entities.filter((e) => e !== entity);
   }
 
   /**
-   * Updates all players and entities in the game world.
+   * Uppdaterar alla spelare och entiteter i spelet.
    */
   public update(): void {
     // this.cameraOffset += this.scrollSpeed;
@@ -88,7 +88,7 @@ class GameBoard extends GameScreen {
   }
 
   /**
-   * Moves ghosts or other flying entities.
+   * Flyttar eventuella spöken eller andra flygande entiteter.
    */
   private flyingGhost(): void {
     for (const entity of this.entities) {
@@ -99,7 +99,7 @@ class GameBoard extends GameScreen {
   }
 
   /**
-   * Draws all entities and players to the screen.
+   * Ritar alla entiteter och spelare på skärmen.
    */
   draw(): void {
     background("#000000"); // Ange bakgrundsfärg
