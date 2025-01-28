@@ -1,11 +1,16 @@
 class ScoreManager {
-    private scores: Map<number, number>; // Använder Map för att koppla playerNumber till poäng
+    private scores: Map<number, number>;
+    private players: Player[];
+    private scoreIncrementInterval: number = 500; // Öka poängen varje hav-sekund (500 ms)
+    private lastTickTime: number = 0;
 
     constructor(players: Player[]) {
         this.scores = new Map();
+        this.players = players;
         for (const player of players) {
             this.scores.set(player.getPlayerNumber(), 0); // Initiera poäng för varje spelare
         }
+        this.lastTickTime = millis(); // Sätt starttiden
     }
 
     // Uppdatera poängen för en specifik spelare
@@ -17,24 +22,40 @@ class ScoreManager {
         }
     }
 
-    // Rita upp poängen på skärmen
+    // Öka poängen över tid
+    tickScore(): void {
+        const currentTime = millis();
+        if (currentTime - this.lastTickTime >= this.scoreIncrementInterval) {
+            for (const [playerNumber] of this.scores.entries()) {
+                this.updateScore(playerNumber, 1); // Öka poängen med 1 varje sekund
+            }
+            this.lastTickTime = currentTime; 
+        }
+    }
+
     draw(): void {
         push();
         textSize(24);
         fill("white");
+        textAlign(CENTER, CENTER); // Center text horizontally and vertically
 
         for (const [playerNumber, score] of this.scores.entries()) {
-            if (playerNumber === 1) {
-                // Player 1: Top of the screen
-                text(`Player ${playerNumber}: ${score}`, 250, 15);
-            } else if (playerNumber === 2) {
-                // Player 2: Bottom of the screen
-                text(`Player ${playerNumber}: ${score}`, 250, height);
+            const player = this.players.find(p => p.getPlayerNumber() === playerNumber);
+            if (player) {
+                const textContent = `Player: ${playerNumber} Score: ${score} | Lives: ${player.lives}`;
+                if (playerNumber === 1) {
+                    // Player 1: Top of the screen
+                    text(textContent, width / 2, 15); // Centered horizontally at the top
+                } else if (playerNumber === 2) {
+                    // Player 2: Bottom of the screen
+                    text(textContent, width / 2, height - 175); // Centered horizontally at the bottom
+                }
             }
         }
 
         pop();
     }
+
 
     // Hämta poäng för en specifik spelare (om behövs)
     getScore(playerNumber: number): number {

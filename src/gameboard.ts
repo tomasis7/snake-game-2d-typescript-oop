@@ -32,13 +32,13 @@ class GameBoard extends GameScreen {
 
     this.levelFactory = new LevelFactory();
     //initialize
-    this.entities = [
+    // this.entities = [
       // new Heart(),
       // new Star(), // For test to get levelfactory in place.
       // new Ghost(),
       // new Plant(), // For test to get levelfactory in place.
       // new TetrisBlock(),
-    ];
+    // ];
 
     this.entities = this.levelFactory.createEntitiesForLevel(
       this.levelFactory.level1
@@ -72,6 +72,7 @@ class GameBoard extends GameScreen {
 
     this.flyingGhost();
     this.collisionManager.checkCollision();
+    this.scoreManager.tickScore();
   }
 
   private flyingGhost(): void {
