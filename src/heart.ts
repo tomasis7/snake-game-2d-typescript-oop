@@ -1,3 +1,6 @@
+/**
+ * Represents a Heart entity that pulsates for a visual effect.
+ */
 class Heart extends Entity {
   private pulseScale: number;
   private pulseSpeed: number;

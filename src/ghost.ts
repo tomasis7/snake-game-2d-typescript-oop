@@ -1,3 +1,6 @@
+/**
+ * Represents a Ghost entity with random movement and collision effects.
+ */
 class Ghost extends Entity {
   /**
    * Creates a new Ghost entity.

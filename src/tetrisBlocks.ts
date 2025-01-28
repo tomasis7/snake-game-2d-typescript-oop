@@ -1,3 +1,6 @@
+/**
+ * Represents a Tetris-style block entity.
+ */
 class TetrisBlock extends Entity {
   constructor(x: number, y: number) {
     super(
@@ -6,10 +9,13 @@ class TetrisBlock extends Entity {
       0,
       0,
       createVector(0, 0),
-      undefined,
+      undefined
     );
   }
 
+  /**
+   * Draws the Tetris block shape.
+   */
   draw(): void {
     push();
     rectMode(CENTER);

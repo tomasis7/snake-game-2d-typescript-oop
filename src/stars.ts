@@ -1,3 +1,6 @@
+/**
+ * TODO: Add JSDoc for Star class and its methods.
+ */
 class Star extends Entity {
   /**
    * Creates a new instance of the Star class.

@@ -3,6 +3,9 @@
 /// <reference path="tetrisBlocks.ts" />
 /// <reference path="player.ts" />
 
+/**
+ * Manages game entities, players, and collision logic on a level.
+ */
 class GameBoard extends GameScreen {
   entities: Entity[];
   players: Player[];
@@ -11,6 +14,9 @@ class GameBoard extends GameScreen {
   // private cameraOffset: number = 0;
   // private scrollSpeed: number = 2;
 
+  /**
+   * Sets up players, loads entities, and initializes collisions.
+   */
   constructor() {
     super(); // Anropa basklassens konstruktor
     this.players = [
@@ -45,14 +51,25 @@ class GameBoard extends GameScreen {
     this.collisionManager = new CollisionManager(this.players, this.entities);
   }
 
+  /**
+   * Adds a new entity to the game.
+   * @param {Entity} entity - The entity to add
+   */
   addEntity(entity: Entity): void {
     this.entities.push(entity);
   }
 
+  /**
+   * Removes an entity from the game.
+   * @param {Entity} entity - The entity to remove
+   */
   removeEntity(entity: Entity): void {
     this.entities = this.entities.filter((e) => e !== entity);
   }
 
+  /**
+   * Updates all players and entities in the game world.
+   */
   public update(): void {
     // this.cameraOffset += this.scrollSpeed;
 
@@ -70,6 +87,9 @@ class GameBoard extends GameScreen {
     this.collisionManager.checkCollision();
   }
 
+  /**
+   * Moves ghosts or other flying entities.
+   */
   private flyingGhost(): void {
     for (const entity of this.entities) {
       if (entity instanceof Ghost) {
@@ -78,6 +98,9 @@ class GameBoard extends GameScreen {
     }
   }
 
+  /**
+   * Draws all entities and players to the screen.
+   */
   draw(): void {
     background("#000000"); // Ange bakgrundsfärg
 

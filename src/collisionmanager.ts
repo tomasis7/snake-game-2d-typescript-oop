@@ -9,10 +9,18 @@ interface GridPosition {
   col: number;
 }
 
+/**
+ * Handles collisions and interactions between players and entities.
+ */
 class CollisionManager {
   players: Player[];
   entities: Entity[];
 
+  /**
+   * Sets up collision tracking for players and entities.
+   * @param {Player[]} players - Array of players
+   * @param {Entity[]} entities - Array of entities
+   */
   constructor(players: Player[], entities: Entity[]) {
     this.players = players;
     this.entities = entities;
@@ -139,6 +147,9 @@ class CollisionManager {
     console.log("Game Over!");
   }
 
+  /**
+   * Checks collisions between each player and all entities.
+   */
   checkCollision(): void {
     for (const player of this.players) {
       const head = player.trail[0];
@@ -193,6 +204,11 @@ class CollisionManager {
     }
   }
 
+  /**
+   * Displays a temporary message on screen.
+   * @param {string} message - The message to show
+   * @param {number} [duration=3000] - Duration in ms
+   */
   showPopupMessage(message: string, duration: number = 3000): void {
     const popup = document.createElement("div");
     popup.innerText = message;

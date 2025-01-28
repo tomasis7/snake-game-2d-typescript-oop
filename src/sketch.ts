@@ -1,5 +1,9 @@
 //---- GLOBAL VARIABLES ----//
 
+/**
+ * TODO: Add JSDoc for main sketch setup and draw functions.
+ */
+
 let game: Game;
 
 let images: {
