@@ -2,6 +2,12 @@
  * Representerar en fabrik för att skapa entiteter i nivåer.
  */
 class LevelFactory {
+  // public createEntitiesForLevel(level: any): Entity[] {
+  //   // Implement your level creation logic here
+
+  //   return [];
+  // }
+
   public gridSize: number = 32; // Changed from private to public
   public level1: number[][];
   // private level2: number[][];

@@ -44,9 +44,9 @@ class GameBoard extends GameScreen {
       // new TetrisBlock(),
     ];
 
-    this.entities = this.levelFactory.createEntitiesForLevel(
-      this.levelFactory.level1
-    );
+    // this.entities = this.levelFactory.createEntitiesForLevel(
+    //   this.levelFactory.level1
+    // );
 
     this.collisionManager = new CollisionManager(this.players, this.entities);
   }
