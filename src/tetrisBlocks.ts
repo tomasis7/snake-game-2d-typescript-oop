@@ -12,15 +12,11 @@ class TetrisBlock extends Entity {
 
   draw(): void {
     push();
+    rectMode(CENTER);
     fill("#FDD03C");
     stroke("#D6B034");
     strokeWeight(2);
-    rect(
-      this.position.x - this.size.x / 2,
-      this.position.y - this.size.y / 2,
-      this.size.x,
-      this.size.y
-    ); // Center the block
+    rect(this.position.x, this.position.y, this.size.x, this.size.y); // Center the block
     pop();
   }
 

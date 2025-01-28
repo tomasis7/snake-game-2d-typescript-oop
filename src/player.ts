@@ -122,7 +122,7 @@ class Player extends Entity {
 
     pop();
 
-    imageMode("center");
+    // imageMode("center");
   }
 
   // NYA METODER
