@@ -20,14 +20,9 @@ class Star extends Entity {
     }
 
     push();
+    rectMode(CENTER);
     translate(this.position.x, this.position.y);
-    image(
-      this.image,
-      +this.size.x / 2,
-      +this.size.y / 2,
-      this.size.x,
-      this.size.y
-    );
+    image(this.image, this.size.x, this.size.y, this.size.x, this.size.y);
     pop();
   }
 }

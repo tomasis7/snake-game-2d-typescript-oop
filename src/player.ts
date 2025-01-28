@@ -33,7 +33,7 @@ class Player extends Entity {
     playerNumber: number,
     trailFillColor: string,
     trailStrokeColor: string,
-    keyBindings: KeyBindings
+    keyBindings: KeyBindings,
   ) {
     const size = createVector(32, 32);
     position.x = position.x + 16;
@@ -92,7 +92,7 @@ class Player extends Entity {
       const head = this.trail[0];
       const newHead = createVector(
         head.x + this.direction.x,
-        head.y + this.direction.y
+        head.y + this.direction.y,
       );
       this.trail.unshift(newHead);
       this.trail.pop();
@@ -122,7 +122,7 @@ class Player extends Entity {
 
     pop();
 
-    imageMode("center");
+    // imageMode("center");
   }
 
   // NYA METODER
@@ -139,7 +139,7 @@ class Player extends Entity {
     setTimeout(() => {
       this.canPassThroughObstacles = false;
       console.log(
-        `Player ${this.playerNumber} can no longer pass through obstacles`
+        `Player ${this.playerNumber} can no longer pass through obstacles`,
       );
     }, duration);
   }
