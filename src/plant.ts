@@ -6,7 +6,7 @@ class Plant extends Entity {
       0, // Horisontell hastighet
       0, // Vertikal hastighet
       createVector(0, 0), // Initial riktning
-      images.Plant, // Bild
+      images.Plant // Bild
     );
   }
 
@@ -17,14 +17,9 @@ class Plant extends Entity {
     }
 
     push();
+    rectMode(CENTER);
     translate(this.position.x, this.position.y);
-    image(
-      this.image,
-      -this.size.x / 2,
-      -this.size.y / 2,
-      this.size.x,
-      this.size.y,
-    );
+    image(this.image, this.size.x, this.size.y, this.size.x, this.size.y);
     pop();
   }
 }

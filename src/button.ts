@@ -11,7 +11,7 @@ class Button {
     position: p5.Vector,
     backgroundColor: string,
     size: p5.Vector,
-    color: string,
+    color: string
   ) {
     this.text = text;
     this.position = position;

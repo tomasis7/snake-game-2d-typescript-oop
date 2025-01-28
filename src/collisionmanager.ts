@@ -64,7 +64,7 @@ class CollisionManager {
     player.enableObstaclePassing(10000);
 
     this.showPopupMessage(
-      `Player ${player.playerNumber} can pass through obstacles for 10 seconds!`,
+      `Player ${player.playerNumber} can pass through obstacles for 10 seconds!`
     );
   }
 
@@ -102,7 +102,7 @@ class CollisionManager {
       player.position.x,
       player.position.y,
       ghost.position.x,
-      ghost.position.y,
+      ghost.position.y
     );
 
     console.log("Distance to ghost:", distance);
