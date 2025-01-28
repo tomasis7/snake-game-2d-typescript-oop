@@ -28,9 +28,7 @@ class Heart extends Entity {
    * (which is updated every frame to give the 'pulse' effect).
    */
   draw(): void {
-    this.update();
     push();
-  
     translate(this.position.x, this.position.y);
     scale(this.pulseScale);
   
@@ -57,6 +55,7 @@ class Heart extends Entity {
    * The pulseScale is logged to the console for debugging purposes.
    */
   update(): void {
+    super.update();
     // update 'pulse' animation on heart
     const newPulseScale = 1 + 0.1 * Math.sin(millis() * this.pulseSpeed);
     this.pulseScale = newPulseScale;
