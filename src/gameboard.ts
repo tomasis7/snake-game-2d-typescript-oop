@@ -7,7 +7,9 @@ class GameBoard extends GameScreen {
   entities: Entity[];
   players: Player[];
   levelFactory: LevelFactory;
-  public collisionManager: CollisionManager;
+  collisionManager: CollisionManager;
+  scoreManager: ScoreManager;
+
   // private cameraOffset: number = 0;
   // private scrollSpeed: number = 2;
 
@@ -42,7 +44,9 @@ class GameBoard extends GameScreen {
       this.levelFactory.level1
     );
 
-    this.collisionManager = new CollisionManager(this.players, this.entities);
+    this.scoreManager = new ScoreManager(this.players);  // Initiera ScoreManager
+    this.collisionManager = new CollisionManager(this.players, this.entities, this.scoreManager);  // Skicka ScoreManager till CollisionManager
+
   }
 
   addEntity(entity: Entity): void {
@@ -104,5 +108,8 @@ class GameBoard extends GameScreen {
       //   }
       // }
     }
+
+    this.scoreManager.draw(); // Rita poängen för båda spelarna
+
   }
 }

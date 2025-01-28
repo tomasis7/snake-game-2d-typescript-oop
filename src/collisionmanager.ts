@@ -12,10 +12,12 @@ interface GridPosition {
 class CollisionManager {
     players: Player[];
     entities: Entity[];
+    scoreManager: ScoreManager;
 
-    constructor(players: Player[], entities: Entity[]) {
+    constructor(players: Player[], entities: Entity[], scoreManager: ScoreManager) {
         this.players = players;
         this.entities = entities;
+        this.scoreManager = scoreManager;
     }
 
     private handleTetrisCollision(player: Player): void {
@@ -36,6 +38,8 @@ class CollisionManager {
         if (player.lives === 0) {
             this.showGameOver();
         }
+
+        this.scoreManager.updateScore(player.getPlayerNumber(), -10); // Ta bort poäng vid kollision
 
     }
 
@@ -63,8 +67,9 @@ class CollisionManager {
         }, 10000);
 
         player.enableObstaclePassing(10000);
-
         this.showPopupMessage(`Player ${player.playerNumber} can pass through obstacles for 10 seconds!`);
+
+        this.scoreManager.updateScore(player.getPlayerNumber(), 50); // Ge poäng vid att samla stjärna
     }
 
     private handleHeartCollision(player: Player): void {
@@ -76,6 +81,7 @@ class CollisionManager {
             player.lives += 1;
         }
         // this.removeEntity(heart);
+        this.scoreManager.updateScore(player.getPlayerNumber(), 100); // Ge poäng vid att samla hjärta
     }
 
     private handlePlantCollision(player: Player): void {
@@ -92,6 +98,8 @@ class CollisionManager {
         if (player.lives === 0) {
             this.showGameOver();
         }
+        this.scoreManager.updateScore(player.getPlayerNumber(), -20); // Ta bort poäng vid växtkollision
+
     }
 
     private isGhostSoundPlaying: boolean = false;
@@ -106,7 +114,7 @@ class CollisionManager {
 
             if (!this.isGhostSoundPlaying) {
                 sounds.ghost.play();
-                this.isGhostSoundPlaying = true; 
+                this.isGhostSoundPlaying = true;
                 console.log("Ghost sound started");
             }
             player.isColliding = true;
@@ -121,10 +129,13 @@ class CollisionManager {
             }
         } else {
             if (this.isGhostSoundPlaying) {
-                sounds.ghost.stop(); 
-                this.isGhostSoundPlaying = false; 
+                sounds.ghost.stop();
+                this.isGhostSoundPlaying = false;
                 console.log("Ghost sound stopped");
             }
+            
+            this.scoreManager.updateScore(player.getPlayerNumber(), -5); // Ta bort poäng vid spökkollision
+
         }
     }
 
