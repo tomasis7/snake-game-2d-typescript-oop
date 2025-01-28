@@ -1,3 +1,6 @@
+/**
+ * TODO: Lägg till JSDoc för klassen Plant och dess metoder.
+ */
 class Plant extends Entity {
   constructor(x: number, y: number) {
     super(
@@ -17,14 +20,9 @@ class Plant extends Entity {
     }
 
     push();
+    imageMode(CENTER);
     translate(this.position.x, this.position.y);
-    image(
-      this.image,
-      +this.size.x / 2,
-      +this.size.y / 2,
-      this.size.x,
-      this.size.y
-    );
+    image(this.image, this.size.x, this.size.y, this.size.x, this.size.y);
     pop();
   }
 }

@@ -13,17 +13,18 @@ class Block extends Entity {
 
   draw(): void {
     push();
+    rectMode(CENTER);
     fill("#8E8E8E");
     stroke("#515151");
     strokeWeight(2);
-    rect(
-      this.position.x + this.size.x / 2,
-      this.position.y + this.size.y / 2,
-      this.size.x,
-      this.size.y
-    ); // Center the block
+    rect(this.position.x, this.position.y, this.size.x, this.size.y); // Center the block
     pop();
   }
 
   update(): void {}
 }
+
+// update(): void {
+//   // Eventuell logik för uppdatering
+//   return;
+// }
