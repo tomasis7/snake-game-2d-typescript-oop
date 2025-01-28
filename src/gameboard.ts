@@ -4,10 +4,12 @@
 /// <reference path="player.ts" />
 
 class GameBoard extends GameScreen {
-  entities: Entity[];
-  players: Player[];
-  levelFactory: LevelFactory;
-  public collisionManager: CollisionManager;
+  private entities: Entity[];
+  private players: Player[];
+  private levelFactory: LevelFactory;
+  private collisionManager: CollisionManager;
+  private scoreManager: ScoreManager;
+
   // private cameraOffset: number = 0;
   // private scrollSpeed: number = 2;
 
@@ -30,19 +32,21 @@ class GameBoard extends GameScreen {
 
     this.levelFactory = new LevelFactory();
     //initialize
-    this.entities = [
+    // this.entities = [
       // new Heart(),
       // new Star(), // For test to get levelfactory in place.
       // new Ghost(),
       // new Plant(), // For test to get levelfactory in place.
       // new TetrisBlock(),
-    ];
+    // ];
 
     this.entities = this.levelFactory.createEntitiesForLevel(
       this.levelFactory.level1
     );
 
-    this.collisionManager = new CollisionManager(this.players, this.entities);
+    this.scoreManager = new ScoreManager(this.players);  // Initiera ScoreManager
+    this.collisionManager = new CollisionManager(this.players, this.entities, this.scoreManager);  // Skicka ScoreManager till CollisionManager
+
   }
 
   addEntity(entity: Entity): void {
@@ -68,6 +72,7 @@ class GameBoard extends GameScreen {
 
     this.flyingGhost();
     this.collisionManager.checkCollision();
+    this.scoreManager.tickScore();
   }
 
   private flyingGhost(): void {
@@ -104,5 +109,8 @@ class GameBoard extends GameScreen {
       //   }
       // }
     }
+
+    this.scoreManager.draw(); // Rita poängen för båda spelarna
+
   }
 }
