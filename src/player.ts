@@ -35,19 +35,19 @@ class Player extends Entity {
     trailStrokeColor: string,
     keyBindings: KeyBindings,
   ) {
-    const size = createVector(20, 20);
+    const size = createVector(32, 32);
     position.x = position.x + 16;
     position.y = position.y + 16;
     super(position, size, 0, 0, createVector(0, 500), undefined);
     this.trail = [
       createVector(this.position.x - size.x, this.position.y),
-      // createVector(this.position.x - size.x * 2, this.position.y),
-      // createVector(this.position.x - size.x * 3, this.position.y),
-      // createVector(this.position.x - size.x * 4, this.position.y),
-      // createVector(this.position.x - size.x * 5, this.position.y),
-      // createVector(this.position.x - size.x * 6, this.position.y),
-      // createVector(this.position.x - size.x * 7, this.position.y),
-      // createVector(this.position.x - size.x * 8, this.position.y),
+      createVector(this.position.x - size.x * 2, this.position.y),
+      createVector(this.position.x - size.x * 3, this.position.y),
+      createVector(this.position.x - size.x * 4, this.position.y),
+      createVector(this.position.x - size.x * 5, this.position.y),
+      createVector(this.position.x - size.x * 6, this.position.y),
+      createVector(this.position.x - size.x * 7, this.position.y),
+      createVector(this.position.x - size.x * 8, this.position.y),
     ];
     this.playerNumber = playerNumber;
     this.trailFillColor = trailFillColor;

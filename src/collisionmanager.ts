@@ -1,211 +1,216 @@
 interface Obstacle {
-    row: number;
-    col: number;
-    color: string;
+  row: number;
+  col: number;
+  color: string;
 }
 
 interface GridPosition {
-    row: number;
-    col: number;
+  row: number;
+  col: number;
 }
 
 class CollisionManager {
-    players: Player[];
-    entities: Entity[];
+  players: Player[];
+  entities: Entity[];
 
-    constructor(players: Player[], entities: Entity[]) {
-        this.players = players;
-        this.entities = entities;
+  constructor(players: Player[], entities: Entity[]) {
+    this.players = players;
+    this.entities = entities;
+  }
+
+  private handleTetrisCollision(player: Player): void {
+    sounds.blockCollision.play();
+    player.isColliding = true;
+    player.isMoving = false;
+    console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
+
+    player.lives -= 1;
+    if (player.lives < 0) {
+      player.lives = 0; // Spelaren kan inte ha negativa liv
     }
 
-    private handleTetrisCollision(player: Player): void {
-        sounds.blockCollision.play();
-        player.isColliding = true;
-        player.isMoving = false;
-        console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
+    // Starta bedövning (ingen poäng under denna tid)
+    this.startStunEffect(player);
 
-        player.lives -= 1;
-        if (player.lives < 0) {
-            player.lives = 0; // Spelaren kan inte ha negativa liv
-        }
+    // Visa Game Over om inga liv kvar
+    if (player.lives === 0) {
+      this.showGameOver();
+    }
+  }
 
-        // Starta bedövning (ingen poäng under denna tid)
-        this.startStunEffect(player);
+  private startStunEffect(player: Player): void {
+    player.isMoving = false;
+    player.isColliding = true;
 
-        // Visa Game Over om inga liv kvar
-        if (player.lives === 0) {
-            this.showGameOver();
-        }
+    setTimeout(() => {
+      player.isMoving = true;
+      player.isColliding = false;
+      console.log(`Player ${player.playerNumber} can now move again.`);
+    }, 3000); // Bedövning i 3 sekunder
+  }
 
+  private handleStarCollision(player: Player): void {
+    sounds.starPickUp.play();
+    player.isColliding = true;
+
+    player.doubleLives();
+    player.scoreMultiplier = 2;
+
+    setTimeout(() => {
+      player.scoreMultiplier = 1;
+      console.log(`Player ${player.playerNumber}'s score multiplier reset.`);
+    }, 10000);
+
+    player.enableObstaclePassing(10000);
+
+    this.showPopupMessage(
+      `Player ${player.playerNumber} can pass through obstacles for 10 seconds!`,
+    );
+  }
+
+  private handleHeartCollision(player: Player): void {
+    sounds.gainheart.play();
+    player.isColliding = true;
+    console.log(`Player ${player.playerNumber} collected a Heart!`);
+
+    if (player.lives < player.maxLives) {
+      player.lives += 1;
+    }
+    // this.removeEntity(heart);
+  }
+
+  private handlePlantCollision(player: Player): void {
+    sounds.blockCollision.play();
+    player.isColliding = true;
+
+    player.lives -= 2;
+
+    // Se till att liv inte går under 0
+    if (player.lives < 0) {
+      player.lives = 0;
     }
 
-    private startStunEffect(player: Player): void {
-        player.isMoving = false;
-        player.isColliding = true;
-
-        setTimeout(() => {
-            player.isMoving = true;
-            player.isColliding = false;
-            console.log(`Player ${player.playerNumber} can now move again.`);
-        }, 3000);  // Bedövning i 3 sekunder
+    if (player.lives === 0) {
+      this.showGameOver();
     }
+  }
 
-    private handleStarCollision(player: Player): void {
-        sounds.starPickUp.play();
-        player.isColliding = true;
+  private isGhostSoundPlaying: boolean = false;
 
-        player.doubleLives();
-        player.scoreMultiplier = 2;
+  private handleGhostCollision(player: Player, ghost: Entity): void {
+    const distance = dist(
+      player.position.x,
+      player.position.y,
+      ghost.position.x,
+      ghost.position.y,
+    );
 
-        setTimeout(() => {
-            player.scoreMultiplier = 1;
-            console.log(`Player ${player.playerNumber}'s score multiplier reset.`);
-        }, 10000);
+    console.log("Distance to ghost:", distance);
 
-        player.enableObstaclePassing(10000);
+    if (distance < 900) {
+      console.log("Ghost is near, playing sound...");
 
-        this.showPopupMessage(`Player ${player.playerNumber} can pass through obstacles for 10 seconds!`);
+      if (!this.isGhostSoundPlaying) {
+        sounds.ghost.play();
+        this.isGhostSoundPlaying = true;
+        console.log("Ghost sound started");
+      }
+      player.isColliding = true;
+      player.lives -= 1;
+
+      if (player.lives < 0) {
+        player.lives = 0;
+      }
+
+      if (player.lives === 0) {
+        this.showGameOver();
+      }
+    } else {
+      if (this.isGhostSoundPlaying) {
+        sounds.ghost.stop();
+        this.isGhostSoundPlaying = false;
+        console.log("Ghost sound stopped");
+      }
     }
+  }
 
-    private handleHeartCollision(player: Player): void {
-        sounds.gainheart.play();
-        player.isColliding = true;
-        console.log(`Player ${player.playerNumber} collected a Heart!`);
+  private showGameOver(): void {
+    game.changeScreen(new GameOverScreen());
+    console.log("Game Over!");
+  }
 
-        if (player.lives < player.maxLives) {
-            player.lives += 1;
-        }
-        // this.removeEntity(heart);
-    }
+  checkCollision(): void {
+    for (const player of this.players) {
+      const head = player.trail[0];
+      const headLeft = head.x;
+      const headRight = head.x + player.size.x;
+      const headTop = head.y;
+      const headBottom = head.y + player.size.y;
 
-    private handlePlantCollision(player: Player): void {
-        sounds.blockCollision.play();
-        player.isColliding = true;
+      // Flagga för att spåra om en kollision upptäcks
+      let hasCollision = false;
 
-        player.lives -= 2;
+      for (const entity of this.entities) {
+        const entityLeft = entity.position.x;
+        const entityRight = entity.position.x + entity.size.x;
+        const entityTop = entity.position.y;
+        const entityBottom = entity.position.y + entity.size.y;
 
-        // Se till att liv inte går under 0
-        if (player.lives < 0) {
-            player.lives = 0;
-        }
+        // Kontrollera om ormens huvud överlappar blockets kant
+        const isColliding =
+          headRight > entityLeft &&
+          headLeft < entityRight &&
+          headBottom > entityTop &&
+          headTop < entityBottom;
 
-        if (player.lives === 0) {
-            this.showGameOver();
-        }
-    }
+        if (isColliding) {
+          hasCollision = true; // Markera att en kollision upptäckts
 
-    private isGhostSoundPlaying: boolean = false;
-
-    private handleGhostCollision(player: Player, ghost: Entity): void {
-        const distance = dist(player.position.x, player.position.y, ghost.position.x, ghost.position.y);
-
-        console.log("Distance to ghost:", distance);
-
-        if (distance < 900) {
-            console.log("Ghost is near, playing sound...");
-
-            if (!this.isGhostSoundPlaying) {
-                sounds.ghost.play();
-                this.isGhostSoundPlaying = true; 
-                console.log("Ghost sound started");
+          if (!player.isColliding) {
+            // Hantera kollision baserat på entitetstyp
+            if (entity instanceof TetrisBlock) {
+              this.handleTetrisCollision(player);
+            } else if (entity instanceof Star) {
+              this.handleStarCollision(player);
+            } else if (entity instanceof Heart) {
+              this.handleHeartCollision(player);
+            } else if (entity instanceof Plant) {
+              this.handlePlantCollision(player);
+            } else if (entity instanceof Ghost) {
+              this.handleGhostCollision(player, entity);
             }
-            player.isColliding = true;
-            player.lives -= 1;
+          }
 
-            if (player.lives < 0) {
-                player.lives = 0;
-            }
-
-            if (player.lives === 0) {
-                this.showGameOver();
-            }
-        } else {
-            if (this.isGhostSoundPlaying) {
-                sounds.ghost.stop(); 
-                this.isGhostSoundPlaying = false; 
-                console.log("Ghost sound stopped");
-            }
+          // Avsluta loopen för entiteter eftersom kollision upptäcktes
+          break;
         }
+      }
+
+      // Återställ kollisionen om ingen upptäcktes
+      if (!hasCollision) {
+        player.isColliding = false;
+      }
     }
+  }
 
+  showPopupMessage(message: string, duration: number = 3000): void {
+    const popup = document.createElement("div");
+    popup.innerText = message;
+    popup.style.position = "absolute";
+    popup.style.top = "10px"; // Placera det var du vill
+    popup.style.left = "50%";
+    popup.style.transform = "translateX(-50%)";
+    popup.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+    popup.style.color = "white";
+    popup.style.padding = "10px 20px";
+    popup.style.borderRadius = "8px";
+    popup.style.zIndex = "1000";
+    document.body.appendChild(popup);
 
-    private showGameOver(): void {
-        game.changeScreen(new GameOverScreen());
-        console.log("Game Over!");
-    }
-
-    checkCollision(): void {
-        for (const player of this.players) {
-            const head = player.trail[0];
-            const headLeft = head.x;
-            const headRight = head.x + player.size.x;
-            const headTop = head.y;
-            const headBottom = head.y + player.size.y;
-
-            // Flagga för att spåra om en kollision upptäcks
-            let hasCollision = false;
-
-            for (const entity of this.entities) {
-                const entityLeft = entity.position.x - entity.size.x / 2;
-                const entityRight = entity.position.x + entity.size.x / 2;
-                const entityTop = entity.position.y - entity.size.y / 2;
-                const entityBottom = entity.position.y + entity.size.y / 2;
-
-                // Kontrollera om ormens huvud överlappar blockets kant
-                const isColliding =
-                    headRight > entityLeft &&
-                    headLeft < entityRight &&
-                    headBottom > entityTop &&
-                    headTop < entityBottom;
-
-                if (isColliding) {
-                    hasCollision = true; // Markera att en kollision upptäckts
-
-                    if (!player.isColliding) {
-                        // Hantera kollision baserat på entitetstyp
-                        if (entity instanceof TetrisBlock) {
-                            this.handleTetrisCollision(player);
-                        } else if (entity instanceof Star) {
-                            this.handleStarCollision(player);
-                        } else if (entity instanceof Heart) {
-                            this.handleHeartCollision(player);
-                        } else if (entity instanceof Plant) {
-                            this.handlePlantCollision(player);
-                        } else if (entity instanceof Ghost) {
-                            this.handleGhostCollision(player, entity);
-                        }
-                    }
-
-                    // Avsluta loopen för entiteter eftersom kollision upptäcktes
-                    break;
-                }
-            }
-
-            // Återställ kollisionen om ingen upptäcktes
-            if (!hasCollision) {
-                player.isColliding = false;
-            }
-        }
-    }
-
-    showPopupMessage(message: string, duration: number = 3000): void {
-        const popup = document.createElement("div");
-        popup.innerText = message;
-        popup.style.position = "absolute";
-        popup.style.top = "10px"; // Placera det var du vill
-        popup.style.left = "50%";
-        popup.style.transform = "translateX(-50%)";
-        popup.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
-        popup.style.color = "white";
-        popup.style.padding = "10px 20px";
-        popup.style.borderRadius = "8px";
-        popup.style.zIndex = "1000";
-        document.body.appendChild(popup);
-
-        setTimeout(() => {
-            document.body.removeChild(popup);
-        }, duration);
-    }
+    setTimeout(() => {
+      document.body.removeChild(popup);
+    }, duration);
+  }
 }
 
 // Om ingen kollision upptäcks, återställ flaggor
@@ -239,4 +244,3 @@ class CollisionManager {
 //       }
 //     });
 //   }
-
