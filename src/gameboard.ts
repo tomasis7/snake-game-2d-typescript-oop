@@ -3,9 +3,6 @@
 /// <reference path="tetrisBlocks.ts" />
 /// <reference path="player.ts" />
 
-/**
- * Hanterar spelets entiteter, spelare och kollisioner på en nivå.
- */
 class GameBoard extends GameScreen {
   entities: Entity[];
   players: Player[];
@@ -14,9 +11,6 @@ class GameBoard extends GameScreen {
   // private cameraOffset: number = 0;
   // private scrollSpeed: number = 2;
 
-  /**
-   * Initierar spelare, laddar entiteter och ställer in kollisioner.
-   */
   constructor() {
     super(); // Anropa basklassens konstruktor
     this.players = [
@@ -44,32 +38,21 @@ class GameBoard extends GameScreen {
       // new TetrisBlock(),
     ];
 
-    // this.entities = this.levelFactory.createEntitiesForLevel(
-    //   this.levelFactory.level1
-    // );
+    this.entities = this.levelFactory.createEntitiesForLevel(
+      this.levelFactory.level1
+    );
 
     this.collisionManager = new CollisionManager(this.players, this.entities);
   }
 
-  /**
-   * Lägger till en ny entitet i spelet.
-   * @param {Entity} entity - Entiteten att lägga till
-   */
   addEntity(entity: Entity): void {
     this.entities.push(entity);
   }
 
-  /**
-   * Tar bort en entitet från spelet.
-   * @param {Entity} entity - Entiteten att ta bort
-   */
   removeEntity(entity: Entity): void {
     this.entities = this.entities.filter((e) => e !== entity);
   }
 
-  /**
-   * Uppdaterar alla spelare och entiteter i spelet.
-   */
   public update(): void {
     // this.cameraOffset += this.scrollSpeed;
 
@@ -87,9 +70,6 @@ class GameBoard extends GameScreen {
     this.collisionManager.checkCollision();
   }
 
-  /**
-   * Flyttar eventuella spöken eller andra flygande entiteter.
-   */
   private flyingGhost(): void {
     for (const entity of this.entities) {
       if (entity instanceof Ghost) {
@@ -98,9 +78,6 @@ class GameBoard extends GameScreen {
     }
   }
 
-  /**
-   * Ritar alla entiteter och spelare på skärmen.
-   */
   draw(): void {
     background("#000000"); // Ange bakgrundsfärg
 
