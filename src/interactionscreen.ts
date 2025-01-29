@@ -4,7 +4,7 @@ class InteractionScreen extends GameScreen {
         super();
         this.returnToStartMenu = new Button(
             "Return",
-            createVector(width / 2, height -225),
+            createVector(width / 2, height -50),
             "#515151",
             createVector(200, 50),
             "#FFFFFF"
@@ -26,12 +26,12 @@ class InteractionScreen extends GameScreen {
         textAlign(CENTER, CENTER);
         textSize(32);
         textFont(customFont);
-        text("HOW TO PLAY", width / 2, height / 5);
+        text("HOW TO PLAY", width / 2, height / 2 -300);
 
         // Info about the entities
         fill("#FFFFFF");
         textSize(28);
-        text("What to get and what to avoid in the game", width / 2, height / 4);
+        text("What to get and what to avoid in the game", width / 2, height / 2 -250);
 
         // Text about what to get and what to avoid
         
