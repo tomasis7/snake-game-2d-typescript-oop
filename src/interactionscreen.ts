@@ -32,11 +32,14 @@ class InteractionScreen extends GameScreen {
         fill("#FFFFFF");
         textSize(28);
         text("Use the following keys on you keyboard", width / 2, height / 3);
-
+        
+        fill("#00FFFF");
         text("Player 1", width / 2 -200, height / 2 -60);
+        fill("#FF00FF");
         text("Player 2", width / 2 +200, height / 2 -60);
 
         // Arrow Controls
+        fill("#FFFFFF");
         textSize(28);
         text("↑", width / 2 -200, height / 2);
         text("← ↓ →", width / 2 -200, height / 2 +60);
