@@ -48,8 +48,10 @@ class GameBoard extends GameScreen {
     this.collisionManager = new CollisionManager(
       this.players,
       this.entities,
-      this.scoreManager
-    ); // Skicka ScoreManager till CollisionManager
+      this.scoreManager,
+      (entity) => this.removeEntity(entity) // Skicka removeEntity som callback
+
+    );
   }
 
   addEntity(entity: Entity): void {
@@ -61,7 +63,7 @@ class GameBoard extends GameScreen {
   }
 
   public update(): void {
-    this.cameraOffset += this.scrollSpeed;
+    // this.cameraOffset += this.scrollSpeed;
 
     for (const player of this.players) {
       player.update();
