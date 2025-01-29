@@ -49,8 +49,14 @@ class GameBoard extends GameScreen {
       this.players,
       this.entities,
       this.scoreManager,
+<<<<<<< HEAD
       this.removeEntity.bind(this) // Pass removeEntity as callback
     ); // Skicka ScoreManager till CollisionManager
+=======
+      (entity) => this.removeEntity(entity) // Skicka removeEntity som callback
+
+    );
+>>>>>>> 905ed65 (add call to remove entity callback function)
   }
 
   addEntity(entity: Entity): void {
@@ -69,7 +75,7 @@ class GameBoard extends GameScreen {
   }
 
   public update(): void {
-    this.cameraOffset += this.scrollSpeed;
+    // this.cameraOffset += this.scrollSpeed;
 
     for (const player of this.players) {
       player.update();
