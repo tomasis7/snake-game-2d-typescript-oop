@@ -39,7 +39,7 @@ class StartMenu extends GameScreen {
       "How to play",
       createVector(width / 2, height / 2 +230),
       "#515151",
-      createVector(370, 50),
+      createVector(380, 50),
       "#FFFFFF"
     );
 
@@ -69,14 +69,19 @@ class StartMenu extends GameScreen {
   }
 
   draw(): void {
-    push();
     background("black");
+    
+    push();
     fill("#45FF8C");
     textAlign(CENTER, CENTER);
-    textSize(32);
     textFont(customFont);
-    text("SELECT DIFFICULTY", width / 2, height / 4);
+    textSize(42);
+    text("Furious Snake", width / 2, height / 4 -100);
 
+    fill("#45FF8C");
+    textSize(32);
+    text("SELECT DIFFICULTY", width / 2, height / 4);
+    
     this.startGameButton.draw();
     this.selectEasyMode.draw();
     this.selectMediumMode.draw();
