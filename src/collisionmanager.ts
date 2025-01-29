@@ -48,6 +48,36 @@ class CollisionManager {
     }
   }
 
+<<<<<<< HEAD
+=======
+  private handleWinBlockCollision(player: Player): void {
+    sounds.blockCollision.play();
+    player.isColliding = true;
+    player.isMoving = false;
+    console.log(`Player ${player.playerNumber} won!`);
+
+    // Show game over when collision occurs
+    if (player.isColliding) {
+      this.showGameOver(player.playerNumber);
+    }
+  }
+
+  private startStunEffect(player: Player): void {
+    player.isMoving = false;
+    player.isColliding = true;
+
+    setTimeout(() => {
+      player.isMoving = true;
+      player.isColliding = false;
+      console.log(`Player ${player.playerNumber} can now move again.`);
+    }, 3000); // Bedövning i 3 sekunder
+  }
+
+  /**
+   * Hanterar kollision med en Star för en viss spelare.
+   * @param player - Spelaren som samlar stjärnan
+   */
+>>>>>>> 7abb38b (Add collision handling for WinBlock to trigger game over)
   private handleStarCollision(player: Player): void {
     sounds.starPickUp.play();
     player.isColliding = true;
@@ -192,6 +222,8 @@ class CollisionManager {
               this.handlePlantCollision(player);
             } else if (entity instanceof Ghost) {
               this.handleGhostCollision(player, entity);
+            } else if (entity instanceof WinBlock) {
+              this.handleWinBlockCollision(player);
             }
           }
 
