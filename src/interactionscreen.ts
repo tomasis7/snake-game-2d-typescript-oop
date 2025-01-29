@@ -49,30 +49,30 @@ class InteractionScreen extends GameScreen {
         // Arrow Controls
         fill("#FFFFFF");
         textSize(28);
-        text("↑", width / 2 -200, height / 2);
-        text("← ↓ →", width / 2 -200, height / 2 +60);
+        text("↑", width / 2 -200, height / 2 +140);
+        text("← ↓ →", width / 2 -200, height / 2 +200);
         noFill();
         strokeWeight(2);
         stroke(255);
         rectMode(CENTER);
-        square(width / 2 -200, height / 2, 50);
-        square(width / 2 -200, height / 2 +60, 50);
-        square(width / 2 -140, height / 2 +60, 50);
-        square(width / 2 -260, height / 2 +60, 50);
+        square(width / 2 -200, height / 2 +140, 50);
+        square(width / 2 -200, height / 2 +200, 50);
+        square(width / 2 -140, height / 2 +200, 50);
+        square(width / 2 -260, height / 2 +200, 50);
 
         // WASD Controls
         fill("#FFFFFF");
         textSize(28);
-        text("W", width / 2 +200, height / 2);
-        text("A S D", width / 2 +200, height / 2 +60);
+        text("W", width / 2 +200, height / 2 +140);
+        text("A S D", width / 2 +200, height / 2 +200);
         noFill();
         strokeWeight(2);
         stroke(255);
         rectMode(CENTER);
-        square(width / 2 +200, height / 2, 50);
-        square(width / 2 +200, height / 2 +60, 50);
-        square(width / 2 +140, height / 2 +60, 50);
-        square(width / 2 +260, height / 2 +60, 50);
+        square(width / 2 +200, height / 2 +140, 50);
+        square(width / 2 +200, height / 2 +200, 50);
+        square(width / 2 +140, height / 2 +200, 50);
+        square(width / 2 +260, height / 2 +200, 50);
         
         noStroke();
         this.returnToStartMenu.draw();
