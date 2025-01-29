@@ -88,6 +88,7 @@ class GameBoard extends GameScreen {
 
   draw(): void {
     background("#000000"); // Ange bakgrundsfärg
+    push();
     translate(-this.cameraOffset, 0);
 
     // translate(this.cameraOffset)
@@ -114,6 +115,7 @@ class GameBoard extends GameScreen {
       // }
     }
 
+    pop();
     this.scoreManager.draw(); // Rita poängen för båda spelarna
   }
 }
