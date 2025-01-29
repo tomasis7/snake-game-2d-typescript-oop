@@ -94,12 +94,36 @@ class CollisionManager {
       player.lives = 0;
     }
 
+<<<<<<< HEAD
     if (player.lives === 0) {
       this.showGameOver(player.playerNumber);
+=======
+
+
+    private handleStarCollision(player: Player): void {
+        sounds.starPickUp.play();
+        player.isColliding = true;
+
+        player.doubleLives();
+        player.scoreMultiplier = 2;
+
+        setTimeout(() => {
+            player.scoreMultiplier = 1;
+            console.log(`Player ${player.playerNumber}'s score multiplier reset.`);
+        }, 10000);
+
+        player.enableObstaclePassing(10000);
+        this.showPopupMessage(
+            `Player ${player.playerNumber} can pass through obstacles for 10 seconds!`
+        );
+
+        this.scoreManager.updateScore(player.getPlayerNumber(), 100); // Ge poäng vid att samla stjärna
+>>>>>>> 6b17802 (update the heart collision logic)
     }
     this.scoreManager.updateScore(player.getPlayerNumber(), -20); // Ta bort poäng vid växtkollision
   }
 
+<<<<<<< HEAD
   private isGhostSoundPlaying: boolean = false;
 
   private handleGhostCollision(player: Player, ghost: Entity): void {
@@ -138,9 +162,28 @@ class CollisionManager {
       }
 
       this.scoreManager.updateScore(player.getPlayerNumber(), -5); // Ta bort poäng vid spökkollision
+=======
+    private handleHeartCollision(player: Player, heart: Entity): void {
+        if (player.isColliding) return; // 🚨 Prevent multiple triggers per frame
+
+        sounds.gainheart.play();
+        console.log(`Player ${player.playerNumber} collected a Heart!`);
+
+        player.isColliding = true; // 🚨 Prevent further collisions until the next frame
+
+        if (player.lives < player.maxLives) {
+            player.lives += 1;
+        }
+
+        // Remove heart immediately
+        if (this.removeEntityCallback) {
+            this.removeEntityCallback(heart);
+        }
+>>>>>>> 6b17802 (update the heart collision logic)
     }
   }
 
+<<<<<<< HEAD
   private showGameOver(losingPlayer: number): void {
     const winnerMessage =
       losingPlayer === 1
@@ -148,6 +191,13 @@ class CollisionManager {
         : losingPlayer === 2
         ? "Player 2 lost. Player 1 wins!"
         : "Game Over!";
+=======
+
+
+    private handlePlantCollision(player: Player): void {
+        sounds.blockCollision.play();
+        player.isColliding = true;
+>>>>>>> 6b17802 (update the heart collision logic)
 
     game.changeScreen(new GameOverScreen(winnerMessage));
     console.log(winnerMessage);
