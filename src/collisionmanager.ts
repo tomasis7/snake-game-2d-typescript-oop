@@ -33,15 +33,6 @@ class CollisionManager {
         player.isMoving = false;
         console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
 
-        // Deduct life
-        player.lives -= 1;
-        if (player.lives < 0) {
-            player.lives = 0;
-        }
-
-        // Deduct score on collision
-        this.scoreManager.updateScore(player.getPlayerNumber(), -10);
-
         // Trigger Game Over immediately
         this.showGameOver(player.playerNumber);
     }
