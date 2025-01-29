@@ -8,9 +8,13 @@ class GameOverScreen extends GameScreen {
   }
   draw(): void {
     push();
+
+    // Draw background color
+    background(50); // Example background color (dark gray)
+
     fill(0, 0, 0, 150); // Transparent svart bakgrund
     // Ritar bakgrunden med rätt dimensioner, så att den täcker texten
-    rect(width / 2 - 150, height / 2 - 50, 300, 100, 10);
+    rect(width / 2 - 0, height / 2 - 0, 300, 200, 10);
 
     fill("white"); // Textfärg vit
     textSize(32);
