@@ -28,7 +28,7 @@ class Star extends Entity {
     }
 
     push();
-    rectMode(CENTER);
+    imageMode(CENTER);
     translate(this.position.x, this.position.y);
     image(this.image, this.size.x, this.size.y, this.size.x, this.size.y);
     pop();
