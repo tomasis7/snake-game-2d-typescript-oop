@@ -15,7 +15,7 @@ class GameOverScreen extends GameScreen {
   update(): void {
     // Här kan du lägga till logik om du vill uppdatera något under Game Over
     if (this.restartButton.isClicked()) {
-      game.changeScreen(new GameBoard(createVector(800, 600)))
+      game.changeScreen(new GameBoard())
     }
   }
 
