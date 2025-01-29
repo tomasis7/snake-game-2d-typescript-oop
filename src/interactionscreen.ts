@@ -3,8 +3,8 @@ class InteractionScreen extends GameScreen {
     constructor() {
         super();
         this.returnToStartMenu = new Button(
-            "Back",
-            createVector(width / 2, height -50),
+            "← Back",
+            createVector(150, 75),
             "#515151",
             createVector(200, 50),
             "#FFFFFF"
@@ -18,10 +18,10 @@ class InteractionScreen extends GameScreen {
     }
 
     draw(): void {
-        push();
         background("black");
-
+        
         // Title
+        push();
         fill("#45FF8C");
         imageMode(CENTER);
         textAlign(CENTER, CENTER);
