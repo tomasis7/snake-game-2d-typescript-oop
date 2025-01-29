@@ -69,7 +69,6 @@ class CollisionManager {
     }
 
 
-
     private handleHeartCollision(player: Player, heart: Entity): void {
         if (heart.isRemoved) return; // Prevent multiple collections
 
@@ -86,19 +85,32 @@ class CollisionManager {
         console.log(`Heart entity removed:`, heart); // Added logging
     }
 
-
     private handlePlantCollision(player: Player): void {
+        const currentTime = Date.now();
+    
+        // Kontrollera om cooldown-perioden har passerat
+        if (currentTime - player.lastCollisionTime < player.collisionCooldown) {
+            return; // Ignorera kollisionen om cooldown inte är klar
+        }
+    
+        // Uppdatera tidpunkten för senaste kollision
+        player.lastCollisionTime = currentTime;
+    
+        console.log(`Player lives before collision: ${player.lives}`); // Debuggning
         sounds.blockCollision.play();
         player.isColliding = true;
-
+    
         player.lives -= 2;
-
+    
+        console.log(`Player lives after collision: ${player.lives}`); // Debuggning
+    
         // Se till att liv inte går under 0
         if (player.lives < 0) {
             player.lives = 0;
         }
-
-        if (player.lives === 0) {
+    
+        // Kontrollera om livet är mindre än eller lika med 0 för att visa Game Over
+        if (player.lives <= 0) {
             this.showGameOver(player.playerNumber);
         }
     }
