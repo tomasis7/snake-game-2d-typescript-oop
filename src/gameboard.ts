@@ -10,8 +10,8 @@ class GameBoard extends GameScreen {
   private collisionManager: CollisionManager;
   private scoreManager: ScoreManager;
 
-  // private cameraOffset: number = 0;
-  // private scrollSpeed: number = 2;
+  private cameraOffset: number = 0;
+  private scrollSpeed: number = 2;
 
   constructor() {
     super(); // Anropa basklassens konstruktor
@@ -33,20 +33,23 @@ class GameBoard extends GameScreen {
     this.levelFactory = new LevelFactory();
     //initialize
     // this.entities = [
-      // new Heart(),
-      // new Star(), // For test to get levelfactory in place.
-      // new Ghost(),
-      // new Plant(), // For test to get levelfactory in place.
-      // new TetrisBlock(),
+    // new Heart(),
+    // new Star(), // For test to get levelfactory in place.
+    // new Ghost(),
+    // new Plant(), // For test to get levelfactory in place.
+    // new TetrisBlock(),
     // ];
 
     this.entities = this.levelFactory.createEntitiesForLevel(
       this.levelFactory.level1
     );
 
-    this.scoreManager = new ScoreManager(this.players);  // Initiera ScoreManager
-    this.collisionManager = new CollisionManager(this.players, this.entities, this.scoreManager);  // Skicka ScoreManager till CollisionManager
-
+    this.scoreManager = new ScoreManager(this.players); // Initiera ScoreManager
+    this.collisionManager = new CollisionManager(
+      this.players,
+      this.entities,
+      this.scoreManager
+    ); // Skicka ScoreManager till CollisionManager
   }
 
   addEntity(entity: Entity): void {
@@ -58,7 +61,7 @@ class GameBoard extends GameScreen {
   }
 
   public update(): void {
-    // this.cameraOffset += this.scrollSpeed;
+    this.cameraOffset += this.scrollSpeed;
 
     for (const player of this.players) {
       player.update();
@@ -85,6 +88,7 @@ class GameBoard extends GameScreen {
 
   draw(): void {
     background("#000000"); // Ange bakgrundsfärg
+    translate(-this.cameraOffset, 0);
 
     // translate(this.cameraOffset)
     //console.log("Drawing GameBoard");
@@ -111,6 +115,5 @@ class GameBoard extends GameScreen {
     }
 
     this.scoreManager.draw(); // Rita poängen för båda spelarna
-
   }
 }
