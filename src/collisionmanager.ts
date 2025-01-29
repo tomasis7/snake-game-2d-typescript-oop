@@ -31,26 +31,35 @@ class CollisionManager {
 
     private handleTetrisCollision(player: Player): void {
         sounds.blockCollision.play();
+        player.isColliding = true;
+        player.isMoving = false;
         console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
 
-        // Deduct life
-        player.lives -= 1;
-        if (player.lives < 0) {
-            player.lives = 0;
+        this.showGameOver(player.playerNumber);
+
+    }
+
+    private handleHeartCollision(player: Player, heart: Entity): void {
+        if (player.isColliding) return; // Prevent multiple triggers per frame
+
+        sounds.gainheart.play();
+        console.log(`Player ${player.playerNumber} collected a Heart!`);
+
+        player.isColliding = true; // Prevent further collisions until the next frame
+
+        if (player.lives < player.maxLives) {
+            player.lives += 1;
         }
 
-        // Deduct score on collision
-        this.scoreManager.updateScore(player.getPlayerNumber(), -10);
-
-        // Only trigger Game Over if the player has no lives left
-        if (player.lives === 0) {
-            this.showGameOver(player.playerNumber);
+        // Remove heart immediately
+        if (this.removeEntityCallback) {
+            this.removeEntityCallback(heart);
         }
     }
 
     private handleStarCollision(player: Player, star: Entity): void {
-        sounds.starPickUp.play();
         player.isColliding = true;
+        sounds.starPickUp.play();
 
         player.doubleLives();
         player.scoreMultiplier = 2;
@@ -74,28 +83,10 @@ class CollisionManager {
     }
 
 
-    private handleHeartCollision(player: Player, heart: Entity): void {
-        if (player.isColliding) return; // 🚨 Prevent multiple triggers per frame
-
-        sounds.gainheart.play();
-        console.log(`Player ${player.playerNumber} collected a Heart!`);
-
-        player.isColliding = true; // 🚨 Prevent further collisions until the next frame
-
-        if (player.lives < player.maxLives) {
-            player.lives += 1;
-        }
-
-        // Remove heart immediately
-        if (this.removeEntityCallback) {
-            this.removeEntityCallback(heart);
-        }
-    }
-
 
     private handlePlantCollision(player: Player): void {
-        sounds.blockCollision.play();
         player.isColliding = true;
+        sounds.blockCollision.play();
 
         player.lives -= 2;
 
@@ -236,35 +227,3 @@ class CollisionManager {
         }, duration);
     }
 }
-
-// Om ingen kollision upptäcks, återställ flaggor
-
-//   private checkGridCollision() {
-//     // Define obstacles with positions and colors
-//     const obstacles = [
-//       { row: 25, col: 50, color: "red" },
-//       { row: 25, col: 51, color: "yellow" },
-//       { row: 25, col: 52, color: "green" },
-//       { row: 15, col: 50, color: "bomb" },
-//       { row: 15, col: 51, color: "bomb" },
-//       { row: 15, col: 52, color: "bomb" },
-//     ];
-
-//     // Draw obstacles
-//     obstacles.forEach((obstacle) => {
-//       this.drawSquareAt(obstacle.row, obstacle.col);
-//       this.drawSquareAt2(obstacle.row, obstacle.col, obstacle.color);
-//     });
-
-//     // Direct position comparison
-//     obstacles.forEach((obstacle) => {
-//       if (
-//         (this.player1.row === obstacle.row &&
-//           this.player1.col === obstacle.col) ||
-//         (this.player2.row === obstacle.row && this.player2.col === obstacle.col)
-//       ) {
-//         alert(`Square hit a ${obstacle.color} obstacle!`);
-//         this.isGameOver = true;
-//       }
-//     });
-//   }
