@@ -48,6 +48,15 @@ class CollisionManager {
     }
   }
 
+  private handleWinBlockCollision(player: Player): void {
+    sounds.blockCollision.play();
+    player.isColliding = true;
+    player.isMoving = false;
+    console.log(`Player ${player.playerNumber} won!`);
+    const otherPlayerNumber = player.playerNumber === 1 ? 2 : 1;
+    this.showGameOver(otherPlayerNumber);
+  }
+
   private handleStarCollision(player: Player): void {
     sounds.starPickUp.play();
     player.isColliding = true;
@@ -192,17 +201,19 @@ class CollisionManager {
               this.handlePlantCollision(player);
             } else if (entity instanceof Ghost) {
               this.handleGhostCollision(player, entity);
+            } else if (entity instanceof WinBlock) {
+              this.handleWinBlockCollision(player);
             }
+
+            // Avsluta loopen för entiteter eftersom kollision upptäcktes
+            break;
           }
-
-          // Avsluta loopen för entiteter eftersom kollision upptäcktes
-          break;
         }
-      }
 
-      // Återställ kollisionen om ingen upptäcktes
-      if (!hasCollision) {
-        player.isColliding = false;
+        // Återställ kollisionen om ingen upptäcktes
+        if (!hasCollision) {
+          player.isColliding = false;
+        }
       }
     }
   }
