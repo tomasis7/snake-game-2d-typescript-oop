@@ -50,6 +50,7 @@ class GameBoard extends GameScreen {
       this.entities,
       this.scoreManager,
 <<<<<<< HEAD
+<<<<<<< HEAD
       this.removeEntity.bind(this) // Pass removeEntity as callback
     ); // Skicka ScoreManager till CollisionManager
 =======
@@ -57,6 +58,11 @@ class GameBoard extends GameScreen {
 
     );
 >>>>>>> 905ed65 (add call to remove entity callback function)
+=======
+      (entity) => this.removeEntity(entity) // Skicka removeEntity som callback
+
+    );
+>>>>>>> cff86a216f233f9b9aef4773cd5b5b9bb04f0168
   }
 
   addEntity(entity: Entity): void {
@@ -72,12 +78,18 @@ class GameBoard extends GameScreen {
   removeEntity(entity: Entity): void {
     this.entities = this.entities.filter((e) => e !== entity);
 <<<<<<< HEAD
+<<<<<<< HEAD
     console.log(`Entity removed:`, entity); // Added logging
 =======
 
     console.log("Current entities after removal:", this.entities);
 
 >>>>>>> 629dbc6 (update the draw method for each entity to locate the entity correctly.)
+=======
+
+    console.log("Current entities after removal:", this.entities);
+
+>>>>>>> cff86a216f233f9b9aef4773cd5b5b9bb04f0168
   }
 
   public update(): void {
