@@ -48,9 +48,7 @@ class CollisionManager {
         }
     }
 
-
-
-    private handleStarCollision(player: Player): void {
+    private handleStarCollision(player: Player, star: Entity): void {
         sounds.starPickUp.play();
         player.isColliding = true;
 
@@ -67,8 +65,14 @@ class CollisionManager {
             `Player ${player.playerNumber} can pass through obstacles for 10 seconds!`
         );
 
-        this.scoreManager.updateScore(player.getPlayerNumber(), 100); // Ge poäng vid att samla stjärna
+        this.scoreManager.updateScore(player.getPlayerNumber(), 100); // Points for collecting star
+
+        // Now, remove the star entity from the game after collision
+        if (this.removeEntityCallback) {
+            this.removeEntityCallback(star);
+        }
     }
+
 
     private handleHeartCollision(player: Player, heart: Entity): void {
         if (player.isColliding) return; // 🚨 Prevent multiple triggers per frame
@@ -87,7 +91,6 @@ class CollisionManager {
             this.removeEntityCallback(heart);
         }
     }
-
 
 
     private handlePlantCollision(player: Player): void {
@@ -192,7 +195,7 @@ class CollisionManager {
                         if (entity instanceof TetrisBlock) {
                             this.handleTetrisCollision(player);
                         } else if (entity instanceof Star) {
-                            this.handleStarCollision(player);
+                            this.handleStarCollision(player, entity);
                         } else if (entity instanceof Heart) {
                             this.handleHeartCollision(player, entity);
                         } else if (entity instanceof Plant) {
