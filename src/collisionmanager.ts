@@ -118,10 +118,44 @@ class CollisionManager {
         );
 
         this.scoreManager.updateScore(player.getPlayerNumber(), 100); // Ge poäng vid att samla stjärna
->>>>>>> 6b17802 (update the heart collision logic)
     }
-    this.scoreManager.updateScore(player.getPlayerNumber(), -20); // Ta bort poäng vid växtkollision
-  }
+
+    private handleHeartCollision(player: Player, heart: Entity): void {
+        if (player.isColliding) return; // 🚨 Prevent multiple triggers per frame
+
+        sounds.gainheart.play();
+        console.log(`Player ${player.playerNumber} collected a Heart!`);
+
+        player.isColliding = true; // 🚨 Prevent further collisions until the next frame
+
+        if (player.lives < player.maxLives) {
+            player.lives += 1;
+        }
+
+        // Remove heart immediately
+        if (this.removeEntityCallback) {
+            this.removeEntityCallback(heart);
+        }
+    }
+
+
+
+    private handlePlantCollision(player: Player): void {
+        sounds.blockCollision.play();
+        player.isColliding = true;
+
+        player.lives -= 2;
+
+        // Se till att liv inte går under 0
+        if (player.lives < 0) {
+            player.lives = 0;
+        }
+
+        if (player.lives === 0) {
+            this.showGameOver(player.playerNumber);
+        }
+        this.scoreManager.updateScore(player.getPlayerNumber(), -20); // Ta bort poäng vid växtkollision
+    }
 
 <<<<<<< HEAD
   private isGhostSoundPlaying: boolean = false;
@@ -230,20 +264,20 @@ class CollisionManager {
         if (isColliding) {
           hasCollision = true; // Markera att en kollision upptäckts
 
-          if (!player.isColliding) {
-            // Hantera kollision baserat på entitetstyp
-            if (entity instanceof TetrisBlock) {
-              this.handleTetrisCollision(player);
-            } else if (entity instanceof Star) {
-              this.handleStarCollision(player);
-            } else if (entity instanceof Heart) {
-              this.handleHeartCollision(player, entity);
-            } else if (entity instanceof Plant) {
-              this.handlePlantCollision(player);
-            } else if (entity instanceof Ghost) {
-              this.handleGhostCollision(player, entity);
-            }
-          }
+                    if (!player.isColliding) {
+                        // Hantera kollision baserat på entitetstyp
+                        if (entity instanceof TetrisBlock) {
+                            this.handleTetrisCollision(player);
+                        } else if (entity instanceof Star) {
+                            this.handleStarCollision(player);
+                        } else if (entity instanceof Heart) {
+                            this.handleHeartCollision(player, entity);
+                        } else if (entity instanceof Plant) {
+                            this.handlePlantCollision(player);
+                        } else if (entity instanceof Ghost) {
+                            this.handleGhostCollision(player, entity);
+                        }
+                    }
 
           // Avsluta loopen för entiteter eftersom kollision upptäcktes
           break;

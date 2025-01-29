@@ -88,6 +88,7 @@ class GameBoard extends GameScreen {
     }
 
     this.flyingGhost();
+    
     this.collisionManager.checkCollision();
     this.scoreManager.tickScore();
   }
