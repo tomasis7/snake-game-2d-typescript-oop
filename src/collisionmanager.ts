@@ -13,58 +13,41 @@ class CollisionManager {
   players: Player[];
   entities: Entity[];
   scoreManager: ScoreManager;
+  private removeEntityCallback: (entity: Entity) => void; // Callback-funktion
 
   constructor(
     players: Player[],
     entities: Entity[],
-    scoreManager: ScoreManager
+    scoreManager: ScoreManager,
+    removeEntityCallback: (entity: Entity) => void // Add this parameter
   ) {
     this.players = players;
     this.entities = entities;
     this.scoreManager = scoreManager;
+    this.removeEntityCallback = removeEntityCallback; // Spara callback
   }
 
-  /**
-   * Hanterar kollision med ett TetrisBlock för en viss spelare.
-   * @param player - Spelaren som krockar med TetrisBlocket
-   */
   private handleTetrisCollision(player: Player): void {
     sounds.blockCollision.play();
     player.isColliding = true;
     player.isMoving = false;
     console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
 
+    // Deduct life
     player.lives -= 1;
     if (player.lives < 0) {
-      player.lives = 0; // Spelaren kan inte ha negativa liv
+      player.lives = 0;
     }
 
-    // Starta bedövning (ingen poäng under denna tid)
-    this.startStunEffect(player);
+    // Deduct score on collision
+    this.scoreManager.updateScore(player.getPlayerNumber(), -10);
 
-    // Visa Game Over om inga liv kvar
+    // Only trigger Game Over if the player has no lives left
     if (player.lives === 0) {
       this.showGameOver(player.playerNumber);
     }
-
-    this.scoreManager.updateScore(player.getPlayerNumber(), -10); // Ta bort poäng vid kollision
   }
 
-  private startStunEffect(player: Player): void {
-    player.isMoving = false;
-    player.isColliding = true;
-
-    setTimeout(() => {
-      player.isMoving = true;
-      player.isColliding = false;
-      console.log(`Player ${player.playerNumber} can now move again.`);
-    }, 3000); // Bedövning i 3 sekunder
-  }
-
-  /**
-   * Hanterar kollision med en Star för en viss spelare.
-   * @param player - Spelaren som samlar stjärnan
-   */
   private handleStarCollision(player: Player): void {
     sounds.starPickUp.play();
     player.isColliding = true;
@@ -85,11 +68,8 @@ class CollisionManager {
     this.scoreManager.updateScore(player.getPlayerNumber(), 50); // Ge poäng vid att samla stjärna
   }
 
-  /**
-   * Hanterar kollision med ett Heart för en viss spelare.
-   * @param player - Spelaren som samlar hjärtat
-   */
-  private handleHeartCollision(player: Player): void {
+  private handleHeartCollision(player: Player, heart: Entity): void {
+    if (heart.isRemoved) return; // Prevent multiple collections
     sounds.gainheart.play();
     player.isColliding = true;
     console.log(`Player ${player.playerNumber} collected a Heart!`);
@@ -97,14 +77,12 @@ class CollisionManager {
     if (player.lives < player.maxLives) {
       player.lives += 1;
     }
-    // this.removeEntity(heart);
+    heart.isRemoved = true; // Mark heart as removed
+    this.removeEntityCallback(heart);
+    console.log(`Heart entity removed:`, heart); // Added logging
     this.scoreManager.updateScore(player.getPlayerNumber(), 100); // Ge poäng vid att samla hjärta
   }
 
-  /**
-   * Hanterar kollision med en Plant för en viss spelare.
-   * @param player - Spelaren som krockar med plantan
-   */
   private handlePlantCollision(player: Player): void {
     sounds.blockCollision.play();
     player.isColliding = true;
@@ -124,11 +102,6 @@ class CollisionManager {
 
   private isGhostSoundPlaying: boolean = false;
 
-  /**
-   * Hanterar kollision med ett Ghost för en viss spelare.
-   * @param player - Spelaren som krockar med spöket
-   * @param ghost - Spökentiteten som spelaren krockar med
-   */
   private handleGhostCollision(player: Player, ghost: Entity): void {
     const distance = dist(
       player.position.x,
@@ -168,10 +141,6 @@ class CollisionManager {
     }
   }
 
-  /**
-   * Visar Game Over-skärmen och talar om vem som vinner.
-   * @param losingPlayer - Spelaren som förlorade
-   */
   private showGameOver(losingPlayer: number): void {
     const winnerMessage =
       losingPlayer === 1
@@ -218,7 +187,7 @@ class CollisionManager {
             } else if (entity instanceof Star) {
               this.handleStarCollision(player);
             } else if (entity instanceof Heart) {
-              this.handleHeartCollision(player);
+              this.handleHeartCollision(player, entity);
             } else if (entity instanceof Plant) {
               this.handlePlantCollision(player);
             } else if (entity instanceof Ghost) {
