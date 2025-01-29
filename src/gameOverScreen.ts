@@ -1,8 +1,10 @@
 class GameOverScreen extends GameScreen {
   restartButton: Button;
+  winnerMessage: string;
 
-  constructor() {
+  constructor(winnerMessage: string) {
     super();
+    this.winnerMessage = winnerMessage;
     this.restartButton = new Button(
       "Restart",
       createVector(width / 2, height / 2 + 50),
@@ -12,33 +14,36 @@ class GameOverScreen extends GameScreen {
     );
   }
 
+  draw(): void {
+    push();
+    // background(50);
+
+    // Calculate dimensions for 66% coverage
+    const rectWidth = width * 0.66;
+    const rectHeight = height * 0.66;
+    const x = (width - rectWidth) / 2;
+    const y = (height - rectHeight) / 2;
+
+    // Draw semi-transparent background
+    fill(0, 0, 0, 20);
+    rect(x, y, rectWidth, rectHeight);
+
+    fill("white");
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    text("GAME OVER", width / 2, height / 2 - 20);
+
+    // Add winner message below "GAME OVER"
+    textSize(24);
+    text(this.winnerMessage, width / 2, height / 2 + 120);
+
+    this.restartButton.draw();
+    pop();
+  }
   update(): void {
     // Här kan du lägga till logik om du vill uppdatera något under Game Over
     if (this.restartButton.isClicked()) {
       game.changeScreen(new GameBoard());
     }
-  }
-
-  draw(): void {
-    push();
-
-    // Draw background color
-    background(50); // Example background color (dark gray)
-
-    fill(0, 0, 0, 150); // Transparent svart bakgrund
-    // Ritar bakgrunden med rätt dimensioner, så att den täcker texten
-    rect(width / 2 - 175, height / 2 - 50, 350, 200, 10);
-    // rect(width / 2 - 0, height / 2 - 0, 350, 200, 10);
-
-    fill("white"); // Textfärg vit
-    textSize(32);
-    textAlign(CENTER, CENTER);
-    // Ritar texten på exakt samma plats som bakgrunden
-    text("GAME OVER", width / 2, height / 2);
-
-    // Draw restart button
-    this.restartButton.draw();
-
-    pop();
   }
 }

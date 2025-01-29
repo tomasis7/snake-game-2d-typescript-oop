@@ -17,7 +17,7 @@ class CollisionManager {
   constructor(
     players: Player[],
     entities: Entity[],
-    scoreManager: ScoreManager,
+    scoreManager: ScoreManager
   ) {
     this.players = players;
     this.entities = entities;
@@ -40,7 +40,7 @@ class CollisionManager {
 
     // Visa Game Over om inga liv kvar
     if (player.lives === 0) {
-      this.showGameOver();
+      this.showGameOver(player.playerNumber);
     }
 
     this.scoreManager.updateScore(player.getPlayerNumber(), -10); // Ta bort poäng vid kollision
@@ -71,7 +71,7 @@ class CollisionManager {
 
     player.enableObstaclePassing(10000);
     this.showPopupMessage(
-      `Player ${player.playerNumber} can pass through obstacles for 10 seconds!`,
+      `Player ${player.playerNumber} can pass through obstacles for 10 seconds!`
     );
 
     this.scoreManager.updateScore(player.getPlayerNumber(), 50); // Ge poäng vid att samla stjärna
@@ -101,7 +101,7 @@ class CollisionManager {
     }
 
     if (player.lives === 0) {
-      this.showGameOver();
+      this.showGameOver(player.playerNumber);
     }
     this.scoreManager.updateScore(player.getPlayerNumber(), -20); // Ta bort poäng vid växtkollision
   }
@@ -113,7 +113,7 @@ class CollisionManager {
       player.position.x,
       player.position.y,
       ghost.position.x,
-      ghost.position.y,
+      ghost.position.y
     );
 
     console.log("Distance to ghost:", distance);
@@ -134,7 +134,7 @@ class CollisionManager {
       }
 
       if (player.lives === 0) {
-        this.showGameOver();
+        this.showGameOver(player.playerNumber);
       }
     } else {
       if (this.isGhostSoundPlaying) {
@@ -147,9 +147,16 @@ class CollisionManager {
     }
   }
 
-  private showGameOver(): void {
-    game.changeScreen(new GameOverScreen());
-    console.log("Game Over!");
+  private showGameOver(losingPlayer: number): void {
+    const winnerMessage =
+      losingPlayer === 1
+        ? "Player 1 lost. Player 2 wins!"
+        : losingPlayer === 2
+        ? "Player 2 lost. Player 1 wins!"
+        : "Game Over!";
+
+    game.changeScreen(new GameOverScreen(winnerMessage));
+    console.log(winnerMessage);
   }
 
   checkCollision(): void {
