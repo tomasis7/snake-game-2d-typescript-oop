@@ -33,7 +33,7 @@ class Heart extends Entity {
     scale(this.pulseScale);
 
     if (this.image) {
-      image(this.image, this.size.x, this.size.y, this.size.x, this.size.y);
+      image(this.image, 0, 0, this.size.x, this.size.y);
     } else {
       console.warn("Heart entity has no image to draw.");
     }
