@@ -37,7 +37,7 @@ class StartMenu extends GameScreen {
 
     this.interactionScreen = new Button(
       "How to play",
-      createVector(width / 2, height / 2 +230),
+      createVector(width / 2, height -100),
       "#515151",
       createVector(380, 50),
       "#FFFFFF"
