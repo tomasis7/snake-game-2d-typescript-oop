@@ -45,10 +45,10 @@ class ScoreManager {
                 const textContent = `Player: ${playerNumber} Score: ${score} | Lives: ${player.lives}`;
                 if (playerNumber === 1) {
                     // Player 1: Top of the screen
-                    text(textContent, width / 2, 15); // Centered horizontally at the top
+                    text(textContent, width / 2, 50); // Centered horizontally at the top
                 } else if (playerNumber === 2) {
                     // Player 2: Bottom of the screen
-                    text(textContent, width / 2, height - 175); // Centered horizontally at the bottom
+                    text(textContent, width / 2, height - 40); // Centered horizontally at the bottom
                 }
             }
         }
