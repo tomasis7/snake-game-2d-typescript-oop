@@ -68,6 +68,7 @@ class CollisionManager {
 
     private handleHeartCollision(player: Player, heart: Entity): void {
         if (heart.isRemoved) return; // Prevent multiple collections
+
         sounds.gainheart.play();
         player.isColliding = true;
         console.log(`Player ${player.playerNumber} collected a Heart!`);
@@ -75,11 +76,12 @@ class CollisionManager {
         if (player.lives < player.maxLives) {
             player.lives += 1;
         }
+
         heart.isRemoved = true; // Mark heart as removed
         this.removeEntityCallback(heart);
         console.log(`Heart entity removed:`, heart); // Added logging
-        this.scoreManager.updateScore(player.getPlayerNumber(), 100); // Ge poäng vid att samla hjärta
     }
+
 
     private handlePlantCollision(player: Player): void {
         sounds.blockCollision.play();
