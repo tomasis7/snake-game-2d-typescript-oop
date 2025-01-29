@@ -36,5 +36,9 @@ class Game {
       screen.draw();
     }
   }
+
+  /**
+   * Avslutar spelet.
+   */
   end(): void {}
 }

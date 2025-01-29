@@ -24,6 +24,10 @@ class CollisionManager {
     this.scoreManager = scoreManager;
   }
 
+  /**
+   * Hanterar kollision med ett TetrisBlock för en viss spelare.
+   * @param player - Spelaren som krockar med TetrisBlocket
+   */
   private handleTetrisCollision(player: Player): void {
     sounds.blockCollision.play();
     player.isColliding = true;
@@ -57,6 +61,10 @@ class CollisionManager {
     }, 3000); // Bedövning i 3 sekunder
   }
 
+  /**
+   * Hanterar kollision med en Star för en viss spelare.
+   * @param player - Spelaren som samlar stjärnan
+   */
   private handleStarCollision(player: Player): void {
     sounds.starPickUp.play();
     player.isColliding = true;
@@ -77,6 +85,10 @@ class CollisionManager {
     this.scoreManager.updateScore(player.getPlayerNumber(), 50); // Ge poäng vid att samla stjärna
   }
 
+  /**
+   * Hanterar kollision med ett Heart för en viss spelare.
+   * @param player - Spelaren som samlar hjärtat
+   */
   private handleHeartCollision(player: Player): void {
     sounds.gainheart.play();
     player.isColliding = true;
@@ -89,6 +101,10 @@ class CollisionManager {
     this.scoreManager.updateScore(player.getPlayerNumber(), 100); // Ge poäng vid att samla hjärta
   }
 
+  /**
+   * Hanterar kollision med en Plant för en viss spelare.
+   * @param player - Spelaren som krockar med plantan
+   */
   private handlePlantCollision(player: Player): void {
     sounds.blockCollision.play();
     player.isColliding = true;
@@ -108,6 +124,11 @@ class CollisionManager {
 
   private isGhostSoundPlaying: boolean = false;
 
+  /**
+   * Hanterar kollision med ett Ghost för en viss spelare.
+   * @param player - Spelaren som krockar med spöket
+   * @param ghost - Spökentiteten som spelaren krockar med
+   */
   private handleGhostCollision(player: Player, ghost: Entity): void {
     const distance = dist(
       player.position.x,
@@ -147,6 +168,10 @@ class CollisionManager {
     }
   }
 
+  /**
+   * Visar Game Over-skärmen och talar om vem som vinner.
+   * @param losingPlayer - Spelaren som förlorade
+   */
   private showGameOver(losingPlayer: number): void {
     const winnerMessage =
       losingPlayer === 1
