@@ -26,17 +26,25 @@ class InteractionScreen extends GameScreen {
         textAlign(CENTER, CENTER);
         textSize(32);
         textFont(customFont);
-        text("HOW TO PLAY", width / 2, height / 4);
+        text("HOW TO PLAY", width / 2, height / 5);
+
+        // Info about the entities
+        fill("#FFFFFF");
+        textSize(28);
+        text("What to get and what to avoid in the game", width / 2, height / 4);
+
+        // Text about what to get and what to avoid
         
+
         // Info and players
         fill("#FFFFFF");
         textSize(28);
-        text("Use the following keys on you keyboard", width / 2, height / 3);
+        text("Use the following keys on you keyboard\nto navigate your snake in the game", width / 2, height / 2);
         
         fill("#00FFFF");
-        text("Player 1", width / 2 -200, height / 2 -60);
+        text("Player 1", width / 2 -200, height / 2 +60);
         fill("#FF00FF");
-        text("Player 2", width / 2 +200, height / 2 -60);
+        text("Player 2", width / 2 +200, height / 2 +60);
 
         // Arrow Controls
         fill("#FFFFFF");
