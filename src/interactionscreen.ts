@@ -3,7 +3,7 @@ class InteractionScreen extends GameScreen {
     constructor() {
         super();
         this.returnToStartMenu = new Button(
-            "Return",
+            "Back",
             createVector(width / 2, height -50),
             "#515151",
             createVector(200, 50),
@@ -32,13 +32,26 @@ class InteractionScreen extends GameScreen {
         // Info about the entities
         fill("#FFFFFF");
         textSize(28);
-        text("What to get and what to avoid in the game", width / 2, height / 2 -250);
+        text("What to eat and what to avoid", width / 2, height / 2 -250);
 
-        // Text about what to get and what to avoid
+        // Power-ups
         textSize(24);
         textAlign(LEFT, CENTER);
         fill("#45FF8C");
         text("Power-ups", width / 2 -300, height / 2 -200);
+        fill("#CCCCCC");
+        image(images.heart, width / 2 -330, height / 2 -160, 25, 25);
+        text("= +1 Life", width / 2 -300, height / 2 -160);
+        image(images.star, width / 2 -330, height / 2 -120, 25, 25);
+        text("= x2 Points", width / 2 -300, height / 2 -120);
+        image(images.star, width / 2 -330, height / 2 -80, 25, 25);
+        text("= x2 Points", width / 2 -300, height / 2 -80);
+
+        // Obstacles / Power-downs
+        textSize(24);
+        textAlign(LEFT, CENTER);
+        fill("#45FF8C");
+        text("Obstacles", width / 2 +100, height / 2 -200);
         fill("#CCCCCC");
         image(images.heart, width / 2 -330, height / 2 -160, 25, 25);
         text("= +1 Life", width / 2 -300, height / 2 -160);
