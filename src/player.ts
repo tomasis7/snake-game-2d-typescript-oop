@@ -21,6 +21,8 @@ class Player extends Entity {
 
   public lives: number;
   public maxLives: number;
+  public lastCollisionTime: number; // Tidpunkt för senaste kollision
+  public collisionCooldown: number; // Cooldown-tid i millisekunder
   public scoreMultiplier: number;
   public canPassThroughObstacles: boolean;
 
@@ -62,8 +64,10 @@ class Player extends Entity {
 
     this.isMoving = true;
 
-    this.lives = 3; // Starta med 3 liv
-    this.maxLives = 10; // Max antal liv
+    this.lives = 3; 
+    this.maxLives = 10;
+    this.lastCollisionTime = 0; // Tidpunkt för senaste kollision
+    this.collisionCooldown = 1000; // 1 sekunds cooldown
     this.scoreMultiplier = 1; // Standard multiplikator
     this.canPassThroughObstacles = false; // Inaktiverad hinderpassering som standard
   }
