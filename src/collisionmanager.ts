@@ -87,72 +87,80 @@ class CollisionManager {
 
     private handlePlantCollision(player: Player): void {
         const currentTime = Date.now();
-    
+
         // Kontrollera om cooldown-perioden har passerat
         if (currentTime - player.lastCollisionTime < player.collisionCooldown) {
             return; // Ignorera kollisionen om cooldown inte är klar
         }
-    
+
         // Uppdatera tidpunkten för senaste kollision
         player.lastCollisionTime = currentTime;
-    
+
         console.log(`Player lives before collision: ${player.lives}`); // Debuggning
         sounds.blockCollision.play();
         player.isColliding = true;
-    
+
         player.lives -= 2;
-    
+
         console.log(`Player lives after collision: ${player.lives}`); // Debuggning
-    
+
         // Se till att liv inte går under 0
         if (player.lives < 0) {
             player.lives = 0;
         }
-    
+
         // Kontrollera om livet är mindre än eller lika med 0 för att visa Game Over
         if (player.lives <= 0) {
             this.showGameOver(player.playerNumber);
         }
     }
 
-    private isGhostSoundPlaying: boolean = false;
 
     private handleGhostCollision(player: Player, ghost: Entity): void {
+        const currentTime = Date.now();
         const distance = dist(
             player.position.x,
             player.position.y,
             ghost.position.x,
             ghost.position.y
         );
-
+    
         console.log("Distance to ghost:", distance);
-
+    
         if (distance < 900) {
             console.log("Ghost is near, playing sound...");
-
-            if (!this.isGhostSoundPlaying) {
+    
+            if (!ghost.isSoundPlaying) {
                 sounds.ghost.play();
-                this.isGhostSoundPlaying = true;
+                ghost.isSoundPlaying = true;
                 console.log("Ghost sound started");
             }
-            player.isColliding = true;
-            player.lives -= 1;
-
-            if (player.lives < 0) {
-                player.lives = 0;
-            }
-
-            if (player.lives === 0) {
-                this.showGameOver(player.playerNumber);
+    
+            // Cooldown för kollisioner
+            if (currentTime - player.lastCollisionTime > 1000) { // 1 sekunds cooldown
+                player.isColliding = true;
+                player.lives -= 1;
+    
+                if (player.lives < 0) {
+                    player.lives = 0;
+                }
+    
+                if (player.lives === 0) {
+                    this.showGameOver(player.playerNumber);
+                }
+    
+                // Ta bort poäng vid faktisk kollision
+                this.scoreManager.updateScore(player.getPlayerNumber(), -5);
+    
+                // Uppdatera tidpunkten för senaste kollision
+                player.lastCollisionTime = currentTime;
             }
         } else {
-            if (this.isGhostSoundPlaying) {
+            if (ghost.isSoundPlaying) {
                 sounds.ghost.stop();
-                this.isGhostSoundPlaying = false;
+                ghost.isSoundPlaying = false;
                 console.log("Ghost sound stopped");
             }
-
-            this.scoreManager.updateScore(player.getPlayerNumber(), -5); // Ta bort poäng vid spökkollision
         }
     }
 

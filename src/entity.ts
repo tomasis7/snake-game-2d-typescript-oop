@@ -10,6 +10,8 @@ abstract class Entity implements IMovable {
   velocity: p5.Vector;
   direction: p5.Vector;
   public isRemoved: boolean = false;
+  public isSoundPlaying: boolean = false;
+
 
   constructor(
     position: p5.Vector,
