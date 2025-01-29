@@ -7,7 +7,7 @@ class Game {
       new StartMenu(
         new Button(
           "Start Game",
-          createVector(width / 2, height / 2 + 200), // button position
+          createVector(width / 2, height / 2 +125), // button position
           "#515151", // button background color
           createVector(350, 50), // button size
           "#45FF8C" // button text color
