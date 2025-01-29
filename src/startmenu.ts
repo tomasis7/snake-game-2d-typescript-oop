@@ -4,7 +4,9 @@ class StartMenu extends GameScreen {
   selectEasyMode: Button;
   selectMediumMode: Button;
   selectHardMode: Button;
+  selectedButton: Button | null = null;
   levelFactory: LevelFactory;
+  selectedLevel: number[][] | null = null;
 
   constructor(button: Button) {
     super();
@@ -44,14 +46,17 @@ class StartMenu extends GameScreen {
 
     if (this.selectEasyMode.isClicked()) {
       console.log("Easy mode selected");
+      this.selectedButton = this.selectEasyMode;
     }
 
     if (this.selectMediumMode.isClicked()) {
       console.log("Medium mode selected");
+      this.selectedButton = this.selectMediumMode;
     }
 
     if (this.selectHardMode.isClicked()) {
       console.log("Hard mode selected");
+      this.selectedButton = this.selectHardMode;
     }
   }
 
@@ -62,6 +67,16 @@ class StartMenu extends GameScreen {
     textSize(32);
     textFont(customFont);
     text("SELECT DIFFICULTY", width / 2, height / 4);
+
+    // Ändra färg om knappen är vald
+    this.selectEasyMode.backgroundColor =
+      this.selectedButton === this.selectEasyMode ? "blue" : "#515151";
+
+    this.selectMediumMode.backgroundColor =
+      this.selectedButton === this.selectMediumMode ? "blue" : "#515151";
+
+    this.selectHardMode.backgroundColor =
+      this.selectedButton === this.selectHardMode ? "blue" : "#515151";
 
     this.startGameButton.draw();
     this.selectEasyMode.draw();
