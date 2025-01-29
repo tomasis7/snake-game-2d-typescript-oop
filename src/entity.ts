@@ -9,6 +9,7 @@ abstract class Entity implements IMovable {
   image?: p5.Image;
   velocity: p5.Vector;
   direction: p5.Vector;
+  public isRemoved: boolean = false;
 
   constructor(
     position: p5.Vector,
@@ -26,20 +27,23 @@ abstract class Entity implements IMovable {
   }
 
   draw(): void {
+    if (this.isRemoved) return;
     push();
     if (this.image) {
-    image(
-      this.image,
-      this.position.x,
-      this.position.y,
-      this.size.x,
-      this.size.y
-    );
-  }
+      image(
+        this.image,
+        this.position.x,
+        this.position.y,
+        this.size.x,
+        this.size.y
+      );
+    }
     pop();
   }
 
-  update(): void {}
+  update(): void {
+    if (this.isRemoved) return;
+  }
 }
 
 //   move(): void {

@@ -11,7 +11,7 @@ class GameBoard extends GameScreen {
   private scoreManager: ScoreManager;
 
   private cameraOffset: number = 0;
-  private scrollSpeed: number = 2;
+  private scrollSpeed: number = 1;
 
   constructor() {
     super(); // Anropa basklassens konstruktor
@@ -48,20 +48,33 @@ class GameBoard extends GameScreen {
     this.collisionManager = new CollisionManager(
       this.players,
       this.entities,
-      this.scoreManager
+      this.scoreManager,
+
+      this.removeEntity.bind(this) // Pass removeEntity as callback
     ); // Skicka ScoreManager till CollisionManager
   }
 
   addEntity(entity: Entity): void {
-    this.entities.push(entity);
+    if (!(entity instanceof Heart)) {
+      // Prevent adding multiple hearts
+      this.entities.push(entity);
+      console.log(`Entity added:`, entity); // Optional logging
+    } else {
+      console.log(`Heart entity not added to prevent duplicates.`);
+    }
   }
 
   removeEntity(entity: Entity): void {
     this.entities = this.entities.filter((e) => e !== entity);
+    console.log(`Entity removed:`, entity); // Added logging
+
+    console.log("Current entities after removal:", this.entities);
+
+    console.log("Current entities after removal:", this.entities);
   }
 
   public update(): void {
-    this.cameraOffset += this.scrollSpeed;
+    this.cameraOffset += this.scrollSpeed; // Enable canvas scrolling
 
     for (const player of this.players) {
       player.update();
@@ -74,6 +87,7 @@ class GameBoard extends GameScreen {
     }
 
     this.flyingGhost();
+
     this.collisionManager.checkCollision();
     this.scoreManager.tickScore();
   }
@@ -92,7 +106,7 @@ class GameBoard extends GameScreen {
   draw(): void {
     background("#000000"); // Ange bakgrundsfärg
     push();
-    translate(-this.cameraOffset, 0);
+    translate(-this.cameraOffset, 0); // Apply camera offset for scrolling
 
     // translate(this.cameraOffset)
     //console.log("Drawing GameBoard");
