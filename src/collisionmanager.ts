@@ -67,20 +67,28 @@ class CollisionManager {
             `Player ${player.playerNumber} can pass through obstacles for 10 seconds!`
         );
 
-        this.scoreManager.updateScore(player.getPlayerNumber(), 50); // Ge poäng vid att samla stjärna
+        this.scoreManager.updateScore(player.getPlayerNumber(), 100); // Ge poäng vid att samla stjärna
     }
 
     private handleHeartCollision(player: Player, heart: Entity): void {
+        if (player.isColliding) return; // 🚨 Prevent multiple triggers per frame
+
         sounds.gainheart.play();
-        player.isColliding = true;
         console.log(`Player ${player.playerNumber} collected a Heart!`);
+
+        player.isColliding = true; // 🚨 Prevent further collisions until the next frame
 
         if (player.lives < player.maxLives) {
             player.lives += 1;
         }
-        this.removeEntityCallback(heart);
-        this.scoreManager.updateScore(player.getPlayerNumber(), 100); // Ge poäng vid att samla hjärta
+
+        // Remove heart immediately
+        if (this.removeEntityCallback) {
+            this.removeEntityCallback(heart);
+        }
     }
+
+
 
     private handlePlantCollision(player: Player): void {
         sounds.blockCollision.play();
