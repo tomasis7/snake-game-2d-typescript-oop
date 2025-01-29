@@ -23,6 +23,7 @@ class InteractionScreen extends GameScreen {
 
         // Title
         fill("#45FF8C");
+        imageMode(CENTER, CENTER);
         textAlign(CENTER, CENTER);
         textSize(32);
         textFont(customFont);
@@ -34,6 +35,11 @@ class InteractionScreen extends GameScreen {
         text("What to get and what to avoid in the game", width / 2, height / 2 -250);
 
         // Text about what to get and what to avoid
+        fill("#CCCCCC");
+        textSize(24);
+        text("Power-ups", width / 2 -200, height / 2 -200);
+        image(images.heart, width / 2 -330, height / 2 -160, 25, 25);
+        text("= +1 Life", width / 2 -180, height / 2 -160);
         
 
         // Info and players
