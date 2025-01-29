@@ -42,11 +42,10 @@ class CollisionManager {
         // Deduct score on collision
         this.scoreManager.updateScore(player.getPlayerNumber(), -10);
 
-        // Only trigger Game Over if the player has no lives left
-        if (player.lives === 0) {
-            this.showGameOver(player.playerNumber);
-        }
+        // Trigger Game Over immediately
+        this.showGameOver(player.playerNumber);
     }
+
 
     private handleWinBlockCollision(player: Player): void {
         sounds.blockCollision.play();
