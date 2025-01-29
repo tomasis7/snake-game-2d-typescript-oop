@@ -56,10 +56,8 @@ class CollisionManager {
     player.isMoving = false;
     console.log(`Player ${player.playerNumber} won!`);
 
-    // Show game over when collision occurs
-    if (player.isColliding) {
-      this.showGameOver(player.playerNumber);
-    }
+    const otherPlayerNumber = player.playerNumber === 1 ? 2 : 1;
+    this.showGameOver(otherPlayerNumber);
   }
 
   private startStunEffect(player: Player): void {
