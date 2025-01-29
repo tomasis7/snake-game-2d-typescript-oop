@@ -74,7 +74,7 @@ class GameBoard extends GameScreen {
   }
 
   public update(): void {
-    // this.cameraOffset += this.scrollSpeed;
+    this.cameraOffset += this.scrollSpeed; // Enable canvas scrolling
 
     for (const player of this.players) {
       player.update();
@@ -106,7 +106,7 @@ class GameBoard extends GameScreen {
   draw(): void {
     background("#000000"); // Ange bakgrundsfärg
     push();
-    translate(-this.cameraOffset, 0);
+    translate(-this.cameraOffset, 0); // Apply camera offset for scrolling
 
     // translate(this.cameraOffset)
     //console.log("Drawing GameBoard");
