@@ -42,9 +42,9 @@ class InteractionScreen extends GameScreen {
         text("Use the following keys on you keyboard\nto navigate your snake in the game", width / 2, height / 2);
         
         fill("#00FFFF");
-        text("Player 1", width / 2 -200, height / 2 +60);
+        text("Player 1", width / 2 -200, height / 2 +70);
         fill("#FF00FF");
-        text("Player 2", width / 2 +200, height / 2 +60);
+        text("Player 2", width / 2 +200, height / 2 +70);
 
         // Arrow Controls
         fill("#FFFFFF");
