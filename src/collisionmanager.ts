@@ -26,8 +26,12 @@ class CollisionManager {
         this.entities = entities;
         this.scoreManager = scoreManager;
         this.removeEntityCallback = removeEntityCallback;
+  }
 
-    }
+  /**
+   * Hanterar kollision med ett TetrisBlock för en viss spelare.
+   * @param player - Spelaren som krockar med TetrisBlocket
+   */
 
     private handleTetrisCollision(player: Player): void {
         sounds.blockCollision.play();
@@ -40,7 +44,7 @@ class CollisionManager {
     }
 
     // Handle Heart Collision (Give +1 Life)
-    private handleHeartCollision(player: Player, heart: Entity): void {
+   private handleHeartCollision(player: Player, heart: Entity): void {
         if (player.isColliding) return;
 
         sounds.gainheart.play();
@@ -57,7 +61,23 @@ class CollisionManager {
             this.removeEntityCallback(heart); 
         }
     }
-    // Handle Star Collision (Double Points for 10 seconds)
+
+  private handleWinBlockCollision(player: Player): void {
+    sounds.blockCollision.play();
+    player.isColliding = true;
+    player.isMoving = false;
+    console.log(`Player ${player.playerNumber} won!`);
+
+    const otherPlayerNumber = player.playerNumber === 1 ? 2 : 1;
+    this.showGameOver(otherPlayerNumber);
+  }
+
+  
+  /**
+   * Hanterar kollision med en Star för en viss spelare.
+   * @param player - Spelaren som samlar stjärnan
+   */
+     // Handle Star Collision (Double Points for 10 seconds)
     private handleStarCollision(player: Player, star: Star): void {
         player.isColliding = true;
         sounds.starPickUp.play();
@@ -82,9 +102,11 @@ class CollisionManager {
             this.removeEntityCallback(star); 
         }
     }
-
-
-    // Handle Plant Collision (Reduce -2 Life)
+  /**
+   * Hanterar kollision med en Plant för en viss spelare.
+   * @param player - Spelaren som krockar med plantan
+   */
+  // Handle Plant Collision (Reduce -2 Life)
     private handlePlantCollision(player: Player): void {
         player.isColliding = true;
         sounds.blockCollision.play();
@@ -102,7 +124,7 @@ class CollisionManager {
         this.scoreManager.updateScore(player.getPlayerNumber(), -20); // Remove points on plant collision
     }
 
-    private isGhostSoundPlaying: boolean = false;
+private isGhostSoundPlaying: boolean = false;
 
     private handleGhostCollision(player: Player, ghost: Entity): void {
         const distance = dist(
@@ -144,18 +166,22 @@ class CollisionManager {
             this.scoreManager.updateScore(player.getPlayerNumber(), -5); // Remove points on ghost collision
         }
     }
+  
+   /**
+   * Visar Game Over-skärmen och talar om vem som vinner.
+   * @param losingPlayer - Spelaren som förlorade
+   */
+  private showGameOver(losingPlayer: number): void {
+    const winnerMessage =
+      losingPlayer === 1
+        ? "Player 1 lost. Player 2 wins!"
+        : losingPlayer === 2
+        ? "Player 2 lost. Player 1 wins!"
+        : "Game Over!";
 
-    private showGameOver(losingPlayer: number): void {
-        const winnerMessage =
-            losingPlayer === 1
-                ? "Player 1 lost. Player 2 wins!"
-                : losingPlayer === 2
-                    ? "Player 2 lost. Player 1 wins!"
-                    : "Game Over!";
-
-        game.changeScreen(new GameOverScreen(winnerMessage));
-        console.log(winnerMessage);
-    }
+    game.changeScreen(new GameOverScreen(winnerMessage));
+    console.log(winnerMessage);
+  }
 
     checkCollision(): void {
         for (const player of this.players) {
@@ -201,6 +227,7 @@ class CollisionManager {
                     // Avsluta loopen för entiteter eftersom kollision upptäcktes
                     break;
                 }
+
             }
 
             if (!hasCollision) {

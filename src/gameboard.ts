@@ -84,6 +84,9 @@ class GameBoard extends GameScreen {
     this.scoreManager.tickScore();
   }
 
+  /**
+   * Uppdaterar alla Ghost-objekt i spelet.
+   */
   private flyingGhost(): void {
     for (const entity of this.entities) {
       if (entity instanceof Ghost) {
