@@ -13,19 +13,19 @@ class CollisionManager {
     players: Player[];
     entities: Entity[];
     scoreManager: ScoreManager;
-    private removeEntityCallback: (entity: Entity) => void; // Callback-funktion
+    private removeEntityCallback: (entity: Entity) => void;
 
 
     constructor(
         players: Player[],
         entities: Entity[],
         scoreManager: ScoreManager,
-        removeEntityCallback: (entity: Entity) => void // Add this parameter
+        removeEntityCallback: (entity: Entity) => void 
     ) {
         this.players = players;
         this.entities = entities;
         this.scoreManager = scoreManager;
-        this.removeEntityCallback = removeEntityCallback; // Spara callback
+        this.removeEntityCallback = removeEntityCallback;
 
     }
 
@@ -39,29 +39,29 @@ class CollisionManager {
 
     }
 
+    // Handle Heart Collision (Give +1 Life)
     private handleHeartCollision(player: Player, heart: Entity): void {
-        if (player.isColliding) return; // Prevent multiple triggers per frame
+        if (player.isColliding) return;
 
         sounds.gainheart.play();
         console.log(`Player ${player.playerNumber} collected a Heart!`);
 
-        player.isColliding = true; // Prevent further collisions until the next frame
+        player.isColliding = true;
 
         if (player.lives < player.maxLives) {
             player.lives += 1;
         }
 
-        // Remove heart immediately
         if (this.removeEntityCallback) {
-            this.removeEntityCallback(heart);
+            console.log("Removing Heart entity...");
+            this.removeEntityCallback(heart); 
         }
     }
-
-    private handleStarCollision(player: Player, star: Entity): void {
+    // Handle Star Collision (Double Points for 10 seconds)
+    private handleStarCollision(player: Player, star: Star): void {
         player.isColliding = true;
         sounds.starPickUp.play();
 
-        player.doubleLives();
         player.scoreMultiplier = 2;
 
         setTimeout(() => {
@@ -74,23 +74,23 @@ class CollisionManager {
             `Player ${player.playerNumber} can pass through obstacles for 10 seconds!`
         );
 
-        this.scoreManager.updateScore(player.getPlayerNumber(), 100); // Points for collecting star
+        this.scoreManager.updateScore(player.getPlayerNumber(), 100);
 
-        // Now, remove the star entity from the game after collision
+        // Remove the star immediately
         if (this.removeEntityCallback) {
-            this.removeEntityCallback(star);
+            console.log("Removing Star entity...");
+            this.removeEntityCallback(star); 
         }
     }
 
 
-
+    // Handle Plant Collision (Reduce -2 Life)
     private handlePlantCollision(player: Player): void {
         player.isColliding = true;
         sounds.blockCollision.play();
 
         player.lives -= 2;
 
-        // Se till att liv inte går under 0
         if (player.lives < 0) {
             player.lives = 0;
         }
@@ -98,7 +98,8 @@ class CollisionManager {
         if (player.lives === 0) {
             this.showGameOver(player.playerNumber);
         }
-        this.scoreManager.updateScore(player.getPlayerNumber(), -20); // Ta bort poäng vid växtkollision
+
+        this.scoreManager.updateScore(player.getPlayerNumber(), -20); // Remove points on plant collision
     }
 
     private isGhostSoundPlaying: boolean = false;
@@ -121,7 +122,9 @@ class CollisionManager {
                 this.isGhostSoundPlaying = true;
                 console.log("Ghost sound started");
             }
+
             player.isColliding = true;
+
             player.lives -= 1;
 
             if (player.lives < 0) {
@@ -138,7 +141,7 @@ class CollisionManager {
                 console.log("Ghost sound stopped");
             }
 
-            this.scoreManager.updateScore(player.getPlayerNumber(), -5); // Ta bort poäng vid spökkollision
+            this.scoreManager.updateScore(player.getPlayerNumber(), -5); // Remove points on ghost collision
         }
     }
 
@@ -179,10 +182,9 @@ class CollisionManager {
                     headTop < entityBottom;
 
                 if (isColliding) {
-                    hasCollision = true; // Markera att en kollision upptäckts
+                    hasCollision = true;
 
                     if (!player.isColliding) {
-                        // Hantera kollision baserat på entitetstyp
                         if (entity instanceof TetrisBlock) {
                             this.handleTetrisCollision(player);
                         } else if (entity instanceof Star) {
@@ -201,7 +203,6 @@ class CollisionManager {
                 }
             }
 
-            // Återställ kollisionen om ingen upptäcktes
             if (!hasCollision) {
                 player.isColliding = false;
             }

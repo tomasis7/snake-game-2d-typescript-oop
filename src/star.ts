@@ -29,7 +29,7 @@ class Star extends Entity {
     if (this.image) {
       image(this.image, 0, 0, this.size.x, this.size.y);
     } else {
-      console.warn("Heart entity has no image to draw.");
+      console.warn("Star entity has no image to draw.");
     }
 
     pop();
