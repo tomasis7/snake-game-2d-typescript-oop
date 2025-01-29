@@ -4,7 +4,7 @@ class InteractionScreen extends GameScreen {
         super();
         this.returnToStartMenu = new Button(
             "Return",
-            createVector(width / 2, height -250),
+            createVector(width / 2, height -225),
             "#515151",
             createVector(200, 50),
             "#FFFFFF"
@@ -30,29 +30,38 @@ class InteractionScreen extends GameScreen {
         
         // Info and players
         fill("#FFFFFF");
-        textSize(24);
+        textSize(28);
         text("Use the following keys on you keyboard", width / 2, height / 3);
 
-        text("Player 1", width / 2 -200, height / 2 -50);
-        text("Player 2", width / 2 +200, height / 2 -50);
+        text("Player 1", width / 2 -200, height / 2 -60);
+        text("Player 2", width / 2 +200, height / 2 -60);
 
         // Arrow Controls
-        textSize(32);
+        textSize(28);
         text("↑", width / 2 -200, height / 2);
-        text("← ↓ →", width / 2 -200, height / 2 +50);
+        text("← ↓ →", width / 2 -200, height / 2 +60);
+        noFill();
+        strokeWeight(2);
+        stroke(255);
+        rectMode(CENTER);
+        square(width / 2 -200, height / 2, 50);
+        square(width / 2 -200, height / 2 +60, 50);
+        square(width / 2 -140, height / 2 +60, 50);
+        square(width / 2 -260, height / 2 +60, 50);
 
         // WASD Controls
-        textSize(30);
+        fill("#FFFFFF");
+        textSize(28);
         text("W", width / 2 +200, height / 2);
-        text("A S D", width / 2 +200, height / 2 +50);
+        text("A S D", width / 2 +200, height / 2 +60);
         noFill();
         strokeWeight(2);
         stroke(255);
         rectMode(CENTER);
         square(width / 2 +200, height / 2, 50);
-        square(width / 2 +200, height / 2 +50, 50);
-        square(width / 2 +140, height / 2 +50, 50);
-        square(width / 2 +260, height / 2 +50, 50);
+        square(width / 2 +200, height / 2 +60, 50);
+        square(width / 2 +140, height / 2 +60, 50);
+        square(width / 2 +260, height / 2 +60, 50);
         
         noStroke();
         this.returnToStartMenu.draw();
