@@ -23,7 +23,7 @@ class InteractionScreen extends GameScreen {
 
         // Title
         fill("#45FF8C");
-        imageMode(CENTER, CENTER);
+        imageMode(CENTER);
         textAlign(CENTER, CENTER);
         textSize(32);
         textFont(customFont);
@@ -35,22 +35,29 @@ class InteractionScreen extends GameScreen {
         text("What to get and what to avoid in the game", width / 2, height / 2 -250);
 
         // Text about what to get and what to avoid
-        fill("#CCCCCC");
         textSize(24);
-        text("Power-ups", width / 2 -200, height / 2 -200);
+        textAlign(LEFT, CENTER);
+        fill("#45FF8C");
+        text("Power-ups", width / 2 -300, height / 2 -200);
+        fill("#CCCCCC");
         image(images.heart, width / 2 -330, height / 2 -160, 25, 25);
-        text("= +1 Life", width / 2 -180, height / 2 -160);
+        text("= +1 Life", width / 2 -300, height / 2 -160);
+        image(images.star, width / 2 -330, height / 2 -120, 25, 25);
+        text("= x2 Points", width / 2 -300, height / 2 -120);
+        image(images.star, width / 2 -330, height / 2 -80, 25, 25);
+        text("= x2 Points", width / 2 -300, height / 2 -80);
         
 
         // Info and players
+        textAlign(CENTER, CENTER);
         fill("#FFFFFF");
         textSize(28);
         text("Use the following keys on you keyboard\nto navigate your snake in the game", width / 2, height / 2);
         
         fill("#00FFFF");
-        text("Player 1", width / 2 -200, height / 2 +70);
+        text("Player 1", width / 2 -200, height / 2 +80);
         fill("#FF00FF");
-        text("Player 2", width / 2 +200, height / 2 +70);
+        text("Player 2", width / 2 +200, height / 2 +80);
 
         // Arrow Controls
         fill("#FFFFFF");
