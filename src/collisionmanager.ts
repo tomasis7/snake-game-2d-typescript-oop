@@ -33,7 +33,6 @@ class CollisionManager {
         player.isMoving = false;
         console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
 
-        // Trigger Game Over immediately
         this.showGameOver(player.playerNumber);
     }
 
@@ -52,19 +51,24 @@ class CollisionManager {
         sounds.starPickUp.play();
         player.isColliding = true;
 
-        player.doubleLives();
         player.scoreMultiplier = 2;
+
+        const scoreInterval = setInterval(() => {
+            this.scoreManager.updateScore(player.getPlayerNumber(), 50 * player.scoreMultiplier); // Multiplicera poäng med multiplier
+        }, 1000);
 
         setTimeout(() => {
             player.scoreMultiplier = 1;
+            clearInterval(scoreInterval);
             console.log(`Player ${player.playerNumber}'s score multiplier reset.`);
         }, 10000);
 
-        star.isRemoved = true; // Mark heart as removed
+        star.isRemoved = true;
         this.removeEntityCallback(star);
-        console.log(`Heart entity removed:`, star); // Added logging
-        this.scoreManager.updateScore(player.getPlayerNumber(), 50); // Ge poäng vid att samla stjärna
+        console.log(`Star entity removed:`, star);
     }
+
+
 
     private handleHeartCollision(player: Player, heart: Entity): void {
         if (heart.isRemoved) return; // Prevent multiple collections
@@ -97,7 +101,6 @@ class CollisionManager {
         if (player.lives === 0) {
             this.showGameOver(player.playerNumber);
         }
-        this.scoreManager.updateScore(player.getPlayerNumber(), -20); // Ta bort poäng vid växtkollision
     }
 
     private isGhostSoundPlaying: boolean = false;
