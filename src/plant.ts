@@ -14,15 +14,16 @@ class Plant extends Entity {
   }
 
   draw(): void {
-    if (!this.image) {
-      console.error("Ghost image not loaded");
-      return;
-    }
-
     push();
     imageMode(CENTER);
     translate(this.position.x, this.position.y);
-    image(this.image, this.size.x, this.size.y, this.size.x, this.size.y);
+
+    if (this.image) {
+      image(this.image, 0, 0, this.size.x, this.size.y);
+    } else {
+      console.warn("Plant entity has no image to draw.");
+    }
+
     pop();
   }
 }

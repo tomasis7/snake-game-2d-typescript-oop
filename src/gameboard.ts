@@ -71,7 +71,13 @@ class GameBoard extends GameScreen {
 
   removeEntity(entity: Entity): void {
     this.entities = this.entities.filter((e) => e !== entity);
+<<<<<<< HEAD
     console.log(`Entity removed:`, entity); // Added logging
+=======
+
+    console.log("Current entities after removal:", this.entities);
+
+>>>>>>> 629dbc6 (update the draw method for each entity to locate the entity correctly.)
   }
 
   public update(): void {
@@ -88,7 +94,7 @@ class GameBoard extends GameScreen {
     }
 
     this.flyingGhost();
-    
+
     this.collisionManager.checkCollision();
     this.scoreManager.tickScore();
   }
