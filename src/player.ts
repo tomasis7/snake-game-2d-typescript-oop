@@ -64,7 +64,7 @@ class Player extends Entity {
 
     this.isMoving = true;
 
-    this.lives = 3; 
+    this.lives = 3;
     this.maxLives = 10;
     this.lastCollisionTime = 0; // Tidpunkt för senaste kollision
     this.collisionCooldown = 1000; // 1 sekunds cooldown
@@ -93,7 +93,8 @@ class Player extends Entity {
     }
     this.moveTimer += deltaTime;
     if (this.moveTimer >= 200) {
-      this.moveTimer = 0;
+      // ↓ Justera this value att ändra hastigheten på spelaren
+      this.moveTimer = -100;
 
       this.direction = this.nextDirection.copy();
       const head = this.trail[0];
@@ -128,7 +129,6 @@ class Player extends Entity {
     }
 
     pop();
-
   }
 
   // NYA METODER

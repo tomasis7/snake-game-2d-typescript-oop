@@ -11,7 +11,8 @@ class GameBoard extends GameScreen {
   private scoreManager: ScoreManager;
 
   private cameraOffset: number = 0;
-  private scrollSpeed: number = 1;
+  //justera hastigheten på scrollningen
+  private scrollSpeed: number = 1.5;
 
   constructor() {
     super(); // Anropa basklassens konstruktor

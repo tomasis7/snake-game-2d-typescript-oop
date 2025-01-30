@@ -29,7 +29,6 @@ class CollisionManager {
 
     private handleTetrisCollision(player: Player): void {
         sounds.blockCollision.play();
-
         if (music.backgroundMusic.isPlaying()) {
             music.backgroundMusic.stop();
         }
@@ -56,8 +55,6 @@ class CollisionManager {
 
     private handleWinBlockCollision(player: Player): void {
         sounds.goalline.play();
-
-        // Stop background music
         if (music.backgroundMusic.isPlaying()) {
             music.backgroundMusic.stop();
         }
@@ -281,34 +278,3 @@ class CollisionManager {
     }
 }
 
-// Om ingen kollision upptäcks, återställ flaggor
-
-//   private checkGridCollision() {
-//     // Define obstacles with positions and colors
-//     const obstacles = [
-//       { row: 25, col: 50, color: "red" },
-//       { row: 25, col: 51, color: "yellow" },
-//       { row: 25, col: 52, color: "green" },
-//       { row: 15, col: 50, color: "bomb" },
-//       { row: 15, col: 51, color: "bomb" },
-//       { row: 15, col: 52, color: "bomb" },
-//     ];
-
-//     // Draw obstacles
-//     obstacles.forEach((obstacle) => {
-//       this.drawSquareAt(obstacle.row, obstacle.col);
-//       this.drawSquareAt2(obstacle.row, obstacle.col, obstacle.color);
-//     });
-
-//     // Direct position comparison
-//     obstacles.forEach((obstacle) => {
-//       if (
-//         (this.player1.row === obstacle.row &&
-//           this.player1.col === obstacle.col) ||
-//         (this.player2.row === obstacle.row && this.player2.col === obstacle.col)
-//       ) {
-//         alert(`Square hit a ${obstacle.color} obstacle!`);
-//         this.isGameOver = true;
-//       }
-//     });
-//   }
