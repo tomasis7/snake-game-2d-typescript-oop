@@ -49,6 +49,16 @@ class StartMenu extends GameScreen {
   }
 
   update(): void {
+    if (this.startGameButton.isClicked()) {
+      userStartAudio(); // This ensures sound works after a user interaction
+
+      // Ensure the background music starts immediately
+      if (!music.backgroundMusic.isPlaying()) {
+          music.backgroundMusic.loop();
+      }
+
+      game.changeScreen(new CountDown());
+      
     if (this.startGameButton.isClicked() && this.selectedDifficulty) {
       let selectedLevel: number[][];
 

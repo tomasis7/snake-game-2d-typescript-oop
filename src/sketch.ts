@@ -14,7 +14,7 @@ let images: {
 };
 
 let music: {
-  background: p5.SoundFile;
+  backgroundMusic: p5.SoundFile;
 };
 
 let sounds: {
@@ -25,6 +25,8 @@ let sounds: {
   starPickUp: p5.SoundFile;
   winner: p5.SoundFile;
   blockCollision: p5.SoundFile;
+  wallCollision: p5.SoundFile;
+  goalline: p5.SoundFile;
 };
 
 let customFont: p5.Font;
@@ -40,7 +42,7 @@ let showGrid: boolean = false; // Toggle for grid visibility
 function preload() {
   // Load assets here
   music = {
-    background: loadSound("/assets/music/mario-background.mp3")
+    backgroundMusic: loadSound("/assets/music/background-theme.mp3")
   };
 
   sounds = {
@@ -50,7 +52,9 @@ function preload() {
     ghost: loadSound("/assets/sounds/ghost.mp3"),
     starPickUp: loadSound("/assets/sounds/star.mp3"),
     winner: loadSound("/assets/sounds/winner.mp3"),
-    blockCollision: loadSound("/assets/sounds/error.mp3")
+    blockCollision: loadSound("/assets/sounds/error.mp3"),
+    wallCollision: loadSound("/assets/sounds/shutdown-sound.mp3"),
+    goalline: loadSound("/assets/sounds/goal-line.mp3")
   };
 
   images = {
@@ -77,6 +81,9 @@ function setup() {
   frameRate(60);
   textFont(customFont);
   game = new Game();
+
+  music.backgroundMusic.loop();
+
 }
 
 /**
