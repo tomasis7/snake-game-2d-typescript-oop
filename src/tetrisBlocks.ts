@@ -1,38 +1,44 @@
 /**
- * Representerar en Tetris-liknande blockentitet.
+ * TODO: Lägg till fullständig JSDoc för klassen Star och dess metoder.
  */
 class TetrisBlock extends Entity {
   /**
-   * Skapar en ny instans av TetrisBlock.
+   * Skapar en ny instans av Star-klassen.
    * @param {number} x - Startposition på x-axeln
    * @param {number} y - Startposition på y-axeln
    */
   constructor(x: number, y: number) {
     super(
-      createVector(x, y),
+      createVector(x, y), // x, y från levelFactory
       createVector(32, 32),
       0,
       0,
       createVector(0, 0),
-      undefined
+      images.tetrisBlock
     );
   }
 
   /**
-   * Ritar blockets form i Tetris-stil.
+   * Ritar tetris på skärmen.
    */
   draw(): void {
     push();
+    imageMode(CENTER);
+    translate(this.position.x, this.position.y);
+
+    // Draw background rectangle first
+    fill("#ffce12"); // yellow background
+    noStroke();
     rectMode(CENTER);
-    fill("#FDD03C");
-    stroke("#D6B034");
-    strokeWeight(2);
-    rect(this.position.x, this.position.y, this.size.x, this.size.y); // Center the block
+    rect(0, 0, this.size.x, this.size.y);
+
+    // Draw the image on top
+    if (this.image) {
+      image(this.image, 0, 0, this.size.x, this.size.y);
+    } else {
+      console.warn("TetrisBlock entity has no image to draw.");
+    }
+
     pop();
   }
-
-  // update(): void {
-  //   // Eventuell logik för uppdatering
-  //   return;
-  // }
 }
