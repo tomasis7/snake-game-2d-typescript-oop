@@ -70,13 +70,13 @@ class StartMenu extends GameScreen {
 
     // Ändra färg om knappen är vald
     this.selectEasyMode.backgroundColor =
-      this.selectedButton === this.selectEasyMode ? "blue" : "#515151";
+      this.selectedButton === this.selectEasyMode ? "white" : "#515151";
 
     this.selectMediumMode.backgroundColor =
-      this.selectedButton === this.selectMediumMode ? "blue" : "#515151";
+      this.selectedButton === this.selectMediumMode ? "white" : "#515151";
 
     this.selectHardMode.backgroundColor =
-      this.selectedButton === this.selectHardMode ? "blue" : "#515151";
+      this.selectedButton === this.selectHardMode ? "white" : "#515151";
 
     this.startGameButton.draw();
     this.selectEasyMode.draw();
