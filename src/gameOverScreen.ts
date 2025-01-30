@@ -7,7 +7,6 @@
  */
 class GameOverScreen extends GameScreen {
   menyButton: Button;
-  restartButton: Button;
   winnerMessage: string;
   // Add a reference to ScoreManager
   private scoreManager: ScoreManager;
@@ -21,13 +20,7 @@ class GameOverScreen extends GameScreen {
     super();
     this.winnerMessage = winnerMessage;
     this.scoreManager = scoreManager;
-    this.restartButton = new Button(
-      "Restart",
-      createVector(width / 2, height / 2 + 150),
-      "white",
-      createVector(250, 50),
-      "red"
-    );
+
     this.menyButton = new Button(
       "Meny",
       createVector(width / 2, height / 2 + 220),
@@ -56,7 +49,6 @@ class GameOverScreen extends GameScreen {
     text(`Player 1 Score: ${score1}`, width / 2, height / 2 + 20);
     text(`Player 2 Score: ${score2}`, width / 2, height / 2 + 60);
 
-    this.restartButton.draw();
     this.menyButton.draw();
     pop();
   }
@@ -66,13 +58,7 @@ class GameOverScreen extends GameScreen {
    */
   update(): void {
     // Här kan du lägga till logik om du vill uppdatera något under Game Over
-    if (this.restartButton.isClicked()) {
-      game.changeScreen(
-        new CountDown(defaultLevel, () => {
-          game.changeScreen(new GameBoard(defaultLevel));
-        })
-      );
-    }
+
     if (this.menyButton.isClicked()) {
       game.changeScreen(new Game());
     }

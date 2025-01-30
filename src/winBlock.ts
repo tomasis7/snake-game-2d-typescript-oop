@@ -1,38 +1,44 @@
+/// <reference path="entity.ts" />
 /**
- * Representerar en Tetris-liknande blockentitet.
+ * TODO: Lägg till fullständig JSDoc för klassen Star och dess metoder.
  */
 class WinBlock extends Entity {
   /**
-   * Skapar en ny instans av TetrisBlock.
+   * Skapar en ny instans av Star-klassen.
    * @param {number} x - Startposition på x-axeln
    * @param {number} y - Startposition på y-axeln
    */
   constructor(x: number, y: number) {
     super(
-      createVector(x, y),
+      createVector(x, y), // x, y från levelFactory
       createVector(32, 32),
       0,
       0,
       createVector(0, 0),
-      undefined
+      images.winBlock
     );
   }
 
   /**
-   * Ritar blockets form i Tetris-stil.
+   * Ritar tetris på skärmen.
    */
   draw(): void {
     push();
+    imageMode(CENTER);
+    translate(this.position.x, this.position.y);
+
+    noStroke();
+    fill("ffce12");
     rectMode(CENTER);
-    fill("#FFFFFF");
-    stroke("#E5E5E5");
-    strokeWeight(2);
-    rect(this.position.x, this.position.y, this.size.x, this.size.y); // Center the block
+    rect(0, 0, this.size.x, this.size.y);
+
+    // Draw the image on top
+    if (this.image) {
+      image(this.image, 0, 0, this.size.x, this.size.y);
+    } else {
+      console.warn("Wallblock entity has no image to draw.");
+    }
+
     pop();
   }
-
-  // update(): void {
-  //   // Eventuell logik för uppdatering
-  //   return;
-  // }
 }
