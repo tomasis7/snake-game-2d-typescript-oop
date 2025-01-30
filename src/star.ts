@@ -10,11 +10,11 @@ class Star extends Entity {
   constructor(x: number, y: number) {
     super(
       createVector(x, y), // x, y från levelFactory
-      createVector(32, 32), // Fast storlek
-      0, // Horisontell hastighet (0)
-      0, // Vertikal hastighet
-      createVector(0, 0), // Initial riktning
-      images.star // Bild
+      createVector(32, 32),
+      0,
+      0,
+      createVector(0, 0),
+      images.star
     );
   }
 
@@ -22,15 +22,16 @@ class Star extends Entity {
    * Ritar stjärnan på skärmen.
    */
   draw(): void {
-    if (!this.image) {
-      console.error("Ghost image not loaded");
-      return;
+    push();
+    imageMode(CENTER);
+    translate(this.position.x, this.position.y);
+
+    if (this.image) {
+      image(this.image, 0, 0, this.size.x, this.size.y);
+    } else {
+      console.warn("Star entity has no image to draw.");
     }
 
-    push();
-    rectMode(CENTER);
-    translate(this.position.x, this.position.y);
-    image(this.image, this.size.x, this.size.y, this.size.x, this.size.y);
     pop();
   }
 }

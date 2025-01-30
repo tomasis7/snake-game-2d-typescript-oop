@@ -13,15 +13,18 @@ class CollisionManager {
   players: Player[];
   entities: Entity[];
   scoreManager: ScoreManager;
+  private removeEntityCallback: (entity: Entity) => void; // Callback-funktion
 
   constructor(
     players: Player[],
     entities: Entity[],
-    scoreManager: ScoreManager
+    scoreManager: ScoreManager,
+    removeEntityCallback: (entity: Entity) => void // Add this parameter
   ) {
     this.players = players;
     this.entities = entities;
     this.scoreManager = scoreManager;
+    this.removeEntityCallback = removeEntityCallback; // Spara callback
   }
 
   private handleTetrisCollision(player: Player): void {
@@ -30,54 +33,46 @@ class CollisionManager {
     player.isMoving = false;
     console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
 
-    player.lives -= 1;
-    if (player.lives < 0) {
-      player.lives = 0; // Spelaren kan inte ha negativa liv
-    }
-
-    // Starta bedövning (ingen poäng under denna tid)
-    this.startStunEffect(player);
-
-    // Visa Game Over om inga liv kvar
-    if (player.lives === 0) {
-      this.showGameOver(player.playerNumber);
-    }
-
-    this.scoreManager.updateScore(player.getPlayerNumber(), -10); // Ta bort poäng vid kollision
+    this.showGameOver(player.playerNumber);
   }
 
-  private startStunEffect(player: Player): void {
-    player.isMoving = false;
+  private handleWinBlockCollision(player: Player): void {
+    sounds.blockCollision.play();
     player.isColliding = true;
-
-    setTimeout(() => {
-      player.isMoving = true;
-      player.isColliding = false;
-      console.log(`Player ${player.playerNumber} can now move again.`);
-    }, 3000); // Bedövning i 3 sekunder
+    player.isMoving = false;
+    console.log(`Player ${player.playerNumber} won!`);
+    const otherPlayerNumber = player.playerNumber === 1 ? 2 : 1;
+    this.showGameOver(otherPlayerNumber);
   }
 
-  private handleStarCollision(player: Player): void {
+  private handleStarCollision(player: Player, star: Entity): void {
+    if (star.isRemoved) return; // Prevent multiple collections
     sounds.starPickUp.play();
     player.isColliding = true;
 
-    player.doubleLives();
     player.scoreMultiplier = 2;
+
+    const scoreInterval = setInterval(() => {
+      this.scoreManager.updateScore(
+        player.getPlayerNumber(),
+        50 * player.scoreMultiplier
+      ); // Multiplicera poäng med multiplier
+    }, 1000);
 
     setTimeout(() => {
       player.scoreMultiplier = 1;
+      clearInterval(scoreInterval);
       console.log(`Player ${player.playerNumber}'s score multiplier reset.`);
     }, 10000);
 
-    player.enableObstaclePassing(10000);
-    this.showPopupMessage(
-      `Player ${player.playerNumber} can pass through obstacles for 10 seconds!`
-    );
-
-    this.scoreManager.updateScore(player.getPlayerNumber(), 50); // Ge poäng vid att samla stjärna
+    star.isRemoved = true;
+    this.removeEntityCallback(star);
+    console.log(`Star entity removed:`, star);
   }
 
-  private handleHeartCollision(player: Player): void {
+  private handleHeartCollision(player: Player, heart: Entity): void {
+    if (heart.isRemoved) return; // Prevent multiple collections
+
     sounds.gainheart.play();
     player.isColliding = true;
     console.log(`Player ${player.playerNumber} collected a Heart!`);
@@ -85,30 +80,44 @@ class CollisionManager {
     if (player.lives < player.maxLives) {
       player.lives += 1;
     }
-    // this.removeEntity(heart);
-    this.scoreManager.updateScore(player.getPlayerNumber(), 100); // Ge poäng vid att samla hjärta
+
+    heart.isRemoved = true; // Mark heart as removed
+    this.removeEntityCallback(heart);
+    console.log(`Heart entity removed:`, heart); // Added logging
   }
 
   private handlePlantCollision(player: Player): void {
+    const currentTime = Date.now();
+
+    // Kontrollera om cooldown-perioden har passerat
+    if (currentTime - player.lastCollisionTime < player.collisionCooldown) {
+      return; // Ignorera kollisionen om cooldown inte är klar
+    }
+
+    // Uppdatera tidpunkten för senaste kollision
+    player.lastCollisionTime = currentTime;
+
+    console.log(`Player lives before collision: ${player.lives}`); // Debuggning
     sounds.blockCollision.play();
     player.isColliding = true;
 
     player.lives -= 2;
+
+    console.log(`Player lives after collision: ${player.lives}`); // Debuggning
 
     // Se till att liv inte går under 0
     if (player.lives < 0) {
       player.lives = 0;
     }
 
-    if (player.lives === 0) {
+    // Kontrollera om livet är mindre än eller lika med 0 för att visa Game Over
+    if (player.lives <= 0) {
       this.showGameOver(player.playerNumber);
     }
-    this.scoreManager.updateScore(player.getPlayerNumber(), -20); // Ta bort poäng vid växtkollision
   }
 
-  private isGhostSoundPlaying: boolean = false;
-
   private handleGhostCollision(player: Player, ghost: Entity): void {
+    const currentTime = Date.now();
     const distance = dist(
       player.position.x,
       player.position.y,
@@ -121,41 +130,50 @@ class CollisionManager {
     if (distance < 900) {
       console.log("Ghost is near, playing sound...");
 
-      if (!this.isGhostSoundPlaying) {
+      if (!ghost.isSoundPlaying) {
         sounds.ghost.play();
-        this.isGhostSoundPlaying = true;
+        ghost.isSoundPlaying = true;
         console.log("Ghost sound started");
       }
-      player.isColliding = true;
-      player.lives -= 1;
 
-      if (player.lives < 0) {
-        player.lives = 0;
-      }
+      // Cooldown för kollisioner
+      if (currentTime - player.lastCollisionTime > 1000) {
+        // 1 sekunds cooldown
+        player.isColliding = true;
+        player.lives -= 1;
 
-      if (player.lives === 0) {
-        this.showGameOver(player.playerNumber);
+        if (player.lives < 0) {
+          player.lives = 0;
+        }
+
+        if (player.lives === 0) {
+          this.showGameOver(player.playerNumber);
+        }
+
+        // Ta bort poäng vid faktisk kollision
+        this.scoreManager.updateScore(player.getPlayerNumber(), -5);
+
+        // Uppdatera tidpunkten för senaste kollision
+        player.lastCollisionTime = currentTime;
       }
     } else {
-      if (this.isGhostSoundPlaying) {
+      if (ghost.isSoundPlaying) {
         sounds.ghost.stop();
-        this.isGhostSoundPlaying = false;
+        ghost.isSoundPlaying = false;
         console.log("Ghost sound stopped");
       }
-
-      this.scoreManager.updateScore(player.getPlayerNumber(), -5); // Ta bort poäng vid spökkollision
     }
   }
 
   private showGameOver(losingPlayer: number): void {
     const winnerMessage =
       losingPlayer === 1
-        ? "Player 1 lost. Player 2 wins!"
+        ? " - Player 2"
         : losingPlayer === 2
-        ? "Player 2 lost. Player 1 wins!"
+        ? " - Player 1"
         : "Game Over!";
 
-    game.changeScreen(new GameOverScreen(winnerMessage));
+    game.changeScreen(new GameOverScreen(winnerMessage, this.scoreManager));
     console.log(winnerMessage);
   }
 
@@ -191,24 +209,26 @@ class CollisionManager {
             if (entity instanceof TetrisBlock) {
               this.handleTetrisCollision(player);
             } else if (entity instanceof Star) {
-              this.handleStarCollision(player);
+              this.handleStarCollision(player, entity);
             } else if (entity instanceof Heart) {
-              this.handleHeartCollision(player);
+              this.handleHeartCollision(player, entity);
             } else if (entity instanceof Plant) {
               this.handlePlantCollision(player);
             } else if (entity instanceof Ghost) {
               this.handleGhostCollision(player, entity);
+            } else if (entity instanceof WinBlock) {
+              this.handleWinBlockCollision(player);
             }
+
+            // Avsluta loopen för entiteter eftersom kollision upptäcktes
+            break;
           }
-
-          // Avsluta loopen för entiteter eftersom kollision upptäcktes
-          break;
         }
-      }
 
-      // Återställ kollisionen om ingen upptäcktes
-      if (!hasCollision) {
-        player.isColliding = false;
+        // Återställ kollisionen om ingen upptäcktes
+        if (!hasCollision) {
+          player.isColliding = false;
+        }
       }
     }
   }

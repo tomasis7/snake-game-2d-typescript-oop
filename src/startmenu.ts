@@ -5,6 +5,7 @@ class StartMenu extends GameScreen {
   selectMediumMode: Button;
   selectHardMode: Button;
   selectedButton: Button | null = null;
+  interactionScreen: Button;
   levelFactory: LevelFactory;
   selectedDifficulty: "easy" | "medium" | "hard" | null = null;
 
@@ -14,26 +15,34 @@ class StartMenu extends GameScreen {
 
     this.selectEasyMode = new Button(
       "Easy",
-      createVector(width / 2, height / 2 - 100),
+      createVector(width / 2, height / 2 - 125),
       "#515151",
-      createVector(200, 50),
+      createVector(220, 50),
       "#45FF8C"
     );
 
     this.selectMediumMode = new Button(
       "Medium",
-      createVector(width / 2, height / 2),
+      createVector(width / 2, height / 2 -50),
       "#515151",
-      createVector(200, 50),
+      createVector(220, 50),
       "#FDD03C"
     );
 
     this.selectHardMode = new Button(
       "Hard",
-      createVector(width / 2, height / 2 + 100),
+      createVector(width / 2, height / 2 +25),
       "#515151",
-      createVector(200, 50),
+      createVector(220, 50),
       "#FF5F62"
+    );
+
+    this.interactionScreen = new Button(
+      "How to play",
+      createVector(width / 2, height -100),
+      "#515151",
+      createVector(380, 50),
+      "#FFFFFF"
     );
 
     this.levelFactory = new LevelFactory();
@@ -86,13 +95,21 @@ class StartMenu extends GameScreen {
 
 
 
+    if (this.interactionScreen.isClicked()) {
+      console.log("Interaction selected");
+      game.changeScreen(new InteractionScreen());
+    }
+  }
+
   draw(): void {
     background("black");
+    
+    push();
     fill("#45FF8C");
     textAlign(CENTER, CENTER);
-    textSize(32);
     textFont(customFont);
-    text("SELECT DIFFICULTY", width / 2, height / 4);
+    textSize(42);
+    text("Furious Snake", width / 2, height / 4 -100);
 
     // Ändra färg om knappen är vald
     this.selectEasyMode.backgroundColor =
@@ -104,10 +121,16 @@ class StartMenu extends GameScreen {
     this.selectHardMode.backgroundColor =
       this.selectedButton === this.selectHardMode ? "white" : "#515151";
 
+    fill("#45FF8C");
+    textSize(32);
+    text("SELECT DIFFICULTY", width / 2, height / 4);
+    
     this.startGameButton.draw();
     this.selectEasyMode.draw();
     this.selectMediumMode.draw();
     this.selectHardMode.draw();
+    this.interactionScreen.draw();
+    pop();
   }
 
   newGame(): void {
