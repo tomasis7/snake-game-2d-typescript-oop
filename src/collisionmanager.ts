@@ -52,7 +52,6 @@ class CollisionManager {
     this.showGameOver(player.playerNumber);
   }
 
-
   private handleWinBlockCollision(player: Player): void {
     sounds.goalline.play();
     if (music.backgroundMusic.isPlaying()) {
@@ -74,7 +73,10 @@ class CollisionManager {
     player.scoreMultiplier = 2;
 
     const scoreInterval = setInterval(() => {
-      this.scoreManager.updateScore(player.getPlayerNumber(), 50 * player.scoreMultiplier); // Multiplicera poäng med multiplier
+      this.scoreManager.updateScore(
+        player.getPlayerNumber(),
+        50 * player.scoreMultiplier
+      ); // Multiplicera poäng med multiplier
     }, 1000);
 
     setTimeout(() => {
@@ -88,7 +90,6 @@ class CollisionManager {
     console.log(`Star entity removed:`, star);
   }
 
-
   private handleHeartCollision(player: Player, heart: Entity): void {
     if (heart.isRemoved) return; // Prevent multiple collections
 
@@ -97,7 +98,7 @@ class CollisionManager {
     console.log(`Player ${player.playerNumber} collected a Heart!`);
 
     if (player.lives < player.maxLives) {
-      player.lives += 1
+      player.lives += 1;
     }
     heart.isRemoved = true; // Mark heart as removed
     this.removeEntityCallback(heart);
@@ -196,13 +197,12 @@ class CollisionManager {
       const headTop = head.y;
       const headBottom = head.y + player.size.y;
 
-
       // Flagga för att spåra om en kollision upptäcks
       let hasCollision = false;
 
       for (const entity of this.entities) {
         if (entity instanceof Ghost) {
-          this.handleGhostProximity(player, entity)
+          this.handleGhostProximity(player, entity);
         }
 
         const entityLeft = entity.position.x;
@@ -251,20 +251,17 @@ class CollisionManager {
     }
   }
 
-
-
   private showGameOver(losingPlayer: number): void {
     const winnerMessage =
       losingPlayer === 1
-        ? "Player 1 lost. Player 2 wins!"
+        ? " - Player 2"
         : losingPlayer === 2
-          ? "Player 2 lost. Player 1 wins!"
-          : "Game Over!";
+        ? " - Player 1"
+        : "Game Over!";
 
     game.changeScreen(new GameOverScreen(winnerMessage, this.scoreManager));
     console.log(winnerMessage);
   }
-
 
   showPopupMessage(message: string, duration: number = 3000): void {
     const popup = document.createElement("div");
@@ -285,4 +282,3 @@ class CollisionManager {
     }, duration);
   }
 }
-
