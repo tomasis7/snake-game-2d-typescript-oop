@@ -66,7 +66,13 @@ class StartMenu extends GameScreen {
         default:
           selectedLevel = this.levelFactory.level1; // Om ingen svårighetsgrad är vald körs level1
       }
-
+      
+      userStartAudio(); // This ensures sound works after a user interaction
+      // Ensure the background music starts immediately
+      if (!music.backgroundMusic.isPlaying()) {
+        music.backgroundMusic.loop();
+      }
+      
       // Byt till CountDown, som sedan startar GameBoard med rätt level
       game.changeScreen(
         new CountDown(selectedLevel, () => {
@@ -98,7 +104,7 @@ class StartMenu extends GameScreen {
       game.changeScreen(new InteractionScreen());
     }
   }
-
+  
   draw(): void {
     background("black");
 

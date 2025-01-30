@@ -29,6 +29,10 @@ class CollisionManager {
 
   private handleTetrisCollision(player: Player): void {
     sounds.blockCollision.play();
+    if (music.backgroundMusic.isPlaying()) {
+      music.backgroundMusic.stop();
+    }
+
     player.isColliding = true;
     player.isMoving = false;
     console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
@@ -36,8 +40,25 @@ class CollisionManager {
     this.showGameOver(player.playerNumber);
   }
 
+  private handleBlockCollision(player: Player): void {
+    sounds.wallCollision.play();
+    if (music.backgroundMusic.isPlaying()) {
+      music.backgroundMusic.stop();
+    }
+    player.isColliding = true;
+    player.isMoving = false;
+    console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
+
+    this.showGameOver(player.playerNumber);
+  }
+
+
   private handleWinBlockCollision(player: Player): void {
-    sounds.blockCollision.play();
+    sounds.goalline.play();
+    if (music.backgroundMusic.isPlaying()) {
+      music.backgroundMusic.stop();
+    }
+
     player.isColliding = true;
     player.isMoving = false;
     console.log(`Player ${player.playerNumber} won!`);
@@ -53,10 +74,7 @@ class CollisionManager {
     player.scoreMultiplier = 2;
 
     const scoreInterval = setInterval(() => {
-      this.scoreManager.updateScore(
-        player.getPlayerNumber(),
-        50 * player.scoreMultiplier
-      ); // Multiplicera poäng med multiplier
+      this.scoreManager.updateScore(player.getPlayerNumber(), 50 * player.scoreMultiplier); // Multiplicera poäng med multiplier
     }, 1000);
 
     setTimeout(() => {
@@ -70,6 +88,7 @@ class CollisionManager {
     console.log(`Star entity removed:`, star);
   }
 
+
   private handleHeartCollision(player: Player, heart: Entity): void {
     if (heart.isRemoved) return; // Prevent multiple collections
 
@@ -78,9 +97,8 @@ class CollisionManager {
     console.log(`Player ${player.playerNumber} collected a Heart!`);
 
     if (player.lives < player.maxLives) {
-      player.lives += 1;
+      player.lives += 1
     }
-
     heart.isRemoved = true; // Mark heart as removed
     this.removeEntityCallback(heart);
     console.log(`Heart entity removed:`, heart); // Added logging
@@ -112,69 +130,62 @@ class CollisionManager {
 
     // Kontrollera om livet är mindre än eller lika med 0 för att visa Game Over
     if (player.lives <= 0) {
+      if (music.backgroundMusic.isPlaying()) {
+        music.backgroundMusic.stop();
+      }
+
       this.showGameOver(player.playerNumber);
     }
   }
 
-  private handleGhostCollision(player: Player, ghost: Entity): void {
-    const currentTime = Date.now();
+  private handleGhostProximity(player: Player, ghost: Entity) {
     const distance = dist(
-      player.position.x,
-      player.position.y,
+      player.trail[0].x,
+      player.trail[0].y,
       ghost.position.x,
       ghost.position.y
     );
 
-    console.log("Distance to ghost:", distance);
-
-    if (distance < 900) {
+    if (distance < 200) {
       console.log("Ghost is near, playing sound...");
 
       if (!ghost.isSoundPlaying) {
         sounds.ghost.play();
         ghost.isSoundPlaying = true;
         console.log("Ghost sound started");
-      }
-
-      // Cooldown för kollisioner
-      if (currentTime - player.lastCollisionTime > 1000) {
-        // 1 sekunds cooldown
-        player.isColliding = true;
-        player.lives -= 1;
-
-        if (player.lives < 0) {
-          player.lives = 0;
+      } else {
+        if (ghost.isSoundPlaying) {
+          sounds.ghost.stop();
+          ghost.isSoundPlaying = false;
+          console.log("Ghost sound stopped");
         }
-
-        if (player.lives === 0) {
-          this.showGameOver(player.playerNumber);
-        }
-
-        // Ta bort poäng vid faktisk kollision
-        this.scoreManager.updateScore(player.getPlayerNumber(), -5);
-
-        // Uppdatera tidpunkten för senaste kollision
-        player.lastCollisionTime = currentTime;
-      }
-    } else {
-      if (ghost.isSoundPlaying) {
-        sounds.ghost.stop();
-        ghost.isSoundPlaying = false;
-        console.log("Ghost sound stopped");
       }
     }
   }
 
-  private showGameOver(losingPlayer: number): void {
-    const winnerMessage =
-      losingPlayer === 1
-        ? " - Player 2"
-        : losingPlayer === 2
-        ? " - Player 1"
-        : "Game Over!";
+  private handleGhostCollision(player: Player): void {
+    const currentTime = Date.now();
 
-    game.changeScreen(new GameOverScreen(winnerMessage, this.scoreManager));
-    console.log(winnerMessage);
+    // Cooldown för kollisioner
+    if (currentTime - player.lastCollisionTime > 2000) {
+      // 1 sekunds cooldown
+      player.isColliding = true;
+      player.lives -= 1;
+
+      if (player.lives < 0) {
+        player.lives = 0;
+      }
+
+      if (player.lives === 0) {
+        this.showGameOver(player.playerNumber);
+      }
+
+      // Ta bort poäng vid faktisk kollision
+      this.scoreManager.updateScore(player.getPlayerNumber(), -5);
+
+      // Uppdatera tidpunkten för senaste kollision
+      player.lastCollisionTime = currentTime;
+    }
   }
 
   checkCollision(): void {
@@ -185,10 +196,15 @@ class CollisionManager {
       const headTop = head.y;
       const headBottom = head.y + player.size.y;
 
+
       // Flagga för att spåra om en kollision upptäcks
       let hasCollision = false;
 
       for (const entity of this.entities) {
+        if (entity instanceof Ghost) {
+          this.handleGhostProximity(player, entity)
+        }
+
         const entityLeft = entity.position.x;
         const entityRight = entity.position.x + entity.size.x;
         const entityTop = entity.position.y;
@@ -208,6 +224,8 @@ class CollisionManager {
             // Hantera kollision baserat på entitetstyp
             if (entity instanceof TetrisBlock) {
               this.handleTetrisCollision(player);
+            } else if (entity instanceof Block) {
+              this.handleBlockCollision(player);
             } else if (entity instanceof Star) {
               this.handleStarCollision(player, entity);
             } else if (entity instanceof Heart) {
@@ -215,7 +233,7 @@ class CollisionManager {
             } else if (entity instanceof Plant) {
               this.handlePlantCollision(player);
             } else if (entity instanceof Ghost) {
-              this.handleGhostCollision(player, entity);
+              this.handleGhostCollision(player);
             } else if (entity instanceof WinBlock) {
               this.handleWinBlockCollision(player);
             }
@@ -232,6 +250,21 @@ class CollisionManager {
       }
     }
   }
+
+
+
+  private showGameOver(losingPlayer: number): void {
+    const winnerMessage =
+      losingPlayer === 1
+        ? "Player 1 lost. Player 2 wins!"
+        : losingPlayer === 2
+          ? "Player 2 lost. Player 1 wins!"
+          : "Game Over!";
+
+    game.changeScreen(new GameOverScreen(winnerMessage, this.scoreManager));
+    console.log(winnerMessage);
+  }
+
 
   showPopupMessage(message: string, duration: number = 3000): void {
     const popup = document.createElement("div");
@@ -253,34 +286,3 @@ class CollisionManager {
   }
 }
 
-// Om ingen kollision upptäcks, återställ flaggor
-
-//   private checkGridCollision() {
-//     // Define obstacles with positions and colors
-//     const obstacles = [
-//       { row: 25, col: 50, color: "red" },
-//       { row: 25, col: 51, color: "yellow" },
-//       { row: 25, col: 52, color: "green" },
-//       { row: 15, col: 50, color: "bomb" },
-//       { row: 15, col: 51, color: "bomb" },
-//       { row: 15, col: 52, color: "bomb" },
-//     ];
-
-//     // Draw obstacles
-//     obstacles.forEach((obstacle) => {
-//       this.drawSquareAt(obstacle.row, obstacle.col);
-//       this.drawSquareAt2(obstacle.row, obstacle.col, obstacle.color);
-//     });
-
-//     // Direct position comparison
-//     obstacles.forEach((obstacle) => {
-//       if (
-//         (this.player1.row === obstacle.row &&
-//           this.player1.col === obstacle.col) ||
-//         (this.player2.row === obstacle.row && this.player2.col === obstacle.col)
-//       ) {
-//         alert(`Square hit a ${obstacle.color} obstacle!`);
-//         this.isGameOver = true;
-//       }
-//     });
-//   }
