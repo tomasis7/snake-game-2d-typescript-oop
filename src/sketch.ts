@@ -14,7 +14,7 @@ let images: {
 };
 
 let music: {
-  background: p5.SoundFile;
+  backgroundMusic: p5.SoundFile;
 };
 
 let sounds: {
@@ -42,7 +42,7 @@ let showGrid: boolean = false; // Toggle for grid visibility
 function preload() {
   // Load assets here
   music = {
-    background: loadSound("/assets/music/mario-background.mp3")
+    backgroundMusic: loadSound("/assets/music/background-theme.mp3")
   };
 
   sounds = {
@@ -81,6 +81,9 @@ function setup() {
   frameRate(60);
   textFont(customFont);
   game = new Game();
+
+  music.backgroundMusic.loop();
+
 }
 
 /**

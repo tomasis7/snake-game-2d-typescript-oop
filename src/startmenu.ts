@@ -21,7 +21,7 @@ class StartMenu extends GameScreen {
 
     this.selectMediumMode = new Button(
       "Medium",
-      createVector(width / 2, height / 2 -50),
+      createVector(width / 2, height / 2 - 50),
       "#515151",
       createVector(220, 50),
       "#FDD03C"
@@ -29,7 +29,7 @@ class StartMenu extends GameScreen {
 
     this.selectHardMode = new Button(
       "Hard",
-      createVector(width / 2, height / 2 +25),
+      createVector(width / 2, height / 2 + 25),
       "#515151",
       createVector(220, 50),
       "#FF5F62"
@@ -37,7 +37,7 @@ class StartMenu extends GameScreen {
 
     this.interactionScreen = new Button(
       "How to play",
-      createVector(width / 2, height -100),
+      createVector(width / 2, height - 100),
       "#515151",
       createVector(380, 50),
       "#FFFFFF"
@@ -48,6 +48,10 @@ class StartMenu extends GameScreen {
 
   update(): void {
     if (this.startGameButton.isClicked()) {
+      // Start background music if not already playing
+      if (!music.backgroundMusic.isPlaying()) {
+        music.backgroundMusic.loop();
+      }
       game.changeScreen(new CountDown());
     }
 
@@ -70,18 +74,18 @@ class StartMenu extends GameScreen {
 
   draw(): void {
     background("black");
-    
+
     push();
     fill("#45FF8C");
     textAlign(CENTER, CENTER);
     textFont(customFont);
     textSize(42);
-    text("Furious Snake", width / 2, height / 4 -100);
+    text("Furious Snake", width / 2, height / 4 - 100);
 
     fill("#45FF8C");
     textSize(32);
     text("SELECT DIFFICULTY", width / 2, height / 4);
-    
+
     this.startGameButton.draw();
     this.selectEasyMode.draw();
     this.selectMediumMode.draw();
