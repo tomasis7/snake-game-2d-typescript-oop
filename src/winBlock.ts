@@ -24,8 +24,8 @@ class WinBlock extends Entity {
   draw(): void {
     push();
     rectMode(CENTER);
-    fill("#FDD03C");
-    stroke("#D6B034");
+    fill("#FFFFFF");
+    stroke("#E5E5E5");
     strokeWeight(2);
     rect(this.position.x, this.position.y, this.size.x, this.size.y); // Center the block
     pop();
