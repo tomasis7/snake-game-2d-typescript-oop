@@ -4,12 +4,16 @@ class CountDown extends GameScreen {
   private lastUpdateTime: number;
   private readonly countdownDuration: number = 3; // X second countdown until game starts
   private isComplete: boolean;
+  private callback: () => void;
+  private level: number[][];
 
-  constructor() {
+  constructor(level: number[][], callback: () => void) {
     super();
     this.countdownValue = this.countdownDuration;
     this.lastUpdateTime = Date.now();
     this.isComplete = false;
+    this.callback = callback;
+    this.level = level;
   }
 
   update(): void {
@@ -21,9 +25,10 @@ class CountDown extends GameScreen {
       if (this.countdownValue <= 0) {
         this.countdownValue = 0;
         this.isComplete = true;
+        this.callback();
 
         // When countdownValue is zero create new GameBoard
-        game.changeScreen(new GameBoard());
+        game.changeScreen(new GameBoard(this.level));
       }
     }
     this.lastUpdateTime = currentTime;

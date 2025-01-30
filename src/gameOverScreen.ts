@@ -1,3 +1,4 @@
+/// <reference path="startmenu.ts" />
 /// <reference path="scoreManager.ts" />
 /// <reference path="player.ts" />
 /**
