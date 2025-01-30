@@ -42,8 +42,8 @@ class InteractionScreen extends GameScreen {
         fill("#CCCCCC");
         image(images.heart, width / 2 -330, height / 2 -160, 25, 25);
         text("= +1 Life", width / 2 -300, height / 2 -160);
-        image(images.star, width / 2 -330, height / 2 -120, 25, 25);
-        text("= x2 Points", width / 2 -300, height / 2 -120);
+        image(images.star, width / 2 -330, height / 2 -110, 25, 25);
+        text("= x2 Points", width / 2 -300, height / 2 -110);
 
         // Obstacles / Power-downs
         textSize(24);
@@ -53,12 +53,12 @@ class InteractionScreen extends GameScreen {
         fill("#CCCCCC");
         image(images.Plant, width / 2 +70, height / 2 -160, 21, 40);
         text("= -2 Life", width / 2 +100, height / 2 -160);
-        image(images.ghost, width / 2 +70, height / 2 -120, 35, 35);
-        text("= -1 Life, -5 Points", width / 2 +100, height / 2 -120);
-        image(images.tetrisBlock, width / 2 +70, height / 2 -80, 25, 25);
-        text("= Game Over", width / 2 +100, height / 2 -80);
-        image(images.wallBlock, width / 2 +70, height / 2 -40, 25, 25);
-        text("= Game Over", width / 2 +100, height / 2 -40);
+        image(images.ghost, width / 2 +70, height / 2 -110, 35, 35);
+        text("= -1 Life, -5 Points", width / 2 +100, height / 2 -110);
+        image(images.tetrisBlock, width / 2 +70, height / 2 -60, 25, 25);
+        text("= Game Over", width / 2 +100, height / 2 -60);
+        image(images.wallBlock, width / 2 +70, height / 2 -10, 25, 25);
+        text("= Game Over", width / 2 +100, height / 2 -10);
         pop();
 
         // Info about navigation
@@ -66,19 +66,19 @@ class InteractionScreen extends GameScreen {
         textAlign(CENTER, CENTER);
         fill("#FFFFFF");
         textSize(28);
-        text("Use the following keys on you keyboard\nto navigate your snake in the game", width / 2, height / 2 +40);
+        text("Use the following keys on you keyboard\nto navigate your snake in the game", width / 2, height / 2 +80);
         
         // Players
         fill("#00FFFF");
-        text("Player 1", width / 2 -200, height / 2 +120);
+        text("Player 1", width / 2 -200, height / 2 +160);
         fill("#FF00FF");
-        text("Player 2", width / 2 +200, height / 2 +120);
+        text("Player 2", width / 2 +200, height / 2 +160);
 
         // Arrow Controls
         fill("#FFFFFF");
         textSize(28);
-        text("↑", width / 2 -200, height / 2 +180);
-        text("← ↓ →", width / 2 -200, height / 2 +240);
+        text("↑", width / 2 -200, height / 2 +220);
+        text("← ↓ →", width / 2 -200, height / 2 +280);
         noFill();
         strokeWeight(2);
         stroke(255);
@@ -91,8 +91,8 @@ class InteractionScreen extends GameScreen {
         // WASD Controls
         fill("#FFFFFF");
         textSize(28);
-        text("W", width / 2 +200, height / 2 +180);
-        text("A S D", width / 2 +200, height / 2 +240);
+        text("W", width / 2 +200, height / 2 +220);
+        text("A S D", width / 2 +200, height / 2 +280);
         noFill();
         strokeWeight(2);
         stroke(255);
