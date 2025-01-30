@@ -15,7 +15,7 @@ class WinBlock extends Entity {
       0,
       0,
       createVector(0, 0),
-      images.winBlock
+      images.WinBlock
     );
   }
 
