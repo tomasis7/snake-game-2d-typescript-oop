@@ -1,30 +1,43 @@
 /// <reference path="entity.ts" />
+/**
+ * TODO: Lägg till fullständig JSDoc för klassen Star och dess metoder.
+ */
 class Block extends Entity {
+  /**
+   * Skapar en ny instans av Star-klassen.
+   * @param {number} x - Startposition på x-axeln
+   * @param {number} y - Startposition på y-axeln
+   */
   constructor(x: number, y: number) {
     super(
-      createVector(x, y), // x, y from levelFactory
-      createVector(32, 32), // Fixed size
-      0, // Horizontal speed (0)
-      0, // Vertical speed
-      createVector(0, 0), // Initial direction
-      undefined // Image
+      createVector(x, y), // x, y från levelFactory
+      createVector(32, 32),
+      0,
+      0,
+      createVector(0, 0),
+      images.wallBlock
     );
   }
 
+  /**
+   * Ritar tetris på skärmen.
+   */
   draw(): void {
     push();
+    imageMode(CENTER);
+    translate(this.position.x, this.position.y);
+
+    noStroke();
     rectMode(CENTER);
-    fill("#8E8E8E");
-    stroke("#515151");
-    strokeWeight(2);
-    rect(this.position.x, this.position.y, this.size.x, this.size.y); // Center the block
+    rect(0, 0, this.size.x, this.size.y);
+
+    // Draw the image on top
+    if (this.image) {
+      image(this.image, 0, 0, this.size.x, this.size.y);
+    } else {
+      console.warn("Wallblock entity has no image to draw.");
+    }
+
     pop();
   }
-
-  update(): void {}
 }
-
-// update(): void {
-//   // Eventuell logik för uppdatering
-//   return;
-// }

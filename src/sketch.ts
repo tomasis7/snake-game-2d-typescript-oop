@@ -11,6 +11,8 @@ let images: {
   heart: p5.Image;
   ghost: p5.Image;
   Plant: p5.Image;
+  tetrisBlock: p5.Image;
+  wallBlock: p5.Image;
 };
 
 let music: {
@@ -42,7 +44,7 @@ let showGrid: boolean = false; // Toggle for grid visibility
 function preload() {
   // Load assets here
   music = {
-    backgroundMusic: loadSound("/assets/music/background-theme.mp3")
+    backgroundMusic: loadSound("/assets/music/background-theme.mp3"),
   };
 
   sounds = {
@@ -54,14 +56,16 @@ function preload() {
     winner: loadSound("/assets/sounds/winner.mp3"),
     blockCollision: loadSound("/assets/sounds/error.mp3"),
     wallCollision: loadSound("/assets/sounds/shutdown-sound.mp3"),
-    goalline: loadSound("/assets/sounds/goal-line.mp3")
+    goalline: loadSound("/assets/sounds/goal-line.mp3"),
   };
 
   images = {
     star: loadImage("/assets/images/star.webp"),
     heart: loadImage("/assets/images/heart.webp"),
     ghost: loadImage("assets/images/ghost.png"),
-    Plant: loadImage("/assets/images/plant.gif")
+    Plant: loadImage("/assets/images/plant.gif"),
+    tetrisBlock: loadImage("/assets/images/tetrisBlock.gif"),
+    wallBlock: loadImage("/assets/images/wallBlock.gif"),
   };
 
   customFont = loadFont("/assets/fonts/PressStart2P-Regular.ttf");
@@ -83,7 +87,6 @@ function setup() {
   game = new Game();
 
   music.backgroundMusic.loop();
-
 }
 
 /**
