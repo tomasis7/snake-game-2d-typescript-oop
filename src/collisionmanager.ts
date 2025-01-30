@@ -173,7 +173,7 @@ class CollisionManager {
         ? " - Player 1"
         : "Game Over!";
 
-    game.changeScreen(new GameOverScreen(winnerMessage));
+    game.changeScreen(new GameOverScreen(winnerMessage, this.scoreManager));
     console.log(winnerMessage);
   }
 

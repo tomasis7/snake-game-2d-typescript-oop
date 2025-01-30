@@ -1,8 +1,10 @@
 /// <reference path="scoreManager.ts" />
+/// <reference path="player.ts" />
 /**
  * Visar spelskärmen för Game Over.
  */
 class GameOverScreen extends GameScreen {
+  menyButton: Button;
   restartButton: Button;
   winnerMessage: string;
   // Add a reference to ScoreManager
@@ -19,10 +21,17 @@ class GameOverScreen extends GameScreen {
     this.scoreManager = scoreManager;
     this.restartButton = new Button(
       "Restart",
-      createVector(width / 2, height / 2 + 50),
+      createVector(width / 2, height / 2 + 150),
       "white",
       createVector(250, 50),
       "red"
+    );
+    this.menyButton = new Button(
+      "Meny",
+      createVector(width / 2, height / 2 + 220),
+      "#515151",
+      createVector(250, 50),
+      "#45FF8C"
     );
   }
 
@@ -31,19 +40,22 @@ class GameOverScreen extends GameScreen {
    */
   draw(): void {
     push();
-    background(0, 0, 0, 200);
+    fill(0, 0, 0, 150);
+    rect(0, 0, width, height);
 
     fill("white");
     textSize(32);
     textAlign(CENTER, CENTER);
     text("WINNER" + this.winnerMessage, width / 2, height / 2 - 60);
-    // Display scores from ScoreManager
-    const score1 = this.scoreManager.getScore(PlayerNumber.One);
-    const score2 = this.scoreManager.getScore(PlayerNumber.Two);
-    text(`Player 1 Score: ${score1}`, width / 2, height / 2);
-    text(`Player 2 Score: ${score2}`, width / 2, height / 2 + 40);
+
+    const score1 = this.scoreManager.getScore(1);
+    const score2 = this.scoreManager.getScore(2);
+    textSize(24);
+    text(`Player 1 Score: ${score1}`, width / 2, height / 2 + 20);
+    text(`Player 2 Score: ${score2}`, width / 2, height / 2 + 60);
 
     this.restartButton.draw();
+    this.menyButton.draw();
     pop();
   }
 
@@ -54,6 +66,9 @@ class GameOverScreen extends GameScreen {
     // Här kan du lägga till logik om du vill uppdatera något under Game Over
     if (this.restartButton.isClicked()) {
       game.changeScreen(new CountDown());
+    }
+    if (this.menyButton.isClicked()) {
+      game.changeScreen(new Game());
     }
   }
 }
