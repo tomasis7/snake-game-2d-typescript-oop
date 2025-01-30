@@ -55,21 +55,10 @@ class InteractionScreen extends GameScreen {
         text("= -2 Life", width / 2 +100, height / 2 -160);
         image(images.ghost, width / 2 +70, height / 2 -120, 35, 35);
         text("= -1 Life, -5 Points", width / 2 +100, height / 2 -120);
-        rectMode(CENTER);
-        fill("#FDD03C");
-        stroke("#D6B034");
-        strokeWeight(2);
-        rect(width / 2 +70, height / 2 -80, 25, 25);
-        fill("#CCCCCC");
-        noStroke();
-        text("= -1 Life, Stunned", width / 2 +100, height / 2 -80);
-        fill("#8E8E8E");
-        stroke("#515151");
-        strokeWeight(2);
-        rect(width / 2 +70, height / 2 -40, 25, 25);
-        fill("#CCCCCC");
-        noStroke();
-        text("= -1 Life, Stunned", width / 2 +100, height / 2 -40);
+        image(images.tetrisBlock, width / 2 +70, height / 2 -80, 25, 25);
+        text("= Game Over", width / 2 +100, height / 2 -80);
+        image(images.wallBlock, width / 2 +70, height / 2 -40, 25, 25);
+        text("= Game Over", width / 2 +100, height / 2 -40);
         pop();
 
         // Info about navigation
