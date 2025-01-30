@@ -39,7 +39,7 @@ class GameOverScreen extends GameScreen {
     fill("white");
     textSize(32);
     textAlign(CENTER, CENTER);
-    text("GAME OVER", width / 2, height / 2 - 20);
+    text("WINNER", width / 2, height / 2 - 20);
 
     textSize(24);
     text(this.winnerMessage, width / 2, height / 2 + 120);
