@@ -97,13 +97,12 @@ class CollisionManager {
         console.log(`Player ${player.playerNumber} collected a Heart!`);
 
         if (player.lives < player.maxLives) {
-            player.lives += 1;
+            player.lives += 1
         }
-
         heart.isRemoved = true; // Mark heart as removed
         this.removeEntityCallback(heart);
         console.log(`Heart entity removed:`, heart); // Added logging
-    }
+    }      
 
     private handlePlantCollision(player: Player): void {
         const currentTime = Date.now();
@@ -138,55 +137,131 @@ class CollisionManager {
             this.showGameOver(player.playerNumber);
         }
     }
+    
+    private handleGhostProximity(player: Player, ghost: Entity) {
+    const distance = dist(
+      player.trail[0].x,
+      player.trail[0].y,
+      ghost.position.x,
+      ghost.position.y
+    );
 
+    if (distance < 200) {
+      console.log("Ghost is near, playing sound...");
 
-    private handleGhostCollision(player: Player, ghost: Entity): void {
-        const currentTime = Date.now();
-        const distance = dist(
-            player.position.x,
-            player.position.y,
-            ghost.position.x,
-            ghost.position.y
-        );
+      if (!ghost.isSoundPlaying) {
+        sounds.ghost.play();
+        ghost.isSoundPlaying = true;
+        console.log("Ghost sound started");
+      } else {
+        if (ghost.isSoundPlaying) {
+          sounds.ghost.stop();
+          ghost.isSoundPlaying = false;
+          console.log("Ghost sound stopped");
+        }
+      }
+    }
+  }
 
-        console.log("Distance to ghost:", distance);
+  private handleGhostCollision(player: Player, ghost: Entity): void {
+    const currentTime = Date.now();
 
-        if (distance < 900) {
-            console.log("Ghost is near, playing sound...");
+    // Cooldown för kollisioner
+    if (currentTime - player.lastCollisionTime > 2000) {
+      // 1 sekunds cooldown
+      player.isColliding = true;
+      player.lives -= 1;
 
-            if (!ghost.isSoundPlaying) {
-                sounds.ghost.play();
-                ghost.isSoundPlaying = true;
-                console.log("Ghost sound started");
+      if (player.lives < 0) {
+        player.lives = 0;
+      }
+
+      if (player.lives === 0) {
+        this.showGameOver(player.playerNumber);
+      }
+
+      // Ta bort poäng vid faktisk kollision
+      this.scoreManager.updateScore(player.getPlayerNumber(), -5);
+
+      // Uppdatera tidpunkten för senaste kollision
+      player.lastCollisionTime = currentTime;
+    }
+  }
+
+  private showGameOver(losingPlayer: number): void {
+    const winnerMessage =
+      losingPlayer === 1
+        ? " - Player 2"
+        : losingPlayer === 2
+        ? " - Player 1"
+        : "Game Over!";
+
+    game.changeScreen(new GameOverScreen(winnerMessage, this.scoreManager));
+    console.log(winnerMessage);
+  }
+
+  checkCollision(): void {
+    for (const player of this.players) {
+      const head = player.trail[0];
+      const headLeft = head.x;
+      const headRight = head.x + player.size.x;
+      const headTop = head.y;
+      const headBottom = head.y + player.size.y;
+
+      
+      // Flagga för att spåra om en kollision upptäcks
+      let hasCollision = false;
+      
+      for (const entity of this.entities) {
+        if (entity instanceof Ghost) {
+          this.handleGhostProximity(player, entity)
+        }
+        
+        const entityLeft = entity.position.x;
+        const entityRight = entity.position.x + entity.size.x;
+        const entityTop = entity.position.y;
+        const entityBottom = entity.position.y + entity.size.y;
+
+        // Kontrollera om ormens huvud överlappar blockets kant
+        const isColliding =
+          headRight > entityLeft &&
+          headLeft < entityRight &&
+          headBottom > entityTop &&
+          headTop < entityBottom;
+
+        if (isColliding) {
+          hasCollision = true; // Markera att en kollision upptäckts
+
+          if (!player.isColliding) {
+            // Hantera kollision baserat på entitetstyp
+            if (entity instanceof TetrisBlock) {
+              this.handleTetrisCollision(player);
+            } else if (entity instanceof Star) {
+              this.handleStarCollision(player, entity);
+            } else if (entity instanceof Heart) {
+              this.handleHeartCollision(player, entity);
+            } else if (entity instanceof Plant) {
+              this.handlePlantCollision(player);
+            } else if (entity instanceof Ghost) {
+              this.handleGhostCollision(player, entity);
+            } else if (entity instanceof WinBlock) {
+              this.handleWinBlockCollision(player);
             }
-
-            // Cooldown för kollisioner
-            if (currentTime - player.lastCollisionTime > 1000) { // 1 sekunds cooldown
-                player.isColliding = true;
-                player.lives -= 1;
-
-                if (player.lives < 0) {
-                    player.lives = 0;
+            
+                       // Avsluta loopen för entiteter eftersom kollision upptäcktes
+                        break;
+                    }
                 }
 
-                if (player.lives === 0) {
-                    this.showGameOver(player.playerNumber);
+                // Återställ kollisionen om ingen upptäcktes
+                if (!hasCollision) {
+                    player.isColliding = false;
                 }
-
-                // Ta bort poäng vid faktisk kollision
-                this.scoreManager.updateScore(player.getPlayerNumber(), -5);
-
-                // Uppdatera tidpunkten för senaste kollision
-                player.lastCollisionTime = currentTime;
-            }
-        } else {
-            if (ghost.isSoundPlaying) {
-                sounds.ghost.stop();
-                ghost.isSoundPlaying = false;
-                console.log("Ghost sound stopped");
             }
         }
     }
+
+      
 
     private showGameOver(losingPlayer: number): void {
         const winnerMessage =
@@ -200,63 +275,9 @@ class CollisionManager {
         console.log(winnerMessage);
     }
 
-    checkCollision(): void {
-        for (const player of this.players) {
-            const head = player.trail[0];
-            const headLeft = head.x;
-            const headRight = head.x + player.size.x;
-            const headTop = head.y;
-            const headBottom = head.y + player.size.y;
+  
 
-            // Flagga för att spåra om en kollision upptäcks
-            let hasCollision = false;
-
-            for (const entity of this.entities) {
-                const entityLeft = entity.position.x;
-                const entityRight = entity.position.x + entity.size.x;
-                const entityTop = entity.position.y;
-                const entityBottom = entity.position.y + entity.size.y;
-
-                // Kontrollera om ormens huvud överlappar blockets kant
-                const isColliding =
-                    headRight > entityLeft &&
-                    headLeft < entityRight &&
-                    headBottom > entityTop &&
-                    headTop < entityBottom;
-
-                if (isColliding) {
-                    hasCollision = true; // Markera att en kollision upptäckts
-
-                    if (!player.isColliding) {
-                        // Hantera kollision baserat på entitetstyp
-                        if (entity instanceof TetrisBlock) {
-                            this.handleTetrisCollision(player);
-                        } else if (entity instanceof Star) {
-                            this.handleStarCollision(player, entity);
-                        } else if (entity instanceof Heart) {
-                            this.handleHeartCollision(player, entity);
-                        } else if (entity instanceof Plant) {
-                            this.handlePlantCollision(player);
-                        } else if (entity instanceof Ghost) {
-                            this.handleGhostCollision(player, entity);
-                        } else if (entity instanceof WinBlock) {
-                            this.handleWinBlockCollision(player);
-                        } else if (entity instanceof Block) {
-                            this.handleBlockCollision(player);
-                        }
-
-                        // Avsluta loopen för entiteter eftersom kollision upptäcktes
-                        break;
-                    }
-                }
-
-                // Återställ kollisionen om ingen upptäcktes
-                if (!hasCollision) {
-                    player.isColliding = false;
-                }
-            }
-        }
-    }
+          
 
     showPopupMessage(message: string, duration: number = 3000): void {
         const popup = document.createElement("div");

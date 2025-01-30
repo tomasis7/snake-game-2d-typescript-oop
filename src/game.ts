@@ -7,7 +7,7 @@ class Game {
       new StartMenu(
         new Button(
           "Start Game",
-          createVector(width / 2, height / 2 +125), // button position
+          createVector(width / 2, height / 2 + 125), // button position
           "#515151", // button background color
           createVector(350, 50), // button size
           "#45FF8C" // button text color
@@ -21,7 +21,8 @@ class Game {
 
   newGame(): void {
     // Logic to start a new game
-    this.changeScreen(new GameBoard());
+    const defaultLevel: number[][] = [[1]]; // Replace with your actual default level data
+    this.changeScreen(new GameBoard(defaultLevel));
   }
 
   public update(): void {
