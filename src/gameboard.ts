@@ -17,13 +17,13 @@ class GameBoard extends GameScreen {
   constructor(level: number[][]) {
     super(); // Anropa basklassens konstruktor
     this.players = [
-      new Player(createVector(128, 192), 1, "red", "green", {
+      new Player(createVector(128, 192), 1, "#00FFFF", "green", {
         UP: UP_ARROW,
         DOWN: DOWN_ARROW,
         RIGHT: RIGHT_ARROW,
         LEFT: LEFT_ARROW,
       }),
-      new Player(createVector(128, 576), 2, "blue", "orange", {
+      new Player(createVector(128, 576), 2, "#FF00FF", "orange", {
         UP: 87,
         DOWN: 83,
         RIGHT: 68,
