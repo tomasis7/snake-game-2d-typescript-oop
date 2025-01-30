@@ -36,6 +36,15 @@ class CollisionManager {
         this.showGameOver(player.playerNumber);
     }
 
+    private handleBlockCollision(player: Player): void {
+        sounds.wallCollision.play();
+        player.isColliding = true;
+        player.isMoving = false;
+        console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
+
+        this.showGameOver(player.playerNumber);
+    }
+
 
     private handleWinBlockCollision(player: Player): void {
         sounds.blockCollision.play();
@@ -124,34 +133,34 @@ class CollisionManager {
             ghost.position.x,
             ghost.position.y
         );
-    
+
         console.log("Distance to ghost:", distance);
-    
+
         if (distance < 900) {
             console.log("Ghost is near, playing sound...");
-    
+
             if (!ghost.isSoundPlaying) {
                 sounds.ghost.play();
                 ghost.isSoundPlaying = true;
                 console.log("Ghost sound started");
             }
-    
+
             // Cooldown för kollisioner
             if (currentTime - player.lastCollisionTime > 1000) { // 1 sekunds cooldown
                 player.isColliding = true;
                 player.lives -= 1;
-    
+
                 if (player.lives < 0) {
                     player.lives = 0;
                 }
-    
+
                 if (player.lives === 0) {
                     this.showGameOver(player.playerNumber);
                 }
-    
+
                 // Ta bort poäng vid faktisk kollision
                 this.scoreManager.updateScore(player.getPlayerNumber(), -5);
-    
+
                 // Uppdatera tidpunkten för senaste kollision
                 player.lastCollisionTime = currentTime;
             }
@@ -217,6 +226,8 @@ class CollisionManager {
                             this.handleGhostCollision(player, entity);
                         } else if (entity instanceof WinBlock) {
                             this.handleWinBlockCollision(player);
+                        } else if (entity instanceof Block) {
+                            this.handleBlockCollision(player);
                         }
 
                         // Avsluta loopen för entiteter eftersom kollision upptäcktes
