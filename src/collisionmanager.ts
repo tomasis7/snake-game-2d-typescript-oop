@@ -47,7 +47,13 @@ class CollisionManager {
 
 
     private handleWinBlockCollision(player: Player): void {
-        sounds.blockCollision.play();
+        sounds.goalline.play();
+
+        // Stop background music
+        if (music.backgroundMusic.isPlaying()) {
+            music.backgroundMusic.stop();
+        }
+
         player.isColliding = true;
         player.isMoving = false;
         console.log(`Player ${player.playerNumber} won!`);
