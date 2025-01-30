@@ -49,11 +49,11 @@ class StartMenu extends GameScreen {
   }
 
   update(): void {
-    if (this.startGameButton.isClicked() && this.selectedDifficulty) {
+    if (this.startGameButton.isClicked()) {
       let selectedLevel: number[][];
 
       // Välj rätt level baserat på vald svårighetsgrad
-      switch (this.selectedDifficulty) {
+      switch (this.selectedDifficulty || "easy") {
         case "easy":
           selectedLevel = this.levelFactory.level1;
           break;
@@ -64,7 +64,7 @@ class StartMenu extends GameScreen {
           selectedLevel = this.levelFactory.level3;
           break;
         default:
-          return; // Om ingen svårighetsgrad är vald, gör inget
+          selectedLevel = this.levelFactory.level1; // Om ingen svårighetsgrad är vald körs level1
       }
 
       // Byt till CountDown, som sedan startar GameBoard med rätt level
