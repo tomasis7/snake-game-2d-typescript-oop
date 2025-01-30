@@ -34,12 +34,19 @@ class InteractionScreen extends GameScreen {
         textSize(28);
         text("What to eat and what to avoid", width / 2, height / 2 -250);
 
+        // Background for Power-ups and Obstacles
+        fill("#515151");
+        rectMode(CENTER);
+        rect(width / 2, height / 2 -100, 1200, 250);
+
         // Power-ups
         textSize(24);
         textAlign(LEFT, CENTER);
+        stroke("#000000");
+        strokeWeight(2);
         fill("#45FF8C");
         text("Power-ups", width / 2 -300, height / 2 -200);
-        fill("#CCCCCC");
+        fill("#FFFFFF");
         image(images.heart, width / 2 -330, height / 2 -160, 25, 25);
         text("= +1 Life", width / 2 -300, height / 2 -160);
         image(images.star, width / 2 -330, height / 2 -110, 25, 25);
@@ -48,9 +55,11 @@ class InteractionScreen extends GameScreen {
         // Obstacles / Power-downs
         textSize(24);
         textAlign(LEFT, CENTER);
+        stroke("#000000");
+        strokeWeight(2);
         fill("#45FF8C");
         text("Obstacles", width / 2 +100, height / 2 -200);
-        fill("#CCCCCC");
+        fill("#FFFFFF");
         image(images.Plant, width / 2 +70, height / 2 -160, 21, 40);
         text("= -2 Life", width / 2 +100, height / 2 -160);
         image(images.ghost, width / 2 +70, height / 2 -110, 35, 35);
@@ -64,6 +73,7 @@ class InteractionScreen extends GameScreen {
         // Info about navigation
         push();
         textAlign(CENTER, CENTER);
+        noStroke();
         fill("#FFFFFF");
         textSize(28);
         text("Use the following keys on you keyboard\nto navigate your snake in the game", width / 2, height / 2 +80);
