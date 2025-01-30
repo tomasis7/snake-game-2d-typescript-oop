@@ -100,10 +100,10 @@ function setup() {
  * you created in the setup function above
  */
 function draw() {
+  background(0);
+
   game.update();
   game.draw();
-  background(0);
-  image(images.background, 0, 0, 87, 387);
 
   if (showGrid) {
     drawDebugGrid();
