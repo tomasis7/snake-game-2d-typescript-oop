@@ -29,6 +29,11 @@ class CollisionManager {
 
     private handleTetrisCollision(player: Player): void {
         sounds.blockCollision.play();
+
+        if (music.backgroundMusic.isPlaying()) {
+            music.backgroundMusic.stop();
+        }
+
         player.isColliding = true;
         player.isMoving = false;
         console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
@@ -38,6 +43,9 @@ class CollisionManager {
 
     private handleBlockCollision(player: Player): void {
         sounds.wallCollision.play();
+        if (music.backgroundMusic.isPlaying()) {
+            music.backgroundMusic.stop();
+        }
         player.isColliding = true;
         player.isMoving = false;
         console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
@@ -126,6 +134,10 @@ class CollisionManager {
 
         // Kontrollera om livet är mindre än eller lika med 0 för att visa Game Over
         if (player.lives <= 0) {
+            if (music.backgroundMusic.isPlaying()) {
+                music.backgroundMusic.stop();
+            }
+
             this.showGameOver(player.playerNumber);
         }
     }
