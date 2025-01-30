@@ -43,18 +43,6 @@ class ScoreManager {
     fill("white");
     textAlign(CENTER, CENTER); // Center text horizontally and vertically
 
-        for (const [playerNumber, score] of this.scores.entries()) {
-            const player = this.players.find(p => p.getPlayerNumber() === playerNumber);
-            if (player) {
-                const textContent = `Player: ${playerNumber} Score: ${score} | Lives: ${player.lives}`;
-                if (playerNumber === 1) {
-                    // Player 1: Top of the screen
-                    text(textContent, width / 2, 40); // Centered horizontally at the top
-                } else if (playerNumber === 2) {
-                    // Player 2: Bottom of the screen
-                    text(textContent, width / 2, height - 40); // Centered horizontally at the bottom
-                }
-            }
     for (const [playerNumber, score] of this.scores.entries()) {
       const player = this.players.find(
         (p) => p.getPlayerNumber() === playerNumber

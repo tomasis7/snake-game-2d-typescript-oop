@@ -23,7 +23,7 @@ class StartMenu extends GameScreen {
 
     this.selectMediumMode = new Button(
       "Medium",
-      createVector(width / 2, height / 2 -50),
+      createVector(width / 2, height / 2 - 50),
       "#515151",
       createVector(220, 50),
       "#FDD03C"
@@ -31,7 +31,7 @@ class StartMenu extends GameScreen {
 
     this.selectHardMode = new Button(
       "Hard",
-      createVector(width / 2, height / 2 +25),
+      createVector(width / 2, height / 2 + 25),
       "#515151",
       createVector(220, 50),
       "#FF5F62"
@@ -39,7 +39,7 @@ class StartMenu extends GameScreen {
 
     this.interactionScreen = new Button(
       "How to play",
-      createVector(width / 2, height -100),
+      createVector(width / 2, height - 100),
       "#515151",
       createVector(380, 50),
       "#FFFFFF"
@@ -50,50 +50,48 @@ class StartMenu extends GameScreen {
 
   update(): void {
     if (this.startGameButton.isClicked() && this.selectedDifficulty) {
-        let selectedLevel: number[][];
+      let selectedLevel: number[][];
 
-        // Välj rätt level baserat på vald svårighetsgrad
-        switch (this.selectedDifficulty) {
-            case "easy":
-                selectedLevel = this.levelFactory.level1;
-                break;
-            case "medium":
-                selectedLevel = this.levelFactory.level2;
-                break;
-            case "hard":
-                selectedLevel = this.levelFactory.level3;
-                break;
-            default:
-                return; // Om ingen svårighetsgrad är vald, gör inget
-        }
+      // Välj rätt level baserat på vald svårighetsgrad
+      switch (this.selectedDifficulty) {
+        case "easy":
+          selectedLevel = this.levelFactory.level1;
+          break;
+        case "medium":
+          selectedLevel = this.levelFactory.level2;
+          break;
+        case "hard":
+          selectedLevel = this.levelFactory.level3;
+          break;
+        default:
+          return; // Om ingen svårighetsgrad är vald, gör inget
+      }
 
-        // Byt till CountDown, som sedan startar GameBoard med rätt level
-        game.changeScreen(new CountDown(selectedLevel, () => {
+      // Byt till CountDown, som sedan startar GameBoard med rätt level
+      game.changeScreen(
+        new CountDown(selectedLevel, () => {
           game.changeScreen(new GameBoard(selectedLevel));
-      }));
-      
+        })
+      );
     }
 
     if (this.selectEasyMode.isClicked()) {
-        console.log("Easy mode selected");
-        this.selectedButton = this.selectEasyMode;
-        this.selectedDifficulty = "easy";
+      console.log("Easy mode selected");
+      this.selectedButton = this.selectEasyMode;
+      this.selectedDifficulty = "easy";
     }
 
     if (this.selectMediumMode.isClicked()) {
-        console.log("Medium mode selected");
-        this.selectedButton = this.selectMediumMode;
-        this.selectedDifficulty = "medium";
+      console.log("Medium mode selected");
+      this.selectedButton = this.selectMediumMode;
+      this.selectedDifficulty = "medium";
     }
 
     if (this.selectHardMode.isClicked()) {
-        console.log("Hard mode selected");
-        this.selectedButton = this.selectHardMode;
-        this.selectedDifficulty = "hard";
+      console.log("Hard mode selected");
+      this.selectedButton = this.selectHardMode;
+      this.selectedDifficulty = "hard";
     }
-}
-
-
 
     if (this.interactionScreen.isClicked()) {
       console.log("Interaction selected");
@@ -103,13 +101,13 @@ class StartMenu extends GameScreen {
 
   draw(): void {
     background("black");
-    
+
     push();
     fill("#45FF8C");
     textAlign(CENTER, CENTER);
     textFont(customFont);
     textSize(42);
-    text("Furious Snake", width / 2, height / 4 -100);
+    text("Furious Snake", width / 2, height / 4 - 100);
 
     // Ändra färg om knappen är vald
     this.selectEasyMode.backgroundColor =
@@ -124,7 +122,7 @@ class StartMenu extends GameScreen {
     fill("#45FF8C");
     textSize(32);
     text("SELECT DIFFICULTY", width / 2, height / 4);
-    
+
     this.startGameButton.draw();
     this.selectEasyMode.draw();
     this.selectMediumMode.draw();
