@@ -26,6 +26,7 @@ let sounds: {
   winner: p5.SoundFile;
   blockCollision: p5.SoundFile;
   wallCollision: p5.SoundFile;
+  goalline: p5.SoundFile;
 };
 
 let customFont: p5.Font;
@@ -52,7 +53,8 @@ function preload() {
     starPickUp: loadSound("/assets/sounds/star.mp3"),
     winner: loadSound("/assets/sounds/winner.mp3"),
     blockCollision: loadSound("/assets/sounds/error.mp3"),
-    wallCollision: loadSound("/assets/sounds/shutdown-sound.mp3")
+    wallCollision: loadSound("/assets/sounds/shutdown-sound.mp3"),
+    goalline: loadSound("/assets/sounds/goal-line.mp3")
   };
 
   images = {
