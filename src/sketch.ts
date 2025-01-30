@@ -69,7 +69,7 @@ function preload() {
     tetrisBlock: loadImage("/assets/images/tetrisBlock.gif"),
     wallBlock: loadImage("/assets/images/wallBlock.gif"),
     WinBlock: loadImage("/assets/images/winBlock.gif"),
-    background: loadImage("/assets/images/background.png"),
+    background: loadImage("/assets/images/bakgrund.gif"),
   };
 
   customFont = loadFont("/assets/fonts/PressStart2P-Regular.ttf");

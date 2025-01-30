@@ -115,17 +115,55 @@ class Player extends Entity {
 
     for (let i = 0; i < this.trail.length; i++) {
       const position = this.trail[i];
+      let diameter = Math.max(this.size.x, this.size.y);
+
+      // Add shadow effect
+      drawingContext.shadowBlur = 15;
+      drawingContext.shadowColor = "rgba(0, 0, 0, 0.3)";
+      drawingContext.shadowOffsetX = 5;
+      drawingContext.shadowOffsetY = 5;
+
+      // Create 3D gradient effect
+      let ctx = drawingContext;
+      let gradient = ctx.createRadialGradient(
+        position.x - diameter * 0.3,
+        position.y - diameter * 0.3,
+        diameter * 0.1,
+        position.x,
+        position.y,
+        diameter * 0.8
+      );
 
       if (i === 0) {
-        stroke("blue");
-        fill("orange");
+        // Head segment with more pronounced 3D effect
+        gradient.addColorStop(0, "#FFE5CC");
+        gradient.addColorStop(0.3, "#FFA500");
+        gradient.addColorStop(1, "#804600");
       } else {
-        stroke(this.trailStrokeColor);
-        fill(this.trailFillColor);
+        // Body segments with darker colors
+        gradient.addColorStop(
+          0,
+          lerpColor(
+            color(this.trailFillColor),
+            color("#ffffff"),
+            0.2
+          ).toString()
+        ); // Less highlight
+        gradient.addColorStop(0.3, this.trailFillColor); // Main color
+        gradient.addColorStop(
+          1,
+          lerpColor(color(this.trailStrokeColor), color(0), 0.7).toString()
+        ); // Darker shadow
       }
 
-      let diameter = Math.max(this.size.x, this.size.y);
+      ctx.fillStyle = gradient;
+      noStroke();
       ellipse(position.x, position.y, diameter, diameter);
+
+      // Reset shadow for next iteration
+      drawingContext.shadowBlur = 0;
+      drawingContext.shadowOffsetX = 0;
+      drawingContext.shadowOffsetY = 0;
     }
 
     pop();

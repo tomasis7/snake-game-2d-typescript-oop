@@ -96,15 +96,15 @@ class GameBoard extends GameScreen {
   draw(): void {
     background(0); // Ange bakgrundsfärg
     // Calculate how many background images we need based on canvas width plus some buffer
-    const numBackgrounds = Math.ceil((width + this.cameraOffset) / 87) + 1;
+    const numBackgrounds = Math.ceil((width + this.cameraOffset) / 1415) + 1;
     // Draw multiple background images side by side, offset by cameraOffset
     for (let i = 0; i < numBackgrounds; i++) {
-      image(images.background, i * 87 - this.cameraOffset, 0, 87, 387);
+      image(images.background, i * 1415 - this.cameraOffset, 0, 1415, 800);
     }
     // Draw bottom level background
-    for (let i = 0; i < numBackgrounds; i++) {
-      image(images.background, i * 87 - this.cameraOffset, 387, 87, 387);
-    }
+    // for (let i = 0; i < numBackgrounds; i++) {
+    //   image(images.background, i * 87 - this.cameraOffset, 387, 87, 387);
+    // }
     push();
     translate(-this.cameraOffset, 0); // Apply camera offset for scrolling
 
