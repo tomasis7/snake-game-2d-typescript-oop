@@ -13,6 +13,8 @@ let images: {
   Plant: p5.Image;
   tetrisBlock: p5.Image;
   wallBlock: p5.Image;
+  WinBlock: p5.Image;
+  background: p5.Image;
 };
 
 let music: {
@@ -66,6 +68,8 @@ function preload() {
     Plant: loadImage("/assets/images/plant.gif"),
     tetrisBlock: loadImage("/assets/images/tetrisBlock.gif"),
     wallBlock: loadImage("/assets/images/wallBlock.gif"),
+    WinBlock: loadImage("/assets/images/winBlock.gif"),
+    background: loadImage("/assets/images/background.png"),
   };
 
   customFont = loadFont("/assets/fonts/PressStart2P-Regular.ttf");
@@ -96,6 +100,8 @@ function setup() {
  * you created in the setup function above
  */
 function draw() {
+  background(0);
+
   game.update();
   game.draw();
 
