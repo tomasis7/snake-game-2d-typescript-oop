@@ -83,10 +83,10 @@ class InteractionScreen extends GameScreen {
         strokeWeight(2);
         stroke(255);
         rectMode(CENTER);
-        square(width / 2 -200, height / 2 +180, 50);
-        square(width / 2 -200, height / 2 +240, 50);
-        square(width / 2 -140, height / 2 +240, 50);
-        square(width / 2 -260, height / 2 +240, 50);
+        square(width / 2 -200, height / 2 +220, 50);
+        square(width / 2 -200, height / 2 +280, 50);
+        square(width / 2 -140, height / 2 +280, 50);
+        square(width / 2 -260, height / 2 +280, 50);
 
         // WASD Controls
         fill("#FFFFFF");
@@ -97,10 +97,10 @@ class InteractionScreen extends GameScreen {
         strokeWeight(2);
         stroke(255);
         rectMode(CENTER);
-        square(width / 2 +200, height / 2 +180, 50);
-        square(width / 2 +200, height / 2 +240, 50);
-        square(width / 2 +140, height / 2 +240, 50);
-        square(width / 2 +260, height / 2 +240, 50);
+        square(width / 2 +200, height / 2 +220, 50);
+        square(width / 2 +200, height / 2 +280, 50);
+        square(width / 2 +140, height / 2 +280, 50);
+        square(width / 2 +260, height / 2 +280, 50);
         
         noStroke();
         this.returnToStartMenu.draw();
