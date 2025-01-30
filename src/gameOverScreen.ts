@@ -1,3 +1,5 @@
+/// <reference path="startmenu.ts" />
+
 class GameOverScreen extends GameScreen {
   restartButton: Button;
   winnerMessage: string;
@@ -43,7 +45,7 @@ class GameOverScreen extends GameScreen {
   update(): void {
     // Här kan du lägga till logik om du vill uppdatera något under Game Over
     if (this.restartButton.isClicked()) {
-      game.changeScreen(new GameBoard());
+      game.changeScreen(new Game());
     }
   }
 }

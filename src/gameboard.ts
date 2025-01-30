@@ -13,7 +13,7 @@ class GameBoard extends GameScreen {
   private cameraOffset: number = 0;
   private scrollSpeed: number = 2;
 
-  constructor() {
+  constructor(level: number[][]) {
     super(); // Anropa basklassens konstruktor
     this.players = [
       new Player(createVector(0, 192), 1, "red", "green", {
@@ -31,18 +31,7 @@ class GameBoard extends GameScreen {
     ];
 
     this.levelFactory = new LevelFactory();
-    //initialize
-    // this.entities = [
-    // new Heart(),
-    // new Star(), // For test to get levelfactory in place.
-    // new Ghost(),
-    // new Plant(), // For test to get levelfactory in place.
-    // new TetrisBlock(),
-    // ];
-
-    this.entities = this.levelFactory.createEntitiesForLevel(
-      this.levelFactory.level1
-    );
+    this.entities = this.levelFactory.createEntitiesForLevel(level);
 
     this.scoreManager = new ScoreManager(this.players); // Initiera ScoreManager
     this.collisionManager = new CollisionManager(

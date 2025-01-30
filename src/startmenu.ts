@@ -6,7 +6,7 @@ class StartMenu extends GameScreen {
   selectHardMode: Button;
   selectedButton: Button | null = null;
   levelFactory: LevelFactory;
-  selectedLevel: number[][] | null = null;
+  selectedDifficulty: "easy" | "medium" | "hard" | null = null;
 
   constructor(button: Button) {
     super();
@@ -40,25 +40,51 @@ class StartMenu extends GameScreen {
   }
 
   update(): void {
-    if (this.startGameButton.isClicked()) {
-      game.changeScreen(new CountDown());
+    if (this.startGameButton.isClicked() && this.selectedDifficulty) {
+        let selectedLevel: number[][];
+
+        // Välj rätt level baserat på vald svårighetsgrad
+        switch (this.selectedDifficulty) {
+            case "easy":
+                selectedLevel = this.levelFactory.level1;
+                break;
+            case "medium":
+                selectedLevel = this.levelFactory.level2;
+                break;
+            case "hard":
+                selectedLevel = this.levelFactory.level3;
+                break;
+            default:
+                return; // Om ingen svårighetsgrad är vald, gör inget
+        }
+
+        // Byt till CountDown, som sedan startar GameBoard med rätt level
+        game.changeScreen(new CountDown(selectedLevel, () => {
+          game.changeScreen(new GameBoard(selectedLevel));
+      }));
+      
     }
 
     if (this.selectEasyMode.isClicked()) {
-      console.log("Easy mode selected");
-      this.selectedButton = this.selectEasyMode;
+        console.log("Easy mode selected");
+        this.selectedButton = this.selectEasyMode;
+        this.selectedDifficulty = "easy";
     }
 
     if (this.selectMediumMode.isClicked()) {
-      console.log("Medium mode selected");
-      this.selectedButton = this.selectMediumMode;
+        console.log("Medium mode selected");
+        this.selectedButton = this.selectMediumMode;
+        this.selectedDifficulty = "medium";
     }
 
     if (this.selectHardMode.isClicked()) {
-      console.log("Hard mode selected");
-      this.selectedButton = this.selectHardMode;
+        console.log("Hard mode selected");
+        this.selectedButton = this.selectHardMode;
+        this.selectedDifficulty = "hard";
     }
-  }
+}
+
+
 
   draw(): void {
     background("black");
