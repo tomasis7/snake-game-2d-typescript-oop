@@ -48,11 +48,13 @@ class StartMenu extends GameScreen {
 
   update(): void {
     if (this.startGameButton.isClicked()) {
-      // Ensure the background music starts immediately after clicking the button
+      userStartAudio(); // This ensures sound works after a user interaction
+
+      // Ensure the background music starts immediately
       if (!music.backgroundMusic.isPlaying()) {
-        music.backgroundMusic.play(); // Use play() first
-        music.backgroundMusic.loop(); // Then loop it
+          music.backgroundMusic.loop();
       }
+
       game.changeScreen(new CountDown());
     }
 
