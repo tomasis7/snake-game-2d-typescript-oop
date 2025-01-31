@@ -67,7 +67,7 @@ function preload() {
     ghost: loadImage("assets/images/ghost.png"),
     Plant: loadImage("/assets/images/plant.gif"),
     tetrisBlock: loadImage("/assets/images/tetrisBlock.gif"),
-    wallBlock: loadImage("/assets/images/wallBlock.gif"),
+    wallBlock: loadImage("/assets/images/wallblock.gif"),
     WinBlock: loadImage("/assets/images/winBlock.gif"),
     background: loadImage("/assets/images/bakgrund.gif"),
   };
