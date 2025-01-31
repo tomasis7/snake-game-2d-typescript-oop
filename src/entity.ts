@@ -47,13 +47,3 @@ abstract class Entity implements IMovable {
     if (this.isRemoved) return;
   }
 }
-
-//   move(): void {
-//     if (typeof this.velocity === "number") {
-//       this.position.add(this.direction.mult(this.velocity));
-//     } else {
-//       console.error("speed must be a number");
-//     }
-//   }
-//   abstract update(): void;
-// }

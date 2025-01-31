@@ -68,7 +68,6 @@ class GameBoard extends GameScreen {
 
     for (const player of this.players) {
       player.update();
-      // this.collisionManager.checkCollision(player, this.cameraOffset);
     }
 
     //låt det stå kvar
@@ -101,10 +100,6 @@ class GameBoard extends GameScreen {
     for (let i = 0; i < numBackgrounds; i++) {
       image(images.background, i * 1415 - this.cameraOffset, 0, 1415, 800);
     }
-    // Draw bottom level background
-    // for (let i = 0; i < numBackgrounds; i++) {
-    //   image(images.background, i * 87 - this.cameraOffset, 387, 87, 387);
-    // }
     push();
     translate(-this.cameraOffset, 0); // Apply camera offset for scrolling
 
@@ -116,20 +111,6 @@ class GameBoard extends GameScreen {
 
     for (const player of this.players) {
       player.draw();
-
-      // this.levelFactory.draw(this.cameraOffset);
-      // this.collisionManager.draw(this.cameraOffset);
-      //console.log("Drawing GameBoard");
-      // for (const entity of this.entities) {
-      //   if (entity instanceof TetrisBlock) {
-      //     entity.draw(this.cameraOffset);
-      //   } else {
-      //     entity.draw(this.cameraOffset);
-      //   }
-      //   for (const player of this.players) {
-      //     player.draw();
-      //   }
-      // }
     }
 
     pop();
