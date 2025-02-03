@@ -82,9 +82,8 @@ function preload() {
  * in the draw function belows
  */
 function setup() {
-  const canvasWidth = 1600; // Set canvas width
-  const canvasHeight = 800; // Set canvas height
-  createCanvas(canvasWidth, canvasHeight);
+  const canvasSize = min(windowWidth, windowHeight);
+  createCanvas(canvasSize, canvasSize);
   frameRate(60);
   textFont(customFont);
   game = new Game();
