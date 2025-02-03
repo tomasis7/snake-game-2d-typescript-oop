@@ -39,6 +39,8 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+      - name: "Debug: List build output"
+        run: ls -la ./dist # added: verify build output is present
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
