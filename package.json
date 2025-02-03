@@ -8,7 +8,7 @@
     "build:watch": "tsc --watch",
     "build": "vite build",
     "serve": "vite --port=5500 --open --host",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "@types/p5": "^1.7.4",
