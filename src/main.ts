@@ -88,8 +88,6 @@ function setup() {
   frameRate(60);
   textFont(customFont);
   game = new Game();
-  levelFactory = new LevelFactory();
-
   music.backgroundMusic.loop();
 }
 
