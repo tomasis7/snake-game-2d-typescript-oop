@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist --dotfiles true"
+    "deploy": "gh-pages --dist dist"
   },
   "devDependencies": {
     "@types/p5": "^1.7.4",
