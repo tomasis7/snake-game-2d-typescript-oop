@@ -1,12 +1,8 @@
-//---- GLOBAL VARIABLES ----//
 import { LevelFactory } from "./levelfactory";
 let showGrid: boolean = false;
 
 const levelFactory = new LevelFactory();
 (window as any).levelFactory = levelFactory;
-/**
- * TODO: Lägg till JSDoc för setup- och draw-funktioner i denna huvudskiss.
- */
 
 let game: Game;
 let images: {
@@ -37,13 +33,9 @@ let sounds: {
 };
 
 let customFont: p5.Font;
-let gridSize = levelFactory.gridSize; // Access gridSize directly since it's now public
+let gridSize = levelFactory.gridSize;
 
-/**
- * Förladdar ljud och bilder.
- */
 function preload() {
-  // Load assets here
   music = {
     backgroundMusic: loadSound("/assets/music/background-theme.mp3"),
   };
@@ -74,13 +66,6 @@ function preload() {
   customFont = loadFont("/assets/fonts/PressStart2P-Regular.ttf");
 }
 
-/**
- * Inställningar för canvas, bildfrekvens och spelobjekt.
- * Built in setup function in P5
- * This is a good place to create your first class object
- * and save it as a global variable so it can be used
- * in the draw function belows
- */
 function setup() {
   const canvasSize = min(windowWidth, windowHeight);
   createCanvas(canvasSize, canvasSize);
@@ -90,12 +75,6 @@ function setup() {
   music.backgroundMusic.loop();
 }
 
-/**
- * Uppdaterar och ritar huvudskärmen i spelet.
- * Built in draw function in P5
- * This is a good place to call public methods of the object
- * you created in the setup function above
- */
 function draw() {
   background(0);
 
@@ -107,37 +86,26 @@ function draw() {
   }
 }
 
-/**
- * Built in keyPressed listener function in P5
- */
-
-// Function to draw the debug grid
 function drawDebugGrid(): void {
-  stroke(200, 0, 0, 100); // Red color with transparency
+  stroke(200, 0, 0, 100);
   strokeWeight(1);
 
-  // Draw vertical lines
   for (let x = 0; x <= width; x += gridSize) {
     line(x, 0, x, height);
   }
 
-  // Draw horizontal lines
   for (let y = 0; y <= height; y += gridSize) {
     line(0, y, width, y);
   }
 }
 
-// Optional: Toggle grid visibility with the 'G' key
 function keyPressed() {
   if (key === "G" || key === "g") {
     showGrid = !showGrid;
   }
 }
 
-/**
- *  Built in windowResize listener function in P5
- */
 function windowResized() {
-  const newSize = min(windowWidth, windowHeight); // Choose the smaller dimension to maintain a square
+  const newSize = min(windowWidth, windowHeight);
   resizeCanvas(newSize, newSize);
 }
