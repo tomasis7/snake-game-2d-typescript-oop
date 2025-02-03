@@ -1,4 +1,5 @@
 //---- GLOBAL VARIABLES ----//
+import { LevelFactory } from "./LevelFactory";
 
 /**
  * TODO: Lägg till JSDoc för setup- och draw-funktioner i denna huvudskiss.
