@@ -1,10 +1,12 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const LevelFactory_1 = require("./LevelFactory");
 let game;
 let images;
 let music;
 let sounds;
 let customFont;
-const levelFactory = new LevelFactory();
+const levelFactory = new LevelFactory_1.LevelFactory();
 const gridSize = levelFactory.gridSize;
 let showGrid = false;
 function preload() {
