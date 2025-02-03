@@ -1,4 +1,5 @@
 //---- GLOBAL VARIABLES ----//
+
 import { LevelFactory } from "./LevelFactory";
 
 /**
