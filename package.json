@@ -8,6 +8,7 @@
     "build:watch": "tsc --watch",
     "build": "vite build",
     "serve": "vite --port=5500 --open --host",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
