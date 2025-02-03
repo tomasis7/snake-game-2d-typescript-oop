@@ -1,15 +1,14 @@
 {
-  "name": "slutprojektet-start-template",
+  "name": "snake2d_p5js_oop_game",
   "version": "2.1.0",
   "description": "Project to quickly get something working in p5.js and typescript",
   "homepage": "https://tomasis7.github.io/Snake2D_p5js_OOP_game",
   "scripts": {
-    "dev": "run-p build:watch serve",
-    "build:watch": "tsc --watch",
+    "dev": "vite",
     "build": "vite build",
-    "serve": "vite --port=5500 --open --host",
+    "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist --dotfiles true"
   },
   "devDependencies": {
     "@types/p5": "^1.7.4",

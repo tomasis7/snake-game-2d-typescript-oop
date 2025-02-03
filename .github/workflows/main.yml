@@ -39,6 +39,12 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+      - name: Debug directory structure
+        run: |
+          pwd
+          ls -la
+          echo "Checking dist directory:"
+          ls -la dist || echo "dist directory not found"
       - name: "Debug: List build output"
         run: ls -la ./dist # added: verify build output is present
       - name: Setup Pages
