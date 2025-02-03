@@ -14,7 +14,8 @@ let images: {
   wallBlock: p5.Image;
   WinBlock: p5.Image;
   background: p5.Image;
-};
+} = {} as any;
+(window as any).images = images;
 
 let music: {
   backgroundMusic: p5.SoundFile;
@@ -30,82 +31,87 @@ let sounds: {
   blockCollision: p5.SoundFile;
   wallCollision: p5.SoundFile;
   goalline: p5.SoundFile;
-};
+} = {} as any;
+(window as any).sounds = sounds;
 
 let customFont: p5.Font;
 let gridSize = levelFactory.gridSize;
 
-function preload() {
-  music = {
-    backgroundMusic: loadSound("/assets/music/background-theme.mp3"),
+const sketch = (p: p5) => {
+  p.preload = () => {
+    music = {
+      backgroundMusic: p.loadSound("/assets/music/background-theme.mp3"),
+    };
+
+    sounds = {
+      gainheart: p.loadSound("/assets/sounds/gain-heart.mp3"),
+      lostheart: p.loadSound("/assets/sounds/lost-heart.mp3"),
+      gameover: p.loadSound("/assets/sounds/game-over.mp3"),
+      ghost: p.loadSound("/assets/sounds/ghost.mp3"),
+      starPickUp: p.loadSound("/assets/sounds/star.mp3"),
+      winner: p.loadSound("/assets/sounds/winner.mp3"),
+      blockCollision: p.loadSound("/assets/sounds/error.mp3"),
+      wallCollision: p.loadSound("/assets/sounds/shutdown-sound.mp3"),
+      goalline: p.loadSound("/assets/sounds/goal-line.mp3"),
+    };
+
+    images = {
+      star: p.loadImage("/assets/images/star.webp"),
+      heart: p.loadImage("/assets/images/heart.webp"),
+      ghost: p.loadImage("assets/images/ghost.png"),
+      Plant: p.loadImage("/assets/images/plant.gif"),
+      tetrisBlock: p.loadImage("/assets/images/tetrisBlock.gif"),
+      wallBlock: p.loadImage("/assets/images/wallblock.gif"),
+      WinBlock: p.loadImage("/assets/images/winBlock.gif"),
+      background: p.loadImage("/assets/images/bakgrund.gif"),
+    };
+
+    customFont = p.loadFont("/assets/fonts/PressStart2P-Regular.ttf");
   };
 
-  sounds = {
-    gainheart: loadSound("/assets/sounds/gain-heart.mp3"),
-    lostheart: loadSound("/assets/sounds/lost-heart.mp3"),
-    gameover: loadSound("/assets/sounds/game-over.mp3"),
-    ghost: loadSound("/assets/sounds/ghost.mp3"),
-    starPickUp: loadSound("/assets/sounds/star.mp3"),
-    winner: loadSound("/assets/sounds/winner.mp3"),
-    blockCollision: loadSound("/assets/sounds/error.mp3"),
-    wallCollision: loadSound("/assets/sounds/shutdown-sound.mp3"),
-    goalline: loadSound("/assets/sounds/goal-line.mp3"),
+  p.setup = () => {
+    const canvasSize = p.min(p.windowWidth, p.windowHeight);
+    p.createCanvas(canvasSize, canvasSize);
+    p.frameRate(60);
+    p.textFont(customFont);
+    game = new Game();
+    music.backgroundMusic.loop();
   };
 
-  images = {
-    star: loadImage("/assets/images/star.webp"),
-    heart: loadImage("/assets/images/heart.webp"),
-    ghost: loadImage("assets/images/ghost.png"),
-    Plant: loadImage("/assets/images/plant.gif"),
-    tetrisBlock: loadImage("/assets/images/tetrisBlock.gif"),
-    wallBlock: loadImage("/assets/images/wallblock.gif"),
-    WinBlock: loadImage("/assets/images/winBlock.gif"),
-    background: loadImage("/assets/images/bakgrund.gif"),
+  p.draw = () => {
+    p.background(0);
+
+    game.update();
+    game.draw();
+
+    if (showGrid) {
+      drawDebugGrid(p);
+    }
   };
 
-  customFont = loadFont("/assets/fonts/PressStart2P-Regular.ttf");
-}
+  p.keyPressed = () => {
+    if (p.key === "G" || p.key === "g") {
+      showGrid = !showGrid;
+    }
+  };
 
-function setup() {
-  const canvasSize = min(windowWidth, windowHeight);
-  createCanvas(canvasSize, canvasSize);
-  frameRate(60);
-  textFont(customFont);
-  game = new Game();
-  music.backgroundMusic.loop();
-}
+  p.windowResized = () => {
+    const newSize = p.min(p.windowWidth, p.windowHeight);
+    p.resizeCanvas(newSize, newSize);
+  };
+};
 
-function draw() {
-  background(0);
+new p5(sketch);
 
-  game.update();
-  game.draw();
+function drawDebugGrid(p: p5): void {
+  p.stroke(200, 0, 0, 100);
+  p.strokeWeight(1);
 
-  if (showGrid) {
-    drawDebugGrid();
-  }
-}
-
-function drawDebugGrid(): void {
-  stroke(200, 0, 0, 100);
-  strokeWeight(1);
-
-  for (let x = 0; x <= width; x += gridSize) {
-    line(x, 0, x, height);
+  for (let x = 0; x <= p.width; x += gridSize) {
+    p.line(x, 0, x, p.height);
   }
 
-  for (let y = 0; y <= height; y += gridSize) {
-    line(0, y, width, y);
+  for (let y = 0; y <= p.height; y += gridSize) {
+    p.line(0, y, p.width, y);
   }
-}
-
-function keyPressed() {
-  if (key === "G" || key === "g") {
-    showGrid = !showGrid;
-  }
-}
-
-function windowResized() {
-  const newSize = min(windowWidth, windowHeight);
-  resizeCanvas(newSize, newSize);
 }
