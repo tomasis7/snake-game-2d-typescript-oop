@@ -1,4 +1,4 @@
-// import { LevelFactory } from "./levelfactory";
+import { LevelFactory } from "./levelfactory";
 let showGrid: boolean = false;
 
 const levelFactory = new LevelFactory();
