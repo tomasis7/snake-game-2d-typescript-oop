@@ -1,11 +1,13 @@
 //---- GLOBAL VARIABLES ----//
+import { LevelFactory } from "./levelfactory";
+let showGrid: boolean = false;
 
 /**
  * TODO: Lägg till JSDoc för setup- och draw-funktioner i denna huvudskiss.
  */
 
 let game: Game;
-
+let levelFactory: LevelFactory;
 let images: {
   star: p5.Image;
   heart: p5.Image;
@@ -34,11 +36,8 @@ let sounds: {
 };
 
 let customFont: p5.Font;
-
-const levelFactory = new LevelFactory();
-const gridSize = levelFactory.gridSize; // Access gridSize directly since it's now public
-
-let showGrid: boolean = false; // Toggle for grid visibility
+levelFactory = new LevelFactory();
+let gridSize = levelFactory.gridSize; // Access gridSize directly since it's now public
 
 /**
  * Förladdar ljud och bilder.
@@ -89,6 +88,7 @@ function setup() {
   frameRate(60);
   textFont(customFont);
   game = new Game();
+  levelFactory = new LevelFactory();
 
   music.backgroundMusic.loop();
 }
