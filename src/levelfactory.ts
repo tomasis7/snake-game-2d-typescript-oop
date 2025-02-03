@@ -1,4 +1,5 @@
-export class LevelFactory {
+// export 
+class LevelFactory {
   public gridSize: number = 32;
   public level1: number[][];
   public level2: number[][];
