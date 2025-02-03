@@ -35,8 +35,8 @@ let sounds: {
 
 let customFont: p5.Font;
 
-// const levelFactory = new LevelFactory();
-// const gridSize = levelFactory.gridSize; // Access gridSize directly since it's now public
+const levelFactory = new LevelFactory();
+const gridSize = levelFactory.gridSize; // Access gridSize directly since it's now public
 
 let showGrid: boolean = false; // Toggle for grid visibility
 
