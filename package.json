@@ -6,10 +6,12 @@
     "dev": "run-p build:watch serve",
     "build:watch": "tsc --watch",
     "build": "tsc",
-    "serve": "vite --port=5500 --open --host"
+    "serve": "vite --port=5500 --open --host",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "@types/p5": "^1.7.4",
+    "gh-pages": "^6.3.0",
     "npm-run-all": "^4.1.5",
     "typescript": "^5.3.3",
     "vite": "^5.0.9"
