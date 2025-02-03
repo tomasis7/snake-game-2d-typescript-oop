@@ -4,6 +4,7 @@ export default defineConfig({
   base: "/Snake2D_p5js_OOP_game/",
   build: {
     outDir: "dist",
+    sourcemap: true,
     rollupOptions: {
       output: {
         entryFileNames: `assets/[name].js`,
