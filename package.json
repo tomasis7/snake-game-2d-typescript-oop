@@ -2,6 +2,7 @@
   "name": "slutprojektet-start-template",
   "version": "2.1.0",
   "description": "Project to quickly get something working in p5.js and typescript",
+  "homepage": "https://tomasis7.github.io/Snake2D_p5js_OOP_game",
   "scripts": {
     "dev": "run-p build:watch serve",
     "build:watch": "tsc --watch",
