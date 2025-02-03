@@ -1,7 +1,5 @@
 //---- GLOBAL VARIABLES ----//
 
-import { LevelFactory } from "./LevelFactory";
-
 /**
  * TODO: Lägg till JSDoc för setup- och draw-funktioner i denna huvudskiss.
  */
@@ -37,8 +35,8 @@ let sounds: {
 
 let customFont: p5.Font;
 
-const levelFactory = new LevelFactory();
-const gridSize = levelFactory.gridSize; // Access gridSize directly since it's now public
+// const levelFactory = new LevelFactory();
+// const gridSize = levelFactory.gridSize; // Access gridSize directly since it's now public
 
 let showGrid: boolean = false; // Toggle for grid visibility
 
