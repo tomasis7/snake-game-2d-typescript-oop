@@ -2,12 +2,13 @@
 import { LevelFactory } from "./levelfactory";
 let showGrid: boolean = false;
 
+const levelFactory = new LevelFactory();
+(window as any).levelFactory = levelFactory;
 /**
  * TODO: Lägg till JSDoc för setup- och draw-funktioner i denna huvudskiss.
  */
 
 let game: Game;
-let levelFactory: LevelFactory;
 let images: {
   star: p5.Image;
   heart: p5.Image;
@@ -36,7 +37,6 @@ let sounds: {
 };
 
 let customFont: p5.Font;
-levelFactory = new LevelFactory();
 let gridSize = levelFactory.gridSize; // Access gridSize directly since it's now public
 
 /**
