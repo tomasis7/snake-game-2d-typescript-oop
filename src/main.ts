@@ -37,36 +37,38 @@ let sounds: {
 let customFont: p5.Font;
 let gridSize = levelFactory.gridSize;
 
+const base = import.meta.env.BASE_URL;
+
 const sketch = (p: p5) => {
   p.preload = () => {
     music = {
-      backgroundMusic: p.loadSound("/assets/music/background-theme.mp3"),
+      backgroundMusic: p.loadSound(`${base}assets/music/background-theme.mp3`),
     };
 
     sounds = {
-      gainheart: p.loadSound("/assets/sounds/gain-heart.mp3"),
-      lostheart: p.loadSound("/assets/sounds/lost-heart.mp3"),
-      gameover: p.loadSound("/assets/sounds/game-over.mp3"),
-      ghost: p.loadSound("/assets/sounds/ghost.mp3"),
-      starPickUp: p.loadSound("/assets/sounds/star.mp3"),
-      winner: p.loadSound("/assets/sounds/winner.mp3"),
-      blockCollision: p.loadSound("/assets/sounds/error.mp3"),
-      wallCollision: p.loadSound("/assets/sounds/shutdown-sound.mp3"),
-      goalline: p.loadSound("/assets/sounds/goal-line.mp3"),
+      gainheart: p.loadSound(`${base}assets/sounds/gain-heart.mp3`),
+      lostheart: p.loadSound(`${base}assets/sounds/lost-heart.mp3`),
+      gameover: p.loadSound(`${base}assets/sounds/game-over.mp3`),
+      ghost: p.loadSound(`${base}assets/sounds/ghost.mp3`),
+      starPickUp: p.loadSound(`${base}assets/sounds/star.mp3`),
+      winner: p.loadSound(`${base}assets/sounds/winner.mp3`),
+      blockCollision: p.loadSound(`${base}assets/sounds/error.mp3`),
+      wallCollision: p.loadSound(`${base}assets/sounds/shutdown-sound.mp3`),
+      goalline: p.loadSound(`${base}assets/sounds/goal-line.mp3`),
     };
 
     images = {
-      star: p.loadImage("/assets/images/star.webp"),
-      heart: p.loadImage("/assets/images/heart.webp"),
-      ghost: p.loadImage("assets/images/ghost.png"),
-      Plant: p.loadImage("/assets/images/plant.gif"),
-      tetrisBlock: p.loadImage("/assets/images/tetrisBlock.gif"),
-      wallBlock: p.loadImage("/assets/images/wallblock.gif"),
-      WinBlock: p.loadImage("/assets/images/winBlock.gif"),
-      background: p.loadImage("/assets/images/bakgrund.gif"),
+      star: p.loadImage(`${base}assets/images/star.webp`),
+      heart: p.loadImage(`${base}assets/images/heart.webp`),
+      ghost: p.loadImage(`${base}assets/images/ghost.png`),
+      Plant: p.loadImage(`${base}assets/images/plant.gif`),
+      tetrisBlock: p.loadImage(`${base}assets/images/tetrisBlock.gif`),
+      wallBlock: p.loadImage(`${base}assets/images/wallblock.gif`),
+      WinBlock: p.loadImage(`${base}assets/images/winBlock.gif`),
+      background: p.loadImage(`${base}assets/images/bakgrund.gif`),
     };
 
-    customFont = p.loadFont("/assets/fonts/PressStart2P-Regular.ttf");
+    customFont = p.loadFont(`${base}assets/fonts/PressStart2P-Regular.ttf`);
   };
 
   p.setup = () => {
