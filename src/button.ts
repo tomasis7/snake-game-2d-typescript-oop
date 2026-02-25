@@ -1,5 +1,5 @@
 // Button Class
-class Button {
+export class Button {
   text: string;
   position: p5.Vector;
   backgroundColor: string;

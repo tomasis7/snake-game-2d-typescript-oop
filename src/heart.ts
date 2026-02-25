@@ -1,15 +1,9 @@
-/**
- * Representerar en Hjärt-entitet som pulserar för en visuell effekt.
- */
-class Heart extends Entity {
+import { Entity } from "./entity";
+
+export class Heart extends Entity {
   private pulseScale: number;
   private pulseSpeed: number;
 
-  /**
-   * Skapar en ny Heart-entitet på en given position.
-   * @param {number} x - Startposition på x-axeln
-   * @param {number} y - Startposition på y-axeln
-   */
   constructor(x: number, y: number) {
     super(
       createVector(x, y),
@@ -19,13 +13,10 @@ class Heart extends Entity {
       createVector(0, 0),
       images.heart
     );
-    // 'pulse' animation
     this.pulseScale = 1;
     this.pulseSpeed = 0.01;
   }
-  /**
-   * Ritar hjärtat och tillämpar puls-animationen.
-   */
+
   draw(): void {
     push();
     imageMode(CENTER);
@@ -41,12 +32,8 @@ class Heart extends Entity {
     pop();
   }
 
-  /**
-   * Uppdaterar hjärtats puls-animation.
-   */
   update(): void {
     super.update();
-    // update 'pulse' animation on heart
     const newPulseScale = 1 + 0.1 * Math.sin(millis() * this.pulseSpeed);
     this.pulseScale = newPulseScale;
   }

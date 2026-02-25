@@ -18,4 +18,11 @@ declare global {
     errorCallback?: (err: unknown) => void,
     loadingCallback?: (percentageLoaded: number) => void
   ): p5.SoundFile;
+
+  // Shared game globals assigned by main.ts
+  var game: any;
+  var images: any;
+  var sounds: any;
+  var music: any;
+  var customFont: any;
 }

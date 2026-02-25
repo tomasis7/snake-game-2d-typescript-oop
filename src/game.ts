@@ -1,5 +1,9 @@
-// Main Game Class
-class Game {
+import { GameScreen } from "./gamescreen";
+import { StartMenu } from "./startmenu";
+import { Button } from "./button";
+import { GameBoard } from "./gameboard";
+
+export class Game {
   private activeScreen: GameScreen[];
 
   constructor() {
@@ -7,21 +11,21 @@ class Game {
       new StartMenu(
         new Button(
           "Start Game",
-          createVector(width / 2, height / 2 + 125), // button position
-          "#515151", // button background color
-          createVector(350, 50), // button size
-          "#45FF8C" // button text color
+          createVector(width / 2, height / 2 + 125),
+          "#515151",
+          createVector(350, 50),
+          "#45FF8C"
         )
       ),
     ];
   }
+
   changeScreen(newScreen: GameScreen): void {
     this.activeScreen = [newScreen];
   }
 
   newGame(): void {
-    // Logic to start a new game
-    const defaultLevel: number[][] = [[1]]; // Replace with your actual default level data
+    const defaultLevel: number[][] = [[1]];
     this.changeScreen(new GameBoard(defaultLevel));
   }
 
@@ -32,14 +36,10 @@ class Game {
   }
 
   draw(): void {
-    // Draw the current active screen
     for (const screen of this.activeScreen) {
       screen.draw();
     }
   }
 
-  /**
-   * Avslutar spelet.
-   */
   end(): void {}
 }

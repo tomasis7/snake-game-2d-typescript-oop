@@ -1,9 +1,9 @@
-interface IMovable {
+export interface IMovable {
   position: p5.Vector;
   direction: p5.Vector;
 }
 
-abstract class Entity implements IMovable {
+export abstract class Entity implements IMovable {
   position: p5.Vector;
   size: p5.Vector;
   image?: p5.Image;

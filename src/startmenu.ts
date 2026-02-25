@@ -1,5 +1,11 @@
-// Start Menu
-class StartMenu extends GameScreen {
+import { GameScreen } from "./gamescreen";
+import { Button } from "./button";
+import { LevelFactory } from "./levelfactory";
+import { CountDown } from "./countdown";
+import { GameBoard } from "./gameboard";
+import { InteractionScreen } from "./interactionscreen";
+
+export class StartMenu extends GameScreen {
   startGameButton: Button;
   selectEasyMode: Button;
   selectMediumMode: Button;
@@ -52,7 +58,6 @@ class StartMenu extends GameScreen {
     if (this.startGameButton.isClicked()) {
       let selectedLevel: number[][];
 
-      // Välj rätt level baserat på vald svårighetsgrad
       switch (this.selectedDifficulty || "easy") {
         case "easy":
           selectedLevel = this.levelFactory.level1;
@@ -64,16 +69,14 @@ class StartMenu extends GameScreen {
           selectedLevel = this.levelFactory.level3;
           break;
         default:
-          selectedLevel = this.levelFactory.level1; // Om ingen svårighetsgrad är vald körs level1
+          selectedLevel = this.levelFactory.level1;
       }
-      
-      userStartAudio(); // This ensures sound works after a user interaction
-      // Ensure the background music starts immediately
+
+      userStartAudio();
       if (!music.backgroundMusic.isPlaying()) {
         music.backgroundMusic.loop();
       }
-      
-      // Byt till CountDown, som sedan startar GameBoard med rätt level
+
       game.changeScreen(
         new CountDown(selectedLevel, () => {
           game.changeScreen(new GameBoard(selectedLevel));
@@ -104,7 +107,7 @@ class StartMenu extends GameScreen {
       game.changeScreen(new InteractionScreen());
     }
   }
-  
+
   draw(): void {
     background("black");
 
@@ -115,7 +118,6 @@ class StartMenu extends GameScreen {
     textSize(42);
     text("Furious Snake", width / 2, height / 4 - 100);
 
-    // Ändra färg om knappen är vald
     this.selectEasyMode.backgroundColor =
       this.selectedButton === this.selectEasyMode ? "white" : "#515151";
 

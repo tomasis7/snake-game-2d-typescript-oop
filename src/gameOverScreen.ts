@@ -1,21 +1,13 @@
-/// <reference path="startmenu.ts" />
-/// <reference path="scoreManager.ts" />
-/// <reference path="player.ts" />
-/// <reference path="levelfactory.ts" />
-/**
- * Visar spelskärmen för Game Over.
- */
-class GameOverScreen extends GameScreen {
+import { GameScreen } from "./gamescreen";
+import { Button } from "./button";
+import { ScoreManager } from "./scoreManager";
+import { Game } from "./game";
+
+export class GameOverScreen extends GameScreen {
   menyButton: Button;
   winnerMessage: string;
-  // Add a reference to ScoreManager
   private scoreManager: ScoreManager;
 
-  /**
-   * Skapar en ny GameOverScreen med ett vinnarmeddelande.
-   * @param {string} winnerMessage - Meddelande om vem som vann.
-   * @param {ScoreManager} scoreManager - Instans av ScoreManager.
-   */
   constructor(winnerMessage: string, scoreManager: ScoreManager) {
     super();
     this.winnerMessage = winnerMessage;
@@ -30,9 +22,6 @@ class GameOverScreen extends GameScreen {
     );
   }
 
-  /**
-   * Ritar upp Game Over-skärmen.
-   */
   draw(): void {
     push();
     fill(0, 0, 0, 150);
@@ -53,12 +42,7 @@ class GameOverScreen extends GameScreen {
     pop();
   }
 
-  /**
-   * Uppdaterar Game Over-skärmen och hanterar klick på knappar.
-   */
   update(): void {
-    // Här kan du lägga till logik om du vill uppdatera något under Game Over
-
     if (this.menyButton.isClicked()) {
       game.changeScreen(new Game());
     }

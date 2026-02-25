@@ -1,51 +1,22 @@
 import { LevelFactory } from "./levelfactory";
+import { Game } from "./game";
+
 let showGrid: boolean = false;
 
 const levelFactory = new LevelFactory();
 (window as any).levelFactory = levelFactory;
 
-let game: Game;
-let images: {
-  star: p5.Image;
-  heart: p5.Image;
-  ghost: p5.Image;
-  Plant: p5.Image;
-  tetrisBlock: p5.Image;
-  wallBlock: p5.Image;
-  WinBlock: p5.Image;
-  background: p5.Image;
-} = {} as any;
-(window as any).images = images;
-
-let music: {
-  backgroundMusic: p5.SoundFile;
-};
-
-let sounds: {
-  gainheart: p5.SoundFile;
-  lostheart: p5.SoundFile;
-  gameover: p5.SoundFile;
-  ghost: p5.SoundFile;
-  starPickUp: p5.SoundFile;
-  winner: p5.SoundFile;
-  blockCollision: p5.SoundFile;
-  wallCollision: p5.SoundFile;
-  goalline: p5.SoundFile;
-} = {} as any;
-(window as any).sounds = sounds;
-
-let customFont: p5.Font;
 let gridSize = levelFactory.gridSize;
 
 const base = import.meta.env.BASE_URL;
 
 const sketch = (p: p5) => {
   p.preload = () => {
-    music = {
+    (window as any).music = {
       backgroundMusic: p.loadSound(`${base}assets/music/background-theme.mp3`),
     };
 
-    sounds = {
+    (window as any).sounds = {
       gainheart: p.loadSound(`${base}assets/sounds/gain-heart.mp3`),
       lostheart: p.loadSound(`${base}assets/sounds/lost-heart.mp3`),
       gameover: p.loadSound(`${base}assets/sounds/game-over.mp3`),
@@ -57,7 +28,7 @@ const sketch = (p: p5) => {
       goalline: p.loadSound(`${base}assets/sounds/goal-line.mp3`),
     };
 
-    images = {
+    (window as any).images = {
       star: p.loadImage(`${base}assets/images/star.webp`),
       heart: p.loadImage(`${base}assets/images/heart.webp`),
       ghost: p.loadImage(`${base}assets/images/ghost.png`),
@@ -68,23 +39,26 @@ const sketch = (p: p5) => {
       background: p.loadImage(`${base}assets/images/bakgrund.gif`),
     };
 
-    customFont = p.loadFont(`${base}assets/fonts/PressStart2P-Regular.ttf`);
+    (window as any).customFont = p.loadFont(
+      `${base}assets/fonts/PressStart2P-Regular.ttf`
+    );
   };
 
   p.setup = () => {
     const canvasSize = p.min(p.windowWidth, p.windowHeight);
     p.createCanvas(canvasSize, canvasSize);
     p.frameRate(60);
-    p.textFont(customFont);
-    game = new Game();
-    music.backgroundMusic.loop();
+    p.textFont((window as any).customFont);
+    const gameInstance = new Game();
+    (window as any).game = gameInstance;
+    (window as any).music.backgroundMusic.loop();
   };
 
   p.draw = () => {
     p.background(0);
 
-    game.update();
-    game.draw();
+    (window as any).game.update();
+    (window as any).game.draw();
 
     if (showGrid) {
       drawDebugGrid(p);

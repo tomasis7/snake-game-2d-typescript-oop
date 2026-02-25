@@ -1,12 +1,6 @@
-/**
- * Representerar en Spök-entitet med slumpmässig rörelse och kollisionseffekter.
- */
-class Ghost extends Entity {
-  /**
-   * Skapar en ny instans av Ghost med en given position.
-   * @param {number} x - Startposition på x-axeln
-   * @param {number} y - Startposition på y-axeln
-   */
+import { Entity } from "./entity";
+
+export class Ghost extends Entity {
   constructor(x: number, y: number) {
     super(
       createVector(x, y),
@@ -18,9 +12,6 @@ class Ghost extends Entity {
     );
   }
 
-  /**
-   * Ritar spöket på skärmen.
-   */
   draw(): void {
     push();
     imageMode(CENTER);
@@ -35,9 +26,6 @@ class Ghost extends Entity {
     pop();
   }
 
-  /**
-   * Uppdaterar spökets riktning och kontrollerar om det är utanför skärmen.
-   */
   update(): void {
     this.position.add(this.velocity);
 

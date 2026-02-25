@@ -1,15 +1,14 @@
-/**
- * TODO: Lägg till JSDoc för klassen Plant och dess metoder.
- */
-class Plant extends Entity {
+import { Entity } from "./entity";
+
+export class Plant extends Entity {
   constructor(x: number, y: number) {
     super(
-      createVector(x, y), // x, y från LevelFactory
-      createVector(32, 64), // Fast storlek
-      0, // Horisontell hastighet
-      0, // Vertikal hastighet
-      createVector(0, 0), // Initial riktning
-      images.Plant // Bild
+      createVector(x, y),
+      createVector(32, 64),
+      0,
+      0,
+      createVector(0, 0),
+      images.Plant
     );
   }
 

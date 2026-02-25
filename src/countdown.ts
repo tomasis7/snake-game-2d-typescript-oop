@@ -1,8 +1,10 @@
-/// <reference path="gamescreen.ts" />
-class CountDown extends GameScreen {
+import { GameScreen } from "./gamescreen";
+import { GameBoard } from "./gameboard";
+
+export class CountDown extends GameScreen {
   private countdownValue: number;
   private lastUpdateTime: number;
-  private readonly countdownDuration: number = 3; // X second countdown until game starts
+  private readonly countdownDuration: number = 3;
   private isComplete: boolean;
   private callback: () => void;
   private level: number[][];
@@ -18,7 +20,7 @@ class CountDown extends GameScreen {
 
   update(): void {
     const currentTime = Date.now();
-    const deltaTime = (currentTime - this.lastUpdateTime) / 1000; // Convert to seconds
+    const deltaTime = (currentTime - this.lastUpdateTime) / 1000;
 
     if (this.countdownValue > 0) {
       this.countdownValue -= deltaTime;
@@ -27,7 +29,6 @@ class CountDown extends GameScreen {
         this.isComplete = true;
         this.callback();
 
-        // When countdownValue is zero create new GameBoard
         game.changeScreen(new GameBoard(this.level));
       }
     }
@@ -37,15 +38,14 @@ class CountDown extends GameScreen {
   draw(): void {
     push();
     background("black");
-    fill("#45FF8C"); // Green text
-    textSize(32); // Size for title
+    fill("#45FF8C");
+    textSize(32);
     textAlign(CENTER, CENTER);
     textFont(customFont);
     text("GET READY", width / 2, height / 4);
 
-    // Show countdown
-    fill("#FFFFFF"); // White text
-    textSize(84); // Size for title
+    fill("#FFFFFF");
+    textSize(84);
 
     const displayNumber = Math.ceil(this.countdownValue);
     if (displayNumber > 0) {

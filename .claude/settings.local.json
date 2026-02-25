@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"C:/Users/tomas/Documents/snake-game-2d-typescript-oop\" && npm run build 2>&1)"
+    ]
+  }
+}

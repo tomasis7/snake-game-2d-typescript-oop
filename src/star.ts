@@ -1,15 +1,9 @@
-/**
- * TODO: Lägg till fullständig JSDoc för klassen Star och dess metoder.
- */
-class Star extends Entity {
-  /**
-   * Skapar en ny instans av Star-klassen.
-   * @param {number} x - Startposition på x-axeln
-   * @param {number} y - Startposition på y-axeln
-   */
+import { Entity } from "./entity";
+
+export class Star extends Entity {
   constructor(x: number, y: number) {
     super(
-      createVector(x, y), // x, y från levelFactory
+      createVector(x, y),
       createVector(32, 32),
       0,
       0,
@@ -18,9 +12,6 @@ class Star extends Entity {
     );
   }
 
-  /**
-   * Ritar stjärnan på skärmen.
-   */
   draw(): void {
     push();
     imageMode(CENTER);

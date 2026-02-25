@@ -1,30 +1,31 @@
-interface Obstacle {
-  row: number;
-  col: number;
-  color: string;
-}
+import { Entity } from "./entity";
+import { Player } from "./player";
+import { ScoreManager } from "./scoreManager";
+import { Ghost } from "./ghost";
+import { TetrisBlock } from "./tetrisBlocks";
+import { Block } from "./block";
+import { Star } from "./star";
+import { Heart } from "./heart";
+import { Plant } from "./plant";
+import { WinBlock } from "./winBlock";
+import { GameOverScreen } from "./gameOverScreen";
 
-interface GridPosition {
-  row: number;
-  col: number;
-}
-
-class CollisionManager {
+export class CollisionManager {
   players: Player[];
   entities: Entity[];
   scoreManager: ScoreManager;
-  private removeEntityCallback: (entity: Entity) => void; // Callback-funktion
+  private removeEntityCallback: (entity: Entity) => void;
 
   constructor(
     players: Player[],
     entities: Entity[],
     scoreManager: ScoreManager,
-    removeEntityCallback: (entity: Entity) => void // Add this parameter
+    removeEntityCallback: (entity: Entity) => void
   ) {
     this.players = players;
     this.entities = entities;
     this.scoreManager = scoreManager;
-    this.removeEntityCallback = removeEntityCallback; // Spara callback
+    this.removeEntityCallback = removeEntityCallback;
   }
 
   private handleTetrisCollision(player: Player): void {
@@ -66,7 +67,7 @@ class CollisionManager {
   }
 
   private handleStarCollision(player: Player, star: Entity): void {
-    if (star.isRemoved) return; // Prevent multiple collections
+    if (star.isRemoved) return;
     sounds.starPickUp.play();
     player.isColliding = true;
 
@@ -76,7 +77,7 @@ class CollisionManager {
       this.scoreManager.updateScore(
         player.getPlayerNumber(),
         50 * player.scoreMultiplier
-      ); // Multiplicera poäng med multiplier
+      );
     }, 1000);
 
     setTimeout(() => {
@@ -91,7 +92,7 @@ class CollisionManager {
   }
 
   private handleHeartCollision(player: Player, heart: Entity): void {
-    if (heart.isRemoved) return; // Prevent multiple collections
+    if (heart.isRemoved) return;
 
     sounds.gainheart.play();
     player.isColliding = true;
@@ -100,36 +101,32 @@ class CollisionManager {
     if (player.lives < player.maxLives) {
       player.lives += 1;
     }
-    heart.isRemoved = true; // Mark heart as removed
+    heart.isRemoved = true;
     this.removeEntityCallback(heart);
-    console.log(`Heart entity removed:`, heart); // Added logging
+    console.log(`Heart entity removed:`, heart);
   }
 
   private handlePlantCollision(player: Player): void {
     const currentTime = Date.now();
 
-    // Kontrollera om cooldown-perioden har passerat
     if (currentTime - player.lastCollisionTime < player.collisionCooldown) {
-      return; // Ignorera kollisionen om cooldown inte är klar
+      return;
     }
 
-    // Uppdatera tidpunkten för senaste kollision
     player.lastCollisionTime = currentTime;
 
-    console.log(`Player lives before collision: ${player.lives}`); // Debuggning
+    console.log(`Player lives before collision: ${player.lives}`);
     sounds.blockCollision.play();
     player.isColliding = true;
 
     player.lives -= 2;
 
-    console.log(`Player lives after collision: ${player.lives}`); // Debuggning
+    console.log(`Player lives after collision: ${player.lives}`);
 
-    // Se till att liv inte går under 0
     if (player.lives < 0) {
       player.lives = 0;
     }
 
-    // Kontrollera om livet är mindre än eller lika med 0 för att visa Game Over
     if (player.lives <= 0) {
       if (music.backgroundMusic.isPlaying()) {
         music.backgroundMusic.stop();
@@ -167,9 +164,7 @@ class CollisionManager {
   private handleGhostCollision(player: Player): void {
     const currentTime = Date.now();
 
-    // Cooldown för kollisioner
     if (currentTime - player.lastCollisionTime > 2000) {
-      // 1 sekunds cooldown
       player.isColliding = true;
       player.lives -= 1;
 
@@ -181,10 +176,8 @@ class CollisionManager {
         this.showGameOver(player.playerNumber);
       }
 
-      // Ta bort poäng vid faktisk kollision
       this.scoreManager.updateScore(player.getPlayerNumber(), -5);
 
-      // Uppdatera tidpunkten för senaste kollision
       player.lastCollisionTime = currentTime;
     }
   }
@@ -197,7 +190,6 @@ class CollisionManager {
       const headTop = head.y;
       const headBottom = head.y + player.size.y;
 
-      // Flagga för att spåra om en kollision upptäcks
       let hasCollision = false;
 
       for (const entity of this.entities) {
@@ -210,7 +202,6 @@ class CollisionManager {
         const entityTop = entity.position.y;
         const entityBottom = entity.position.y + entity.size.y;
 
-        // Kontrollera om ormens huvud överlappar blockets kant
         const isColliding =
           headRight > entityLeft &&
           headLeft < entityRight &&
@@ -218,10 +209,9 @@ class CollisionManager {
           headTop < entityBottom;
 
         if (isColliding) {
-          hasCollision = true; // Markera att en kollision upptäckts
+          hasCollision = true;
 
           if (!player.isColliding) {
-            // Hantera kollision baserat på entitetstyp
             if (entity instanceof TetrisBlock) {
               this.handleTetrisCollision(player);
             } else if (entity instanceof Block) {
@@ -238,12 +228,10 @@ class CollisionManager {
               this.handleWinBlockCollision(player);
             }
 
-            // Avsluta loopen för entiteter eftersom kollision upptäcktes
             break;
           }
         }
 
-        // Återställ kollisionen om ingen upptäcktes
         if (!hasCollision) {
           player.isColliding = false;
         }
@@ -267,7 +255,7 @@ class CollisionManager {
     const popup = document.createElement("div");
     popup.innerText = message;
     popup.style.position = "absolute";
-    popup.style.top = "10px"; // Placera det var du vill
+    popup.style.top = "10px";
     popup.style.left = "50%";
     popup.style.transform = "translateX(-50%)";
     popup.style.backgroundColor = "rgba(0, 0, 0, 0.8)";

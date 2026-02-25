@@ -1,16 +1,9 @@
-/// <reference path="entity.ts" />
-/**
- * TODO: Lägg till fullständig JSDoc för klassen Star och dess metoder.
- */
-class Block extends Entity {
-  /**
-   * Skapar en ny instans av Star-klassen.
-   * @param {number} x - Startposition på x-axeln
-   * @param {number} y - Startposition på y-axeln
-   */
+import { Entity } from "./entity";
+
+export class Block extends Entity {
   constructor(x: number, y: number) {
     super(
-      createVector(x, y), // x, y från levelFactory
+      createVector(x, y),
       createVector(32, 32),
       0,
       0,
@@ -19,9 +12,6 @@ class Block extends Entity {
     );
   }
 
-  /**
-   * Ritar tetris på skärmen.
-   */
   draw(): void {
     push();
     imageMode(CENTER);
@@ -31,7 +21,6 @@ class Block extends Entity {
     rectMode(CENTER);
     rect(0, 0, this.size.x, this.size.y);
 
-    // Draw the image on top
     if (this.image) {
       image(this.image, 0, 0, this.size.x, this.size.y);
     } else {

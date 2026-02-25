@@ -1,9 +1,13 @@
-/// <reference path="gamescreen.ts" />
-/// <reference path="levelfactory.ts" />
-/// <reference path="tetrisBlocks.ts" />
-/// <reference path="player.ts" />
+import { GameScreen } from "./gamescreen";
+import { Entity } from "./entity";
+import { Player } from "./player";
+import { LevelFactory } from "./levelfactory";
+import { CollisionManager } from "./collisionmanager";
+import { ScoreManager } from "./scoreManager";
+import { Ghost } from "./ghost";
+import { Heart } from "./heart";
 
-class GameBoard extends GameScreen {
+export class GameBoard extends GameScreen {
   private entities: Entity[];
   private players: Player[];
   private levelFactory: LevelFactory;
@@ -11,11 +15,10 @@ class GameBoard extends GameScreen {
   private scoreManager: ScoreManager;
 
   private cameraOffset: number = 0;
-  //justera hastigheten på scrollningen
   private scrollSpeed: number = 1.5;
 
   constructor(level: number[][]) {
-    super(); // Anropa basklassens konstruktor
+    super();
     this.players = [
       new Player(createVector(128, 192), 1, "#00FFFF", "green", {
         UP: UP_ARROW,
@@ -34,21 +37,19 @@ class GameBoard extends GameScreen {
     this.levelFactory = new LevelFactory();
     this.entities = this.levelFactory.createEntitiesForLevel(level);
 
-    this.scoreManager = new ScoreManager(this.players); // Initiera ScoreManager
+    this.scoreManager = new ScoreManager(this.players);
     this.collisionManager = new CollisionManager(
       this.players,
       this.entities,
       this.scoreManager,
-
-      this.removeEntity.bind(this) // Pass removeEntity as callback
-    ); // Skicka ScoreManager till CollisionManager
+      this.removeEntity.bind(this)
+    );
   }
 
   addEntity(entity: Entity): void {
     if (!(entity instanceof Heart)) {
-      // Prevent adding multiple hearts
       this.entities.push(entity);
-      console.log(`Entity added:`, entity); // Optional logging
+      console.log(`Entity added:`, entity);
     } else {
       console.log(`Heart entity not added to prevent duplicates.`);
     }
@@ -56,21 +57,17 @@ class GameBoard extends GameScreen {
 
   removeEntity(entity: Entity): void {
     this.entities = this.entities.filter((e) => e !== entity);
-    console.log(`Entity removed:`, entity); // Added logging
-
-    console.log("Current entities after removal:", this.entities);
-
+    console.log(`Entity removed:`, entity);
     console.log("Current entities after removal:", this.entities);
   }
 
   public update(): void {
-    this.cameraOffset += this.scrollSpeed; // Enable canvas scrolling
+    this.cameraOffset += this.scrollSpeed;
 
     for (const player of this.players) {
       player.update();
     }
 
-    //låt det stå kvar
     for (const entity of this.entities) {
       entity.update();
     }
@@ -81,9 +78,6 @@ class GameBoard extends GameScreen {
     this.scoreManager.tickScore();
   }
 
-  /**
-   * Uppdaterar alla Ghost-objekt i spelet.
-   */
   private flyingGhost(): void {
     for (const entity of this.entities) {
       if (entity instanceof Ghost) {
@@ -93,18 +87,14 @@ class GameBoard extends GameScreen {
   }
 
   draw(): void {
-    background(0); // Ange bakgrundsfärg
-    // Calculate how many background images we need based on canvas width plus some buffer
+    background(0);
     const numBackgrounds = Math.ceil((width + this.cameraOffset) / 1415) + 1;
-    // Draw multiple background images side by side, offset by cameraOffset
     for (let i = 0; i < numBackgrounds; i++) {
       image(images.background, i * 1415 - this.cameraOffset, 0, 1415, 800);
     }
     push();
-    translate(-this.cameraOffset, 0); // Apply camera offset for scrolling
+    translate(-this.cameraOffset, 0);
 
-    // translate(this.cameraOffset)
-    //console.log("Drawing GameBoard");
     for (const entity of this.entities) {
       entity.draw();
     }
@@ -114,6 +104,6 @@ class GameBoard extends GameScreen {
     }
 
     pop();
-    this.scoreManager.draw(); // Rita poängen för båda spelarna
+    this.scoreManager.draw();
   }
 }

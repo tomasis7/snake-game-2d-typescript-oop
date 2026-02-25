@@ -1,3 +1,12 @@
+import { Entity } from "./entity";
+import { Block } from "./block";
+import { Star } from "./star";
+import { Heart } from "./heart";
+import { Plant } from "./plant";
+import { Ghost } from "./ghost";
+import { TetrisBlock } from "./tetrisBlocks";
+import { WinBlock } from "./winBlock";
+
 export class LevelFactory {
   public gridSize: number = 32;
   public level1: number[][];
