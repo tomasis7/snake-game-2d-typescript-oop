@@ -41,8 +41,7 @@ const base = import.meta.env.BASE_URL;
 };
 
 (window as any).setup = function () {
-  const canvasSize = min(windowWidth, windowHeight);
-  createCanvas(canvasSize, canvasSize);
+  createCanvas(1200, 800);
   frameRate(60);
   textFont((window as any).customFont);
   (window as any).game = new Game();
@@ -65,8 +64,6 @@ const base = import.meta.env.BASE_URL;
 };
 
 (window as any).windowResized = function () {
-  const newSize = min(windowWidth, windowHeight);
-  resizeCanvas(newSize, newSize);
 };
 
 function drawDebugGrid(): void {
